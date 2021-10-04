@@ -8,12 +8,14 @@ use Illuminate\Http\Client\Response as HttpResponse;
 use Illuminate\Http\JsonResponse as HttpJSONResponse;
 
 /**
- * Controller class which handles all operations related to performing searches or communicating with the search API
+ * Controller class which handles all operations related to performing searches and ingesting the new domains
  */
 class SearchController extends Controller
 {
     /**
      * Query the search API and retrieve results 
+     * 
+     * TODO: Implement filtering parameters / headers
      * 
      * @param String $query
      * @return HttpResponse
@@ -38,7 +40,7 @@ class SearchController extends Controller
      * @return HttpJSONResponse
      */
     private function sortResults(array $results) : array{
-
+        //  TODO: Implement result sorting
     }
 
     /**
@@ -48,7 +50,7 @@ class SearchController extends Controller
      * @return void
      */
     private function storeDomains(array $results) : void {
-
+        //  TODO: Implement domain storage
     }
 
     /**
@@ -72,16 +74,6 @@ class SearchController extends Controller
      * @return array
      */
     public function getRelatedQueries(String $query) : array {
-        $bingKey = config('services.bing_search.key');
-    }
-
-    /**
-     * Query the related search API and retrieve results
-     * 
-     * @param String $input
-     * @return array
-     */
-    public function getSuggestions(String $input) : array {
         $bingKey = config('services.bing_search.key');
     }
 }
