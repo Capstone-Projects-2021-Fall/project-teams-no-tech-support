@@ -30,4 +30,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'bing_search' => [
+        'key' => env('BING_SEARCH_KEY'),
+    ],
 ];
