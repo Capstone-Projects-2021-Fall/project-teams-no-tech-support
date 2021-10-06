@@ -21,4 +21,4 @@ class Domain extends Model
         return $this->hasMany(Brand::class, 'device_id');  //TODO
     }
 }
-}
+
