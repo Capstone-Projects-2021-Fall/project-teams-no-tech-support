@@ -15,8 +15,6 @@ class SearchController extends Controller
     /**
      * Query the search API and retrieve results 
      * 
-     * TODO: Implement filtering parameters / headers
-     * 
      * @param String $query
      * @return HttpResponse
      */
@@ -24,10 +22,15 @@ class SearchController extends Controller
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
         $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
+        $filters = ['Images','Webpages','Videos'];
+
         $response = Http::withHeaders([ //  Send basic get request
             'Ocp-Apim-Subscription-Key' => $bingKey,
+            'Pragma' => 'no-cache'
         ])->get($searchEndpoint, [
-            'q' => $query, 
+            'q' => urlencode($query),
+            'responseFilter' => $filters,
+            'count' => 50,  //  Max count is 50
         ]);
 
         return $response;
@@ -62,9 +65,9 @@ class SearchController extends Controller
     public function getResults(Request $request) : HttpJSONResponse {
         $query = $request->input('query');  
 
-        $results = $this->search($query);
+        $results = $this->search($query)->collect();
 
-        return response()->json($results->json());
+        return response()->json($results);
     }
 
     /**
