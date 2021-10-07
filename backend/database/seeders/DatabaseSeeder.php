@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             DeviceSeeder::class,
+            BrandSeeder::class,
+            DeviceModelSeeder::class,
+            DomainSeeder::class,
         ]);
     }
 }
