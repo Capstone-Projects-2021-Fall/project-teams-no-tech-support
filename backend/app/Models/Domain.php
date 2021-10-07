@@ -17,8 +17,5 @@ class Domain extends Model
     protected $table = 'Domain';
     public $timestamps = false;
 
-    public function domain() {
-        return $this->hasMany(Brand::class, 'device_id');  //TODO
-    }
 }
 

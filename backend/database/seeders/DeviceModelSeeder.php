@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class DomainSeeder extends Seeder
+class DeviceModelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +13,9 @@ class DomainSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('Domains')->insert([
-            'name' => str_random(45),
-            'is_certified' => 1,
-            'likes' => rand(0, 999),
+        DB::table('Model')->insert([
+            'name' => str_random(10),
+            'year' => '2021',
         ]);
     }
 }

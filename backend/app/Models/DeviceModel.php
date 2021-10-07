@@ -9,5 +9,10 @@ class DeviceModel extends Model
 {
     use HasFactory;
 
-    //TODO
+    protected $table = 'Model';
+    public $timestamps = false;
+
+    public function device () {
+        return $this->hasOne(Device::class, 'id');
+    }
 }
