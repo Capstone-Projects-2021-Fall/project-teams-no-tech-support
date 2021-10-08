@@ -15,7 +15,7 @@ class SearchController extends Controller
     /**
      * Query the search API and retrieve results 
      * 
-     * TODO: Implement filtering parameters / headers
+     * TODO: Verify filter functionality (Bing does not seem to respect responseFilter)
      * 
      * @param String $query
      * @return HttpResponse
@@ -24,10 +24,15 @@ class SearchController extends Controller
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
         $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
+        $filters = ['Images','Webpages','Videos'];
+
         $response = Http::withHeaders([ //  Send basic get request
             'Ocp-Apim-Subscription-Key' => $bingKey,
+            'Pragma' => 'no-cache'
         ])->get($searchEndpoint, [
-            'q' => $query, 
+            'q' => urlencode($query),
+            'responseFilter' => $filters,
+            'count' => 50,  //  Max count is 50
         ]);
 
         return $response;
@@ -39,18 +44,38 @@ class SearchController extends Controller
      * @param String $query
      * @return HttpJSONResponse
      */
-    private function sortResults(array $results) : array{
+    private function sortResults(array $results) : array {
         //  TODO: Implement result sorting
     }
 
     /**
      * Store domains from search results in the database 
      * 
+     * TODO: Implement domain storage, improve repetitive code
+     * 
      * @param array $results
      * @return void
      */
     private function storeDomains(array $results) : void {
-        //  TODO: Implement domain storage
+        $domains = array();
+
+        if(array_key_exists('webPages', $results)) {
+            foreach($results['webPages']['value'] as $value) {
+                $domains[] = $this->parseDomain($value['url']);
+            }
+        }
+        if(array_key_exists('videos', $results)) {
+            foreach($results['videos']['value'] as $value) {
+                $domains[] = $this->parseDomain($value['contentUrl']);
+            }
+        }
+        if(array_key_exists('images', $results)) {
+            foreach($results['images']['value'] as $value) {
+                $domains[] = $this->parseDomain($value['contentUrl']);
+            }
+        }
+
+        $domains = array_unique($domains, SORT_STRING);
     }
 
     /**
@@ -62,9 +87,13 @@ class SearchController extends Controller
     public function getResults(Request $request) : HttpJSONResponse {
         $query = $request->input('query');  
 
-        $results = $this->search($query);
+        $results = $this->search($query)->json();
 
-        return response()->json($results->json());
+        $this->storeDomains($results);
+
+        //$sorted = $this->sortResults($results);
+
+        return response()->json($results);
     }
 
     /**
@@ -75,5 +104,17 @@ class SearchController extends Controller
      */
     public function getRelatedQueries(String $query) : array {
         $bingKey = config('services.bing_search.key');
+    }
+
+    /**
+     * Helper function to remove uneeded parts of the content URL
+     * 
+     * @param String $url
+     * @return String
+     */
+    private function parseDomain(String $url) : String {
+        $domain = parse_url($url, PHP_URL_HOST);
+        $domain = str_replace('www.', '', $domain);
+        return $domain;
     }
 }
