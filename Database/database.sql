@@ -15,7 +15,7 @@ CREATE TABLE Device (
 CREATE TABLE Brand (
   id                    		  int AUTO_INCREMENT,
   device_id                       int NOT NULL,
-  tech_support_number             int NOT NULL,
+  tech_support_number             varchar(20) NOT NULL,
   FOREIGN KEY (device_id) REFERENCES Device(id),
   PRIMARY Key (id)
 );
