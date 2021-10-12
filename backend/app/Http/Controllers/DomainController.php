@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 /**
- * Controller class which handles all operations related to Domain objects
+ * Controller class which handles all operations specific to Domain objects
  */
 class DomainController extends Controller
 {
@@ -15,7 +15,7 @@ class DomainController extends Controller
      * @param String $domain
      * @return array
      */
-    private function getRating(String $domain) : array {
+    public function getRating(String $domain) : array {
         //  TODO: Implement method
     }
 
@@ -26,27 +26,7 @@ class DomainController extends Controller
      * @param boolean $like
      * @return void
      */
-    private function rateDomain(String $domain, boolean $like) : void {
-        //  TODO: Implement method
-    }
-
-    /**
-     * Add a new domain to the database
-     * 
-     * @param String $domain
-     * @return void
-     */
-    private function addDomain(String $domain) : void {
-        //  TODO: Implement method
-    }
-
-    /**
-     * Determine which domains need to be added to the database 
-     * 
-     * @param array $domains
-     * @return array
-     */
-    private function checkDomains(array $domains) : array {
+    public function rateDomain(String $domain, boolean $like) : void {
         //  TODO: Implement method
     }
 }
