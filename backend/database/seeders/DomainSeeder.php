@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Domain;
 
 class DomainSeeder extends Seeder
 {
@@ -13,10 +14,9 @@ class DomainSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('Domains')->insert([
-            'name' => str_random(45),
-            'is_certified' => 1,
-            'likes' => rand(0, 999),
-        ]);
+        Domain::factory()->count(5)->create();
+        Domain::factory()->count(5)->certified()->create();
+        Domain::factory()->count(10)->liked()->create();
+        Domain::factory()->count(10)->disliked()->create();
     }
 }
