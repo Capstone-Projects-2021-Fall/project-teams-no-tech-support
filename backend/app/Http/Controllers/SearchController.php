@@ -117,4 +117,14 @@ class SearchController extends Controller
         $domain = str_replace('www.', '', $domain);
         return $domain;
     }
+
+    /**
+     * Determine which domains need to be added to the database 
+     * 
+     * @param array $domains
+     * @return array
+     */
+    private function checkDomains(array $domains) : array {
+        //  TODO: Implement method
+    }
 }

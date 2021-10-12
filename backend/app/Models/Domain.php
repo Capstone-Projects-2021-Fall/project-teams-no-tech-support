@@ -14,7 +14,7 @@ class Domain extends Model
      *
      * @var string
      */
-    protected $table = 'Domain';
+    protected $table = 'Domains';
     public $timestamps = false;
 
 }
