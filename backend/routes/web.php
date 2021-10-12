@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DomainController;
+use App\Http\Controllers\BrandController;
 
 
 /*
@@ -28,5 +29,4 @@ Route::get('/test1', function () {
 Route::get('/results', [SearchController::class, 'getResults']);
 Route::get('/rate', [DomainController::class, 'rateDomain']);
 Route::get('/domain', [DomainController::class, 'getRating']);
-
-
+Route::get('/brand', [BrandController::class, 'getBrandInfo']);

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Brand;
 
 class BrandSeeder extends Seeder
 {
@@ -13,8 +14,6 @@ class BrandSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('Brand')->insert([
-            'tech_support_number' => $faker->numerify('###-###-####'),
-        ]);
+        Brand::factory()->count(5)->create();
     }
 }
