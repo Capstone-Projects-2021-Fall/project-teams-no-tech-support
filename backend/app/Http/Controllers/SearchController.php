@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response as HttpResponse;
 use Illuminate\Http\JsonResponse as HttpJSONResponse;
+use Illuminate\Database\Eloquent\Factories\Sequence;
+
+use App\Models\Domain;
 
 /**
  * Controller class which handles all operations related to performing searches and ingesting the new domains
@@ -75,7 +78,11 @@ class SearchController extends Controller
             }
         }
 
-        $domains = array_unique($domains, SORT_STRING);
+        $newDomains = $this->checkDomains($domains);
+
+        foreach($newDomains as $newDomain) {
+            Domain::create(['name' => $newDomain]);
+        }
     }
 
     /**
@@ -125,6 +132,9 @@ class SearchController extends Controller
      * @return array
      */
     private function checkDomains(array $domains) : array {
-        //  TODO: Implement method
+        $domains = array_unique($domains, SORT_STRING);
+        $presentDoms = Domain::whereIn('name', $domains)->pluck('name')->all();
+        $newDoms = array_diff($domains, $presentDoms);
+        return $newDoms;
     }
 }
