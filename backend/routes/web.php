@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\DomainController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +26,7 @@ Route::get('/test1', function () {
 
 //  Basic route for accessing SearchController::getResults() (expects query)
 Route::get('/results', [SearchController::class, 'getResults']);
+Route::get('/rate', [DomainController::class, 'rateDomain']);
+Route::get('/domain', [DomainController::class, 'getRating']);
+
+
