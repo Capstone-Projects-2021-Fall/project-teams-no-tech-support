@@ -23,10 +23,12 @@ class BrandFactory extends Factory
      */
     public function definition()
     {
+
         return [
             'name' => $this->faker->domainWord(),
             'device_id' => function (array $attributes) { 
-                return array_rand(Device::pluck('id')->all(), 1); 
+                $device_ids = Device::pluck('id')->all();
+                return $device_ids[array_rand($device_ids, 1)]; 
             },
             'tech_support_number' => $this->faker->numerify('##########')
         ];
