@@ -7,7 +7,7 @@ This application proposes a search tool intended to act as an alternative to tra
 Users will access No Tech Support from a standard web browser on either a mobile phone, desktop, or laptop. They will first be prompted for their problem device and will then be given further prompts based on input to previous prompts. The user will be provided autocorrect and text suggestions when typing into each prompt area. Once enough detail has been given or a user is no longer able to provide other details, the user can click a button to perform a web search. The user will be provided with sorted search results with the most relevant or recommended at the top. An overlay will allow the user to rank their current link for helpfulness. A bar with the final query and brand-relevant tech support information will be displayed, if possible, for the information provided.
 
 **Contributors**
-* Aiden E Bueheler
+* Aidan Buehler
 * Dajun Lin
 * Jixi Hi
 * Yangimiao Wu
