@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
+use App\Models\Device;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BrandFactory extends Factory
@@ -21,8 +23,14 @@ class BrandFactory extends Factory
      */
     public function definition()
     {
+
         return [
-            ////TODO
+            'name' => $this->faker->domainWord(),
+            'device_id' => function (array $attributes) { 
+                $device_ids = Device::pluck('id')->all();
+                return $device_ids[array_rand($device_ids, 1)]; 
+            },
+            'tech_support_number' => $this->faker->numerify('##########')
         ];
     }
 }
