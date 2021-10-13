@@ -18,7 +18,7 @@ INSERT INTO Device (name) VALUES
 CREATE TABLE Brand (
   id                    		      int AUTO_INCREMENT,
   device_id                       int NOT NULL,
-  brand_name                      varchar(50) NOT NULL,
+  name                            varchar(50) NOT NULL,
   tech_support_number             varchar(30) NOT NULL,
   FOREIGN KEY (device_id) REFERENCES Device(id),
   PRIMARY Key (id)
