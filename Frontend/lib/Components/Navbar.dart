@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/Screens/searchPage.dart';
-
+import 'package:myapp/Screens/resultPage.dart';
+import 'package:myapp/main.dart';
 class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,9 @@ class DesktopNavbar extends StatelessWidget {
                 TextButton(
                   child: Text("Home ", style: TextStyle(color: Colors.white),),
                   onPressed: (){
-                    //Navigator.of(context).push(
-                        //MaterialPageRoute(builder: (context) => searchPage())
-                        //);
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => MyHomePage())
+                        );
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
@@ -51,8 +51,8 @@ class DesktopNavbar extends StatelessWidget {
                  TextButton(
                   child: Text("About ", style: TextStyle(color: Colors.white),),
                   onPressed: (){
-                    //Navigator.of(context).push(
-                        //MaterialPageRoute(builder: (context) => searchPage()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => resultPage()));
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
@@ -62,8 +62,8 @@ class DesktopNavbar extends StatelessWidget {
                  TextButton(
                   child: Text("Search", style: TextStyle(color: Colors.white),),
                   onPressed: (){
-                    //Navigator.of(context).push(
-                        //MaterialPageRoute(builder: (context) => searchPage()));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => myresultpage()));
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
@@ -79,8 +79,8 @@ class DesktopNavbar extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   onPressed: () {
-                    //Navigator.of(context).push(
-                        //MaterialPageRoute(builder: (context) => searchPage()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => myresultpage()));
                   },
                   child: Text(
                     "Get Started",
