@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Screens/resultPage.dart';
+import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/main.dart';
 class Navbar extends StatelessWidget {
   @override
@@ -63,7 +64,7 @@ class DesktopNavbar extends StatelessWidget {
                   child: Text("Search", style: TextStyle(color: Colors.white),),
                   onPressed: (){
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => myresultpage()));
+                      MaterialPageRoute(builder: (context) => mysearchpage()));
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
