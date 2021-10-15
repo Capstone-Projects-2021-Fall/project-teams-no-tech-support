@@ -28,6 +28,8 @@ Route::get('/test1', function () {
 
 //  Search-specific routes
 Route::get('/results', [SearchController::class, 'getResults']);
+Route::get('/related', [SearchController::class, 'getRelatedQueries']);
+
 
 //  Domain-specific routes
 Route::get('/rate', [DomainController::class, 'rateDomain']);
