@@ -88,7 +88,7 @@ class SearchController extends Controller
     /**
      * Handle the sorting and handling of search results and domains 
      * 
-     * @param String $query
+     * @param Request $request (String $query)
      * @return HttpJSONResponse
      */
     public function getResults(Request $request) : HttpJSONResponse {
@@ -106,11 +106,30 @@ class SearchController extends Controller
     /**
      * Query the related search API and retrieve results
      * 
-     * @param String $query
-     * @return array
+     * @param Request $request (String $query)
+     * @return HttpJSONResponse
      */
-    public function getRelatedQueries(String $query) : array {
-        $bingKey = config('services.bing_search.key');
+    public function getRelatedQueries(Request $request) : HttpJSONResponse {
+        
+        $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
+        $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
+
+        $query = $request->input('query');
+
+        $filters = 'RelatedSearches';
+
+        $response = Http::withHeaders([ //  Send basic get request
+            'Ocp-Apim-Subscription-Key' => $bingKey,
+            'Pragma' => 'no-cache'
+        ])->get($searchEndpoint, [
+            'q' => urlencode($query),
+            'responseFilter' => $filters,
+            'count' => 50,  //  Max count is 50
+        ]);
+
+        $results = $response->json()['relatedSearches']['value'];
+
+        return response()->json($results);
     }
 
     /**
