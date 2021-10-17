@@ -3,7 +3,7 @@ import 'package:myapp/Screens/homePage.dart';
 import 'package:myapp/Components/Navbar.dart';
 import 'package:myapp/Screens/resultPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
-
+import 'package:myapp/Screens/Home/aboutUs.dart';
 
 void main() => runApp(MyApp());
 
@@ -87,8 +87,40 @@ class mysearchpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-                child: HomeScreen()
+                child: searchPage()
               )
+    );
+  }
+}
+
+class myaboutUsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromRGBO(215, 191, 255, 1.0),
+                Color.fromRGBO(0, 191, 255, 1.0)
+              ]),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Navbar(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 40.0),
+                child: aboutUsPage()
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

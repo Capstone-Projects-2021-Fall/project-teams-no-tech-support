@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:substring_highlight/substring_highlight.dart';
+import 'package:flutter/material.dart';
+import 'package:myapp/Screens/homePage.dart';
+import 'package:myapp/Components/Navbar.dart';
+import 'package:myapp/Screens/resultPage.dart';
+import 'package:myapp/Screens/searchPage.dart';
 
-class HomeScreen extends StatefulWidget {
+class searchPage extends StatefulWidget {
   @override
   _HomeScreenState createState() => new _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<searchPage> {
   bool isLoading = false;
 
   late List<String> autoCompleteData;

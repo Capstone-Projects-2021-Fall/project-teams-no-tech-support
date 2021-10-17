@@ -4,42 +4,29 @@ import 'package:myapp/Screens/homePage.dart';
 import 'package:myapp/Components/Navbar.dart';
 import 'package:myapp/Screens/resultPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
-class resultPage extends StatelessWidget {
+
+class aboutUsPage extends StatelessWidget {
   List<Widget> pageChildren(double width) {
     return <Widget>[
       Container(
-        width: width,
+        width: width*2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Hi there!",
+              "",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 40.0,
+                  fontSize: 20.0,
                   color: Colors.white),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 80),
               child: Text(
-                "ThSupport team! Before your search, please modify your Device Name, Brand, and Operating System, and then enter your question. Good Luck and hope you can get your device fixed soon!",
-                style: TextStyle(fontSize: 16.0, color: Colors.white),
+                "Thanks for using NoTechSupport developed by Temple University CIS 4398 NoTechSupport team! Before your search, please modify your Device Name, Brand, and Operating System, and then enter your question. Good Luck and hope you can get your device fixed soon!",
+                style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
             ),
-            MaterialButton(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 20.0, horizontal: 40.0),
-                child: Text(
-                  "Search!",
-                  style: TextStyle(fontSize: 20.0, color: Colors.red),
-                ),
-              ),
-            )
           ],
         ),
       ),
