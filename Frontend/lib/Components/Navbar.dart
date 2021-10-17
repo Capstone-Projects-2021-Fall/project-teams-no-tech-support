@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/Screens/resultPage.dart';
-import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/main.dart';
-import 'package:flutter/material.dart';
-import 'package:myapp/Screens/homePage.dart';
-import 'package:myapp/Components/Navbar.dart';
-import 'package:myapp/Screens/resultPage.dart';
-import 'package:myapp/Screens/searchPage.dart';
+
 
 class Navbar extends StatelessWidget {
   @override

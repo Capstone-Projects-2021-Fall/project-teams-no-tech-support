@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:substring_highlight/substring_highlight.dart';
-import 'package:flutter/material.dart';
-import 'package:myapp/Screens/homePage.dart';
-import 'package:myapp/Components/Navbar.dart';
-import 'package:myapp/Screens/resultPage.dart';
-import 'package:myapp/Screens/searchPage.dart';
 
 class searchPage extends StatefulWidget {
   @override
@@ -340,8 +335,26 @@ class _HomeScreenState extends State<searchPage> {
                         ),
                       );
                     },
-                  ),
-                ],
+                  ),                  
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Text(' '),
+                  ),            
+                  MaterialButton(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                      onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 40.0),
+                          child: Text(
+                            "Search!",
+                            style: TextStyle(fontSize: 20.0, color: Colors.red),
+                          ),
+                        ),
+                    ),
+                  ],
               ),
             ),
     );
