@@ -42,14 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Auto complete"),
+        title: Text("iTechSupport"),
       ),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
           : Padding(
-              padding: const EdgeInsets.symmetric(vertical: 150.0),
+              padding: EdgeInsets.symmetric(vertical: 80.0, horizontal: 200),
               child: Column(
                 children: <Widget>[
                   Autocomplete(
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.all(2.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Text(' '),
                   ),
                   Autocomplete(
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.all(2.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Text(' '),
                   ),
                   Autocomplete(
@@ -265,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.all(2.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Text(' '),
                   ),
                   Autocomplete(
