@@ -1,13 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:myapp/Models/_question.dart';
 
-import '../Models/_device.dart';
-
-
 class QuestionOptimizationPage extends StatefulWidget {
-  const QuestionOptimizationPage({Key? key, required this.generatedQuestion}) : super(key: key);
+  const QuestionOptimizationPage({Key? key, required this.generatedQuestion})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -18,11 +14,11 @@ class QuestionOptimizationPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-
   final String generatedQuestion;
 
   @override
-  QuestionOptimizationPageState createState() => QuestionOptimizationPageState();
+  QuestionOptimizationPageState createState() =>
+      QuestionOptimizationPageState();
 }
 
 class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
@@ -121,7 +117,6 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
             //crossAxisAlignment: CrossAxisAlignment.center,
 
             children: <Widget>[
-           
               SizedBox(
                 width: 900,
                 height: 200,
@@ -132,15 +127,16 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                   itemCount: queryLog.length,
                   itemBuilder: (ctx, index) {
                     return ListTile(
-                      // selected: queryLog[index].content == activeQuery.content,
-                      // title: Container(
-                      //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                      //   child: Text('Version ${index+1} '),
-                      // ),
                       tileColor: Colors.lightBlue[50],
                       title: Row(
                         children: [
-                          Text('Version ${index + 1}:   '),
+                          Text(
+                            'Version ${index + 1}:   ',
+                            style: TextStyle(
+                              color: Colors.orange[300],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           Text(queryLog[index].content),
                           const SizedBox(
                             width: 30,
@@ -158,60 +154,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                           ),
                         ],
                       ),
-                      // subtitle: Container(
-                      //         height: 30,
-                      //         margin: const EdgeInsets.all(10),
-                      //         //padding: const EdgeInsets.all(10),
-                      //         //alignment: Alignment.center,
-                      //         decoration: BoxDecoration(
-                      //             color: Colors.white,
-                      //             border: Border.all(
-                      //                 color: Colors.grey, // Set border color
-                      //                 width: 3.0), // Set border width
-                      //             borderRadius: const BorderRadius.all(
-                      //                 Radius.circular(
-                      //                     10.0)), // Set rounded corner radius
-                      //             // boxShadow: const [
-                      //             //   BoxShadow(
-                      //             //       blurRadius: 10,
-                      //             //       color: Colors.black,
-                      //             //       offset: Offset(1, 3))
-                      //             // ] // Make rounded corner of border
-                      //             ),
-                      //         child: Text(queryLog[index].content),
-                      //       ),
-                      // title: Align(
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: <Widget>[
-                      //       Text(index == 0
-                      //           ? 'Initial Question: '
-                      //           : 'Question $index : '),
-                      //       Container(
-                      //         height: 30,
-                      //         margin: const EdgeInsets.all(10),
-                      //         //padding: const EdgeInsets.all(10),
-                      //         alignment: Alignment.center,
-                      //         decoration: BoxDecoration(
-                      //             color: Colors.orange,
-                      //             border: Border.all(
-                      //                 color: Colors.pink, // Set border color
-                      //                 width: 3.0), // Set border width
-                      //             borderRadius: const BorderRadius.all(
-                      //                 Radius.circular(
-                      //                     10.0)), // Set rounded corner radius
-                      //             boxShadow: const [
-                      //               BoxShadow(
-                      //                   blurRadius: 10,
-                      //                   color: Colors.black,
-                      //                   offset: Offset(1, 3))
-                      //             ] // Make rounded corner of border
-                      //             ),
-                      //         child: Text(queryLog[index].content),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+
                       onTap: () {
                         removeFromQueryLog(index);
                       }, //Fix this, figure out how to call a known function
@@ -222,7 +165,6 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                   },
                 ),
               ),
-              
               Row(
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: activeQuery.suggestions.isEmpty
@@ -230,13 +172,13 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: Text(
-                              'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question versions',
-                              style: TextStyle(
-                                color: Colors.orange[300],
-                                fontSize: 19,
-                                
-                                ),
-                              ),
+                            'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question versions',
+                            style: TextStyle(
+                              color: Colors.orange[300],
+                              fontSize: 19,
+                              //fontWeight: FontWeight.bold
+                            ),
+                          ),
                         )
                       ]
                     : <Widget>[
