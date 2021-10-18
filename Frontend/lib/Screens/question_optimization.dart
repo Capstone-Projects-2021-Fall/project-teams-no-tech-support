@@ -3,37 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:myapp/Models/_question.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import '../Models/_device.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const QuestionOptimizationPage(title: 'Question Optimization'),
-    );
-  }
-}
 
 class QuestionOptimizationPage extends StatefulWidget {
-  const QuestionOptimizationPage({Key? key, required this.title}) : super(key: key);
+  const QuestionOptimizationPage({Key? key, required this.generatedQuestion}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -44,10 +18,11 @@ class QuestionOptimizationPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
+
+  final String generatedQuestion;
 
   @override
-  State<QuestionOptimizationPage> createState() => QuestionOptimizationPageState();
+  QuestionOptimizationPageState createState() => QuestionOptimizationPageState();
 }
 
 class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
@@ -68,7 +43,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
   ];
 
   static String mockQuery3Content =
-      'My Pixel 3XL  screen turns blue and battery overheates after watchign a video for a few minutes';
+      'My Pixel 3XL  screen turns blue and battery overheates after watching a video for a few minutes';
   static List<String> mockQuerySuggestion3 = <String>[];
 
   static Question query1 = Question(mockQuery1Content, mockQuerySuggestion1);
@@ -95,11 +70,6 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
@@ -141,7 +111,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: const Text('Question Optimization'),
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -260,7 +230,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: Text(
-                              'No suggestions found for $activeQueryName. Click on the "Get Results" button, or select prior question suggestions',
+                              'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question versions',
                               style: TextStyle(
                                 color: Colors.orange[300],
                                 fontSize: 19,
@@ -295,7 +265,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 17)),
                       onPressed: () {},
-                      child: const Text('Back'), //temporary
+                      child: const Text('Cancel'), //temporary
                     ),
                     const SizedBox(width: 30),
                     ElevatedButton(
