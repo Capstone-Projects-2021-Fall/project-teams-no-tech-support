@@ -350,7 +350,7 @@ class _HomeScreenState extends State<searchPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              QuestionOptimizationPage(generatedQuestion: "Not quite there yet"), //Temporary
+                              QuestionOptimizationPage(generatedQuestion: "Not quite there yet"), //
                         ),
                       );
                     },

@@ -117,6 +117,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
             //crossAxisAlignment: CrossAxisAlignment.center,
 
             children: <Widget>[
+              SizedBox(height: 30),
               SizedBox(
                 width: 900,
                 height: 200,
@@ -134,7 +135,8 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                             'Version ${index + 1}:   ',
                             style: TextStyle(
                               color: Colors.orange[300],
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.bold
+                              
                             ),
                           ),
                           Text(queryLog[index].content),
@@ -174,8 +176,9 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                           child: Text(
                             'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question versions',
                             style: TextStyle(
-                              color: Colors.orange[300],
+                              color: Colors.red[300],
                               fontSize: 19,
+                              fontFamily: 'RobotoMono'
                               //fontWeight: FontWeight.bold
                             ),
                           ),
