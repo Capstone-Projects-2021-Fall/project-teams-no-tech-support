@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+use App\Models\DeviceModel;
 
 class DeviceModelSeeder extends Seeder
 {
@@ -13,9 +16,6 @@ class DeviceModelSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('Model')->insert([
-            'name' => str_random(10),
-            'year' => '2021',
-        ]);
+        DeviceModel::factory()->count(20)->create();
     }
 }

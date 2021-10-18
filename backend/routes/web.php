@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DomainController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\PromptController;
 
 
 /*
@@ -24,9 +26,18 @@ Route::get('/test1', function () {
     return view('test1');
 });
 
-//  Basic route for accessing SearchController::getResults() (expects query)
+//  Search-specific routes
 Route::get('/results', [SearchController::class, 'getResults']);
+Route::get('/related', [SearchController::class, 'getRelatedQueries']);
+
+
+//  Domain-specific routes
 Route::get('/rate', [DomainController::class, 'rateDomain']);
 Route::get('/domain', [DomainController::class, 'getRating']);
 
+//  Brand-specific routes
+Route::get('/brand', [BrandController::class, 'getBrandInfo']);
+
+//  Suggestion-specific routes
+Route::get('/suggestions', [PromptController::class, 'getSuggestions']);
 
