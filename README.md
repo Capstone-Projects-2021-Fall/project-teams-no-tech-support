@@ -9,6 +9,7 @@ Users will access No Tech Support from a standard web browser on either a mobile
 ## Release Notes for v1.0 (Milestone 1) 
 
 * Project frontend created in Flutter framework
+* Configured testing web server for frontend and backend / database
 * Created homepage
   * Added logo
   * Added introductory blurb
