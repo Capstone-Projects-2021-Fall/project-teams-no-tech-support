@@ -19,7 +19,7 @@ class aboutUsPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 80),
               child: Text(
-                "Thanks for using NoTechSupport developed by Temple University CIS 4398 NoTechSupport team! Before your search, please modify your Device Name, Brand, and Operating System, and then enter your question. Good Luck and hope you can get your device fixed soon!",
+                "Thanks for using NoTechSupport developed by Temple University CIS 4398 NoTechSupport team!\n\n\n\n\n\n Here are our team members:\n\n Aidan E Buehler          Jixi He          Henry Keja Kombem          Dajun Lin          Yangmiao Wu",
                 style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
             ),
