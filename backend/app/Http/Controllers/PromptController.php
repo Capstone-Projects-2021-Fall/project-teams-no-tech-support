@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse as HttpJSONResponse;
 
+use App\Models\Device;
+use App\Models\Brand;
+use App\Models\DeviceModel;
+
+
 /**
  * Controller class which handles all operations related to creating prompts on the front-end
  */
@@ -16,7 +21,7 @@ class PromptController extends Controller
      * If the prompt is in the database, retrieve local suggestions. 
      * If the prompt is not in the database, utilize the method in SearchController of the same name.
      * 
-     * @param Reqiest $request (String $input, String $prompt)
+     * @param Request $request (String $input, String $prompt = '', String $hint = '')
      * @return HttpJSONResponse
      */
     public function getSuggestions(Request $request) : HttpJSONResponse {
@@ -26,12 +31,30 @@ class PromptController extends Controller
         $suggestions = NULL;
 
         if(strcasecmp($prompt, "device") == 0) {
-            //  TODO: Check for device suggestions with Device model
+            $suggestions = Device::nameLike($input)->get();
         } elseif(strcasecmp($prompt, "brand") == 0) {
-            //  TODO: Check for brand suggestions with Brand model
+            $device = NULL;
+            if(strlen($hint) > 0) { //  Check for hint (device name)
+                $device = Device::where('name', $hint)->first();
+            }
+
+            if(!is_null($device)) { //  Check device name hint validity
+                $suggestions = $device->brands()->nameLike($input)->get();
+            } else {    //  Fallback (ignore hint)
+                $suggestions = Brand::nameLike($input)->get();  
+            }
         } elseif(strcasecmp($prompt, "model") == 0) {
-            //  TODO: Check for model suggestions with Model model
-        } else {
+            $brand = NULL;
+            if(strlen($hint) > 0) { //  Check for hint (brand name)
+                $brand = Brand::where('name', $hint)->first();
+            }
+
+            if(!is_null($brand)) {  //  Check brand name hint validity
+                $suggestions = $brand->models()->nameLike($input)->get();
+            } else {    //  Fallback (ignore hint)
+                $suggestions = DeviceModel::nameLike($input)->get();    
+            }
+        } else {    //
             $suggestions = $this->getSearchSuggestions($input);
         }
 
