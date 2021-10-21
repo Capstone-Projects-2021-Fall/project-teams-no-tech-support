@@ -18,8 +18,6 @@ class SearchController extends Controller
     /**
      * Query the search API and retrieve results 
      * 
-     * TODO: Verify filter functionality (Bing does not seem to respect responseFilter)
-     * 
      * @param String $query
      * @return HttpResponse
      */
@@ -27,16 +25,15 @@ class SearchController extends Controller
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
         $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
-        $filters = ['Images','Webpages','Videos'];
+
+        //  NOTE: Use of multiple response filter parameters requires that the commas NOT BE ENCODED
+        //  Therefore, we cannot use the built-in parameter structure from GuzzleHttp
+        $parameters="?responseFilter=Webpages,Videos,Images&count=50&q=".urlencode($query);
 
         $response = Http::withHeaders([ //  Send basic get request
             'Ocp-Apim-Subscription-Key' => $bingKey,
             'Pragma' => 'no-cache'
-        ])->get($searchEndpoint, [
-            'q' => urlencode($query),
-            'responseFilter' => $filters,
-            'count' => 50,  //  Max count is 50
-        ]);
+        ])->get($searchEndpoint.$parameters);
 
         return $response;
     }
@@ -44,17 +41,49 @@ class SearchController extends Controller
     /**
      * Handle the sorting and handling of search results and domains 
      * 
-     * @param String $query
-     * @return HttpJSONResponse
+     * @param Object $results
+     * @return array
      */
-    private function sortResults(array $results) : array {
-        //  TODO: Implement result sorting
+    private function sortResults(Object $results) : array {
+        $sorted = array();
+
+        foreach($results as $category => $values) {
+            $domains = array();
+
+            if(strcmp($category, 'webPages') == 0 || strcmp($category, 'videos') == 0 || strcmp($category, 'images') == 0) {
+                $urlProperty = "contentUrl";
+                if(strcmp($category, 'webPages') == 0) {
+                    $urlProperty = "url";
+                }
+
+                foreach($values->value as $value) {
+                    $value->baseDomain = $this->parseDomain($value->$urlProperty);
+                    $domains[] = $value->baseDomain;
+                }
+
+                $baseDomains = Domain::whereIn('name', $domains)->get();
+
+                foreach($values->value as $value) {
+                    $domainData = $baseDomains->where('name', $value->baseDomain)->first();
+                    $value->domainLikes = $domainData->likes;
+                    $value->domainCertified = $domainData->is_certified;
+                }
+
+                usort($values->value, function($a, $b) {
+                    return ($a->domainLikes + $a->domainCertified * 50) > ($b->domainLikes + $b->domainCertified * 50);   //  Give cerficiation a weight of 50 likes
+                });
+
+                $sorted[$category] = $values->value;
+            }
+        }
+
+        return $sorted;
     }
 
     /**
      * Store domains from search results in the database 
      * 
-     * TODO: Implement domain storage, improve repetitive code
+     * TODO: Improve repetitive code with code from sortResults
      * 
      * @param array $results
      * @return void
@@ -94,13 +123,15 @@ class SearchController extends Controller
     public function getResults(Request $request) : HttpJSONResponse {
         $query = $request->input('query');  
 
-        $results = $this->search($query)->json();
+        $rawResults = $this->search($query);
+
+        $results = $rawResults->json();
 
         $this->storeDomains($results);
 
-        //$sorted = $this->sortResults($results);
+        $sorted = $this->sortResults($rawResults->object());
 
-        return response()->json($results);
+        return response()->json($sorted);
     }
 
     /**
