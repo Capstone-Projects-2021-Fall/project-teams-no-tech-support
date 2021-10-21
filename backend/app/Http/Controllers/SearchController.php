@@ -83,27 +83,22 @@ class SearchController extends Controller
     /**
      * Store domains from search results in the database 
      * 
-     * TODO: Improve repetitive code with code from sortResults
-     * 
-     * @param array $results
+     * @param object $results
      * @return void
      */
-    private function storeDomains(array $results) : void {
+    private function storeDomains(Object $results) : void {
         $domains = array();
 
-        if(array_key_exists('webPages', $results)) {
-            foreach($results['webPages']['value'] as $value) {
-                $domains[] = $this->parseDomain($value['url']);
-            }
-        }
-        if(array_key_exists('videos', $results)) {
-            foreach($results['videos']['value'] as $value) {
-                $domains[] = $this->parseDomain($value['contentUrl']);
-            }
-        }
-        if(array_key_exists('images', $results)) {
-            foreach($results['images']['value'] as $value) {
-                $domains[] = $this->parseDomain($value['contentUrl']);
+        foreach($results as $category => $values) {
+            if(strcmp($category, 'webPages') == 0 || strcmp($category, 'videos') == 0 || strcmp($category, 'images') == 0) {
+                $urlProperty = "contentUrl";
+                if(strcmp($category, 'webPages') == 0) {
+                    $urlProperty = "url";
+                }
+
+                foreach($values->value as $value) {
+                    $domains[] = $this->parseDomain($value->$urlProperty);
+                }
             }
         }
 
@@ -123,13 +118,11 @@ class SearchController extends Controller
     public function getResults(Request $request) : HttpJSONResponse {
         $query = $request->input('query');  
 
-        $rawResults = $this->search($query);
-
-        $results = $rawResults->json();
+        $results = $this->search($query)->object();
 
         $this->storeDomains($results);
 
-        $sorted = $this->sortResults($rawResults->object());
+        $sorted = $this->sortResults($results);
 
         return response()->json($sorted);
     }
