@@ -34,6 +34,21 @@ Users will access No Tech Support from a standard web browser on either a mobile
   * Added "Select the Brand" text field
   * Added "Select the Model" text field
   * Added "Search!" button
+ * Created "QueryOptimization" page
+   * Added cancel  button
+   * Added get results  button
+   * Added Progessice question log view 
+   * Added question  suggestions dropdowns
+   * Implemented dropdpwn on change events
+   * Added event for Query Log to navigate to any prior question
+   * Added styling 
+   * Linked this page to seach page
+   * Link seach page to all neccessary buttons on homepage
+
+* Miscellaneous
+   * Added Frontend Classes  as per the class diagrams
+   * Linked this page to seach page
+   * Link seach page to all neccessary buttons on homepage
 
 Please see the the [releases page](https://github.com/Capstone-Projects-2021-Fall/project-teams-no-tech-support/releases) for information on non-implemented changes such as work on the backend and database
 
@@ -73,6 +88,17 @@ Being that the frontend of No Tech Support is the main subject of this first rel
       1. Pass Condition: User typed at least one character on all the search query in order to activate the “search” button. 
    4. Task: Users can clear all prompts
       1. Pass Condition: User typed at least one character on the search query in order to activate the “clear” button to clear all the input on the search query. 
+3. No Tech Support will allow users to optimize querries gotten form the data collection(currently named search page) page, based on question suggestions from the API
+   1. Task: User find it easy navigataing through the current page
+      1. Pass Condition: User doesnt have a hardtime understanding the what going on within  the page 
+   2. Task: Users can select suggestion and add to the query log
+      1. Pass Condition: user selects a dropdown if any item and the query log is updated
+   3. Task: Users can  remove suggestions  from the query log
+      1. Pass Condition: user clicks on a proir question version  and the preceding ones dissapear
+   4. Task: Users can roll back to older quesstion versions and get other suggestions if available
+      1. Pass Condition: User clicked on a prior question version and got suggestions for the selected question version
+   5. Task: Users get some kind of alert when they a selected question suggestion had no child suggestions
+      1. Pass Condition: User sees a message then the current query has no suggestions. 
 
 ## Contributors
 
