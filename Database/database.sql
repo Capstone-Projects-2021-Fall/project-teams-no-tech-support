@@ -1175,7 +1175,15 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (3, "Alienware X51","2020");
 
 
--- INSERT INTO Model (brand_id,name,year) VALUES 
+INSERT INTO Model (brand_id,name,year) VALUES 
+(4, "MacBook","2020"),
+(4, "MacBook Air","2020"),
+(4, "MacBook Pro","2020"),
+(4, "iMac","2020"),
+(4, "iMac Pro","2020"),
+(4, "Mac Pro","2020"),
+(4, "Mac mini","2020"),
+(4, "Pro Display XDR","2020");
 
 -- INSERT INTO Model (brand_id,name,year) VALUES 
 
