@@ -23,8 +23,7 @@ class SearchController extends Controller
      */
     private function search(String $query) : HttpResponse {
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
-        $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
-
+        $searchEndpoint = config('constants.bing.base') .'error'. config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
         //  NOTE: Use of multiple response filter parameters requires that the commas NOT BE ENCODED
         //  Therefore, we cannot use the built-in parameter structure from GuzzleHttp
@@ -34,7 +33,7 @@ class SearchController extends Controller
             'Ocp-Apim-Subscription-Key' => $bingKey,
             'Pragma' => 'no-cache'
         ])->get($searchEndpoint.$parameters);
-
+        
         return $response;
     }
 
@@ -118,13 +117,24 @@ class SearchController extends Controller
     public function getResults(Request $request) : HttpJSONResponse {
         $query = $request->input('query');  
 
-        $results = $this->search($query)->object();
+        $response = $this->search($query);
+        
+        if($response->successful()) {
+            $results = $response->object();
 
-        $this->storeDomains($results);
-
-        $sorted = $this->sortResults($results);
-
-        return response()->json($sorted);
+            $this->storeDomains($results);
+    
+            $sorted = $this->sortResults($results);
+    
+            return response()->json($sorted);
+        } else {
+            $errorType = '(server)';
+            if($response->clientError()) {
+                $errorType = '(client)';
+            } 
+            
+            return response()->json(['error' => 'Search API returned error '.$errorType]);
+        }
     }
 
     /**
@@ -134,7 +144,6 @@ class SearchController extends Controller
      * @return HttpJSONResponse
      */
     public function getRelatedQueries(Request $request) : HttpJSONResponse {
-        
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
         $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
@@ -151,9 +160,18 @@ class SearchController extends Controller
             'count' => 50,  //  Max count is 50
         ]);
 
-        $results = $response->json()['relatedSearches']['value'];
+        if($response->successful()) {
+            $results = $response->json()['relatedSearches']['value'];
 
-        return response()->json($results);
+            return response()->json($results);
+        } else {
+            $errorType = '(server)';
+            if($response->clientError()) {
+                $errorType = '(client)';
+            }
+            
+            return response()->json(['error' => 'Search API returned error '.$errorType]);
+        }
     }
 
     /**
