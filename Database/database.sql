@@ -1185,10 +1185,58 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (4, "Mac mini","2020"),
 (4, "Pro Display XDR","2020");
 
--- INSERT INTO Model (brand_id,name,year) VALUES 
+INSERT INTO Model (brand_id,name,year) VALUES 
+(5, "ProArt Studiobook Pro 15","2020"),
+(5, "ProArt Studiobook Pro 16","2020"),
+(5, "ProArt Studiobook Pro 17","2020"),
+(5, "ProArt Studiobook Pro X W730","2020"),
+(5, "ProArt Studiobook One W590","2020"),
+(5, "Zenbook Pro Duo 15 OLED","2020"),
+(5, "Zenbook Pro Duo UX581","2020"),
+(5, "Zenbook Pro 15 OLED","2020"),
+(5, "Zenbook Pro 15","2020"),
+(5, "Zenbook Pro 15 UX535","2020"),
+(5, "Zenbook S UX393","2020"),
+(5, "Zenbook Flip S13 OLED","2020"),
+(5, "Zenbook 14X OLED","2020"),
+(5, "Zenbook 14 Flip OLED","2020"),
+(5, "Zenbook Flip 13 OLED","2020"),
+(5, "Zenbook Flip 13 UX363","2020"),
+(5, "Zenbook Duo 14","2020"),
+(5, "Zenbook Duo UX481","2020"),
+(5, "Zenbook 13 OLED","2020"),
+(5, "Zenbook 13 UX325","2020"),
+(5, "Zenbook 14 UX435","2020"),
+(5, "Zenbook 14 UM425","2020"),
+(5, "Zenbook 14 UX425","2020"),
+(5, "Zenbook Pro Duo 15 OLED","2020"),
+(5, "Q507IQ","2020"),
+(5, "Zenbook 14 UX435","2020"),
+(5, "Zenbook 14 UM425 (QA)","2020");
 
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
+INSERT INTO Model (brand_id,name,year) VALUES 
+(6, "MaxBook X14 Pro","2020"),
+(6, "MaxBook Y13 Power","2020"),
+(6, "MaxBook Y13 Pro","2020"),
+(6, "MaxBook Y13 13.3","2020"),
+(6, "MaxBook Y11 11.6","2020"),
+(6, "MaxBook X15 15.6","2020"),
+(6, "MaxBook S13 A","2020"),
+(6, "MaxBook X14 14.4","2020"),
+(6, "MaxBook S15 15.6","2020"),
+(6, "MaxBook S13","2020"),
+(6, "MaxBook Y11 Active Pen","2020"),
+(6, "MaxMini B5","2020"),
+(6, "MaxMini B4 Pro","2020"),
+(6, "MaxMini B3 Plus","2020"),
+(6, "MaxMini B3","2020"),
+(6, "MaxMini B2 Plus","2020"),
+(6, "MaxMini B2","2020"),
+(6, "MaxMini B1 Plus","2020"),
+(6, "MaxMini B1","2020"),
+(6, "MaxPad I11","2020"),
+(6, "MaxPad I10","2020"),
+(6, "MaxPad I9","2020");
 -- INSERT INTO Model (brand_id,name,year) VALUES 
 
 -- INSERT INTO Model (brand_id,name,year) VALUES 
