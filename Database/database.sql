@@ -1167,26 +1167,30 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (2, "AGB Tiara 1709-A","2020"),
 (2, "AGB Tiara 2403-R","2020");
 
+INSERT INTO Model (brand_id,name,year) VALUES 
+(3, "Alienware Alpha","2020"),
+(3, "Alienware Aurora","2020"),
+(3, "Legacy Alienware Models","2020"),
+(3, "Alienware Area-51","2020"),
+(3, "Alienware X51","2020");
+
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+
+
 select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
 select * from model where brand_id>1;
-
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
--- INSERT INTO Model (brand_id,name,year) VALUES 
-
-
-
-
 
 
 INSERT INTO Model (brand_id,name,year) VALUES 
