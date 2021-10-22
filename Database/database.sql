@@ -25,7 +25,7 @@ CREATE TABLE Brand (
 CREATE TABLE Model (
   id                    		      int AUTO_INCREMENT,
   brand_id                        int NOT NULL,
-  name                            varchar(100),
+  name                            varchar(200),
   year                            varchar(4),
   FOREIGN KEY (brand_id) REFERENCES Brand(id),
   PRIMARY Key (id)
@@ -40,10 +40,7 @@ CREATE TABLE Domains (
   PRIMARY Key (id)
 );
 
-
-
 -- import Data --
-
 -- import Device data
 INSERT INTO Device (name) VALUES
 ("Computer"),
@@ -136,9 +133,6 @@ INSERT INTO Brand (device_id,name,tech_support_number) VALUES
 (2, "VERYKOOL","1 (858) 373-1600"),
 (2, "PLUM","1 (305) 640-1835"),
 (2, "Lively ","1 (800) 650-5918");
-
-
--- select * from Brand where name='HP';
 
 -- import Model data
 INSERT INTO Model (brand_id,name,year) VALUES 
@@ -1165,6 +1159,35 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (1, "Aspire XC-886","2020"),
 (1, "Aspire XC-895","2020");
 
+INSERT INTO Model (brand_id,name,year) VALUES 
+(2, "AGB Octev AB-1210 ","2020"),
+(2, "AGB Octev AG-1208 ","2020"),
+(2, "AGB Octev G-0812","2020"),
+(2, "AGB Tiara 1210-V ","2020"),
+(2, "AGB Tiara 1709-A","2020"),
+(2, "AGB Tiara 2403-R","2020");
+
+select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
+select * from model where brand_id>1;
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+
+
+
+
 
 INSERT INTO Model (brand_id,name,year) VALUES 
 (23, "Compaq 14-a000 Notebook PC series","2020"),
@@ -2015,4 +2038,4 @@ INSERT INTO Model (brand_id,name,year) VALUES
 
 -- Reviewing
 -- select * from Model;
--- select * from brand;
+select * from brand;
