@@ -10,7 +10,6 @@ use App\Models\Device;
 use App\Models\Brand;
 use App\Models\DeviceModel;
 
-
 /**
  * Controller class which handles all operations related to creating prompts on the front-end
  */
@@ -54,7 +53,7 @@ class PromptController extends Controller
             } else {    //  Fallback (ignore hint)
                 $suggestions = DeviceModel::nameLike($input)->get();    
             }
-        } else {    //
+        } else {
             $suggestions = $this->getSearchSuggestions($input);
         }
 
@@ -75,17 +74,26 @@ class PromptController extends Controller
             'Ocp-Apim-Subscription-Key' => $bingKey,
             'Pragma' => 'no-cache'
         ])->get($searchEndpoint, [
-            'q' => urlencode($input),
+            'q' => $input,
         ]);
 
-        $results = $response->json()['suggestionGroups'][0]['searchSuggestions'];
+        if($response->successful()) {
+            $results = $response->json()['suggestionGroups'][0]['searchSuggestions'];
 
-        $queries = array();
-
-        foreach($results as $result) {
-            $queries[] = $result['query'];
+            $queries = array();
+    
+            foreach($results as $result) {
+                $queries[] = $result['query'];
+            }
+    
+            return $queries;
+        } else {
+            $errorType = '(server)';
+            if($response->clientError()) {
+                $errorType = '(client)';
+            }
+            
+            return ['error' => 'Search API returned error '.$errorType];
         }
-
-        return $queries;
     }
 }
