@@ -2774,8 +2774,46 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (31, "Surface Duo 2","2020"),
 (31, "Surface Studio 2","2020");
 
+-- phone
+INSERT INTO Model (brand_id,name,year) VALUES 
+(52, "iPhone","2020"),
+(52, "iPhone 3G","2020"),
+(52, "iPhone 3GS","2020"),
+(52, "iPhone 4","2020"),
+(52, "iPhone 4S","2020"),
+(52, "iPhone 5","2020"),
+(52, "iPhone 5c","2020"),
+(52, "iPhone 5s","2020"),
+(52, "iPhone 6","2020"),
+(52, "iPhone 6 Plus","2020"),
+(52, "iPhone 6s","2020"),
+(52, "iPhone 6s Plus","2020"),
+(52, "iPhone SE (1st generation)","2020"),
+(52, "iPhone 7","2020"),
+(52, "iPhone 7 Plus","2020"),
+(52, "iPhone 8","2020"),
+(52, "iPhone 8 Plus","2020"),
+(52, "iPhone X","2020"),
+(52, "iPhone XR","2020"),
+(52, "iPhone XS","2020"),
+(52, "iPhone XS Max","2020"),
+(52, "iPhone 11","2020"),
+(52, "iPhone 11 Pro","2020"),
+(52, "iPhone 11 Pro Max","2020"),
+(52, "iPhone SE (2nd generation)","2020"),
+(52, "iPhone 12 mini","2020"),
+(52, "iPhone 12","2020"),
+(52, "iPhone 12 Pro","2020"),
+(52, "iPhone 12 Pro Max","2020"),
+(52, "iPhone 13 mini","2020"),
+(52, "iPhone 13","2020"),
+(52, "iPhone 13 Pro","2020"),
+(52, "iPhone 13 Pro Max","2020");
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
 -- Reviewing
 -- select * from Model;
-select * from brand;
-select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
-select * from model where brand_id>1;
+-- select * from brand where device_id=2;
+-- select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
+-- select * from model where brand_id>1;
