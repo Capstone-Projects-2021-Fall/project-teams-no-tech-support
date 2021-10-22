@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/Screens/resultPage.dart';
-import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/main.dart';
+
+
 class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,33 +38,41 @@ class DesktopNavbar extends StatelessWidget {
             Row(
               children: <Widget>[
                 TextButton(
-                  child: Text("Home ", style: TextStyle(color: Colors.white),),
-                  onPressed: (){
+                  child: Text(
+                    "Home",
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
+                  onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => MyHomePage())
-                        );
+                        MaterialPageRoute(builder: (context) => MyHomePage()));
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
                   width: 30,
                 ),
-                 TextButton(
-                  child: Text("About ", style: TextStyle(color: Colors.white),),
-                  onPressed: (){
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => resultPage()));
+                TextButton(
+                  child: Text(
+                    "About Us",
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => myaboutUsPage()));
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
                   width: 30,
                 ),
-                 TextButton(
-                  child: Text("Search", style: TextStyle(color: Colors.white),),
-                  onPressed: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => mysearchpage()));
+                TextButton(
+                  child: Text(
+                    "Search",
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => mysearchpage()));
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
@@ -80,8 +88,8 @@ class DesktopNavbar extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => myresultpage()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => myresultpage()));
                   },
                   child: Text(
                     "Get Started",
@@ -112,24 +120,20 @@ class MobileNavbar extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     //Navigator.of(context).push(
-                        //MaterialPageRoute(builder: (context) => searchPage()));
+                    //MaterialPageRoute(builder: (context) => searchPage()));
                   },
                   child: Text("Home"),
                   //style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                  width: 30,
+                  width: 50,
                 ),
                 Text(
                   "About Us",
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                  width: 30,
-                ),
-                Text(
-                  "Portfolio",
-                  style: TextStyle(color: Colors.white),
+                  width: 50,
                 ),
               ],
             ),

@@ -18,63 +18,86 @@ class SearchController extends Controller
     /**
      * Query the search API and retrieve results 
      * 
-     * TODO: Verify filter functionality (Bing does not seem to respect responseFilter)
-     * 
      * @param String $query
      * @return HttpResponse
      */
     private function search(String $query) : HttpResponse {
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
-        $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
+        $searchEndpoint = config('constants.bing.base') .'error'. config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
-        $filters = ['Images','Webpages','Videos'];
+        //  NOTE: Use of multiple response filter parameters requires that the commas NOT BE ENCODED
+        //  Therefore, we cannot use the built-in parameter structure from GuzzleHttp
+        $parameters="?responseFilter=Webpages,Videos,Images&count=50&q=".urlencode($query);
 
         $response = Http::withHeaders([ //  Send basic get request
             'Ocp-Apim-Subscription-Key' => $bingKey,
             'Pragma' => 'no-cache'
-        ])->get($searchEndpoint, [
-            'q' => urlencode($query),
-            'responseFilter' => $filters,
-            'count' => 50,  //  Max count is 50
-        ]);
-
+        ])->get($searchEndpoint.$parameters);
+        
         return $response;
     }
 
     /**
      * Handle the sorting and handling of search results and domains 
      * 
-     * @param String $query
-     * @return HttpJSONResponse
+     * @param Object $results
+     * @return array
      */
-    private function sortResults(array $results) : array {
-        //  TODO: Implement result sorting
+    private function sortResults(Object $results) : array {
+        $sorted = array();
+
+        foreach($results as $category => $values) {
+            $domains = array();
+
+            if(strcmp($category, 'webPages') == 0 || strcmp($category, 'videos') == 0 || strcmp($category, 'images') == 0) {
+                $urlProperty = "contentUrl";
+                if(strcmp($category, 'webPages') == 0) {
+                    $urlProperty = "url";
+                }
+
+                foreach($values->value as $value) {
+                    $value->baseDomain = $this->parseDomain($value->$urlProperty);
+                    $domains[] = $value->baseDomain;
+                }
+
+                $baseDomains = Domain::whereIn('name', $domains)->get();
+
+                foreach($values->value as $value) {
+                    $domainData = $baseDomains->where('name', $value->baseDomain)->first();
+                    $value->domainLikes = $domainData->likes;
+                    $value->domainCertified = $domainData->is_certified;
+                }
+
+                usort($values->value, function($a, $b) {
+                    return ($a->domainLikes + $a->domainCertified * 50) > ($b->domainLikes + $b->domainCertified * 50);   //  Give cerficiation a weight of 50 likes
+                });
+
+                $sorted[$category] = $values->value;
+            }
+        }
+
+        return $sorted;
     }
 
     /**
      * Store domains from search results in the database 
      * 
-     * TODO: Implement domain storage, improve repetitive code
-     * 
-     * @param array $results
+     * @param object $results
      * @return void
      */
-    private function storeDomains(array $results) : void {
+    private function storeDomains(Object $results) : void {
         $domains = array();
 
-        if(array_key_exists('webPages', $results)) {
-            foreach($results['webPages']['value'] as $value) {
-                $domains[] = $this->parseDomain($value['url']);
-            }
-        }
-        if(array_key_exists('videos', $results)) {
-            foreach($results['videos']['value'] as $value) {
-                $domains[] = $this->parseDomain($value['contentUrl']);
-            }
-        }
-        if(array_key_exists('images', $results)) {
-            foreach($results['images']['value'] as $value) {
-                $domains[] = $this->parseDomain($value['contentUrl']);
+        foreach($results as $category => $values) {
+            if(strcmp($category, 'webPages') == 0 || strcmp($category, 'videos') == 0 || strcmp($category, 'images') == 0) {
+                $urlProperty = "contentUrl";
+                if(strcmp($category, 'webPages') == 0) {
+                    $urlProperty = "url";
+                }
+
+                foreach($values->value as $value) {
+                    $domains[] = $this->parseDomain($value->$urlProperty);
+                }
             }
         }
 
@@ -88,29 +111,67 @@ class SearchController extends Controller
     /**
      * Handle the sorting and handling of search results and domains 
      * 
-     * @param String $query
+     * @param Request $request (String $query)
      * @return HttpJSONResponse
      */
     public function getResults(Request $request) : HttpJSONResponse {
         $query = $request->input('query');  
 
-        $results = $this->search($query)->json();
+        $response = $this->search($query);
+        
+        if($response->successful()) {
+            $results = $response->object();
 
-        $this->storeDomains($results);
-
-        //$sorted = $this->sortResults($results);
-
-        return response()->json($results);
+            $this->storeDomains($results);
+    
+            $sorted = $this->sortResults($results);
+    
+            return response()->json($sorted);
+        } else {
+            $errorType = '(server)';
+            if($response->clientError()) {
+                $errorType = '(client)';
+            } 
+            
+            return response()->json(['error' => 'Search API returned error '.$errorType]);
+        }
     }
 
     /**
      * Query the related search API and retrieve results
      * 
-     * @param String $query
-     * @return array
+     * @param Request $request (String $query)
+     * @return HttpJSONResponse
      */
-    public function getRelatedQueries(String $query) : array {
-        $bingKey = config('services.bing_search.key');
+    public function getRelatedQueries(Request $request) : HttpJSONResponse {
+        $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
+        $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
+
+        $query = $request->input('query');
+
+        $filters = 'RelatedSearches';
+
+        $response = Http::withHeaders([ //  Send basic get request
+            'Ocp-Apim-Subscription-Key' => $bingKey,
+            'Pragma' => 'no-cache'
+        ])->get($searchEndpoint, [
+            'q' => urlencode($query),
+            'responseFilter' => $filters,
+            'count' => 50,  //  Max count is 50
+        ]);
+
+        if($response->successful()) {
+            $results = $response->json()['relatedSearches']['value'];
+
+            return response()->json($results);
+        } else {
+            $errorType = '(server)';
+            if($response->clientError()) {
+                $errorType = '(client)';
+            }
+            
+            return response()->json(['error' => 'Search API returned error '.$errorType]);
+        }
     }
 
     /**

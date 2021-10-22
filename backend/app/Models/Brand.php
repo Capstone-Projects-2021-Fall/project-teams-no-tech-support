@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasNameLikeScope;
 
 class Brand extends Model
 {
     use HasFactory;
+    use HasNameLikeScope;
 
     protected $table = 'Brand';
     public $timestamps = false;
