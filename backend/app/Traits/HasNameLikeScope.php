@@ -18,6 +18,6 @@ trait HasNameLikeScope
      */
     public function scopeNameLike($query, $input)
     {
-        return $query->where('name', 'like', '%'.$input.'%')->orWhere('name', 'sounds like', $input);
+        return $query->where('name', 'like', '%'.$input.'%')->orWhere('name', 'sounds like', $input)->select('name');
     }
 }
