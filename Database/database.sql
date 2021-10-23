@@ -2775,6 +2775,7 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (31, "Surface Studio 2","2020");
 
 -- phone
+
 INSERT INTO Model (brand_id,name,year) VALUES 
 (52, "iPhone","2020"),
 (52, "iPhone 3G","2020"),
@@ -2812,8 +2813,34 @@ INSERT INTO Model (brand_id,name,year) VALUES
 
 -- INSERT INTO Model (brand_id,name,year) VALUES 
 
+
+
+
+
+-- Update Domain information
+INSERT INTO Domains (name,is_certified, likes) VALUES
+("yahoo.com",1,0),
+("google.com",1,0),
+("bleepingcomputer.com",1,0),
+("brighthub.com",1,0),
+("computerhope.com",1,0),
+("dummies.com",1,0),
+("github.com",1,0),
+("support.apple.com",1,0),
+("support.microsoft.com",1,0),
+("rddit.com",1,0),
+("slashdot.org",1,0),
+("stackoverflow.com",1,0),
+("techguy.org",1,0),
+("technibble.com",1,0),
+("techspot.com",1,0),
+("youtube.com",1,0),
+("tek-tips.com",1,0),
+("codeproject.com",1,0);
+
 -- Reviewing
 -- select * from Model;
 -- select * from brand where device_id=2;
 -- select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
 -- select * from model where brand_id>1;
+-- select * from Domains;
