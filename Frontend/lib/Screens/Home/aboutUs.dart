@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-
 class aboutUsPage extends StatelessWidget {
   List<Widget> pageChildren(double width) {
     return <Widget>[
       Container(
-        width: width*2,
+        width: width * 2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -19,9 +18,62 @@ class aboutUsPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 80),
               child: Text(
-                "Thanks for using NoTechSupport developed by Temple University CIS 4398 NoTechSupport team!\n\n\n\n\n\n Here are our team members:\n\n Aidan E Buehler          Jixi He          Henry Keja Kombem          Dajun Lin          Yangmiao Wu",
+                "Thanks for using NoTechSupport developed by Temple University CIS 4398 NoTechSupport team!",
                 style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(' '),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Card(
+                  child: Column(
+                    children: [
+                      Image.asset('images/pic1.jpg'),
+                      Text('Aidan E Buehler'),
+                    ],
+                  ),
+                ),
+                Spacer(flex: 2),
+                Card(
+                  child: Column(
+                    children: [
+                      Image.asset('images/pic1.jpg'),
+                      Text('Jixi He'),
+                    ],
+                  ),
+                ),
+                Spacer(flex: 2),
+                Card(
+                  child: Column(
+                    children: [
+                      Image.asset('images/pic1.jpg'),
+                      Text('Henry Keja Kombem'),
+                    ],
+                  ),
+                ),
+                Spacer(flex: 2),
+                Card(
+                  child: Column(
+                    children: [
+                      Image.asset('images/pic1.jpg'),
+                      Text('Dajun Lin'),
+                    ],
+                  ),
+                ),
+                Spacer(flex: 2),
+                Card(
+                  child: Column(
+                    children: [
+                      Image.asset('images/pic1.jpg'),
+                      Text('Yangmiao Wu'),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
