@@ -10,8 +10,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Brand;
 
+/**
+ * Tests BrandController::getBrandInfo() by sending requests to the /brand route
+ */
 class GetBrandInfoTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Sends a request to the /brand route with null input
      * Tests error handling
@@ -20,7 +25,7 @@ class GetBrandInfoTest extends TestCase
      */
     public function test_nullInput()
     {
-        $newBrand = Brand::factory()->create();
+        Brand::factory()->create();
 
         $response = $this->withHeaders([
             'X-Header' => 'Value',
@@ -39,12 +44,11 @@ class GetBrandInfoTest extends TestCase
      */
     public function test_invalidBrand()
     {
-        $newBrand = Brand::factory()->create([
+        Brand::factory()->create([
             'name' => 'SomeBrand',
         ]);
 
         $response = $this->json('GET','/brand', ['brand' => 'NotBrand']);
-
 
         $response->assertSuccessful()->assertJson(fn (AssertableJson $json) =>
             $json->whereType('error', 'string')
@@ -83,7 +87,7 @@ class GetBrandInfoTest extends TestCase
         $response = $this->json('GET','/brand', ['brand' => $newBrand->name]);
 
         $response->assertSuccessful()->assertJson(fn (AssertableJson $json) =>
-            $json->whereType('phone', 'string')
+            $json->where('phone', $newBrand->tech_support_number)
         );
     }
 }
