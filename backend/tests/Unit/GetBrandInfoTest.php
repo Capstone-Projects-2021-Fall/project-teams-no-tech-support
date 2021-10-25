@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use Tests\TestCase;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
 use App\Models\Brand;
@@ -27,9 +26,7 @@ class GetBrandInfoTest extends TestCase
     {
         Brand::factory()->create();
 
-        $response = $this->withHeaders([
-            'X-Header' => 'Value',
-        ])->get('/brand');
+        $response = $this->json('GET','/brand');
 
         $response->assertSuccessful()->assertJson(fn (AssertableJson $json) =>
             $json->whereType('error', 'string')
