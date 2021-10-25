@@ -23,7 +23,7 @@ class SearchController extends Controller
      */
     private function search(String $query) : HttpResponse {
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
-        $searchEndpoint = config('constants.bing.base') .'error'. config('constants.bing.search');  //  Retrieve Bing endpoint constants
+        $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
         //  NOTE: Use of multiple response filter parameters requires that the commas NOT BE ENCODED
         //  Therefore, we cannot use the built-in parameter structure from GuzzleHttp
@@ -69,7 +69,7 @@ class SearchController extends Controller
                 }
 
                 usort($values->value, function($a, $b) {
-                    return ($a->domainLikes + $a->domainCertified * 50) > ($b->domainLikes + $b->domainCertified * 50);   //  Give cerficiation a weight of 50 likes
+                    return ($a->domainLikes + $a->domainCertified * 50) <=> ($b->domainLikes + $b->domainCertified * 50);   //  Give cerficiation a weight of 50 likes
                 });
 
                 $sorted[$category] = $values->value;
