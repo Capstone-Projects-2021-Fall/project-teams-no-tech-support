@@ -34,7 +34,6 @@ class _HomeScreenState extends State<searchPage> {
   late List<DeviceAlbum> users;
 
   void getDevice() async {
-    print('Setp1');
     try {
       final response = await http.get(
           Uri.parse(
@@ -78,30 +77,6 @@ class _HomeScreenState extends State<searchPage> {
     setState(() {
       isLoading = true;
     });
-    // print(users.toString());
-    // for (int i = 0; i < users.length; i++) autoCompleteData.add(users[i].name);
-
-    //final String stringData = "";
-    //await rootBundle.loadString("assets/data.json");
-
-    // final List<dynamic> json = jsonDecode(stringData);
-
-    // final List<String> jsonStringData = json.cast<String>();
-
-    // final response = await http.get(
-    //     Uri.parse(
-    //         "http://notechapi.aidanbuehler.net/suggestions?input=&prompt=device"),
-    //     headers: {
-    //       "Accept": "application/json",
-    //       "Access-Control_Allow_Origin": "*"
-    //     });
-
-    //var responseJson = json.decode(response.body);
-    // print(response);
-
-    // List<DeviceAlbum> myModels;
-
-    // myModels = jsonDecode(response.body);
 
     setState(() {
       isLoading = false;
@@ -114,10 +89,7 @@ class _HomeScreenState extends State<searchPage> {
     // TODO: implement initState
     super.initState();
     getDevice();
-    //print(users.toString());
-    //for (int i = 0; i < users.length; i++) autoCompleteData.add(users[i].name);
-
-    //fetchAutoCompleteData();
+    fetchAutoCompleteData();
   }
 
   @override
