@@ -46,7 +46,6 @@ class _HomeScreenState extends State<searchPage> {
             "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
           });
 
-      print('Setp2');
       if (response.statusCode == 200) {
         users = loadUsers(response.body);
 
@@ -59,7 +58,7 @@ class _HomeScreenState extends State<searchPage> {
         autoCompleteData = jsonStringData;
         //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
-        print("Error getting users.1");
+        print("Error getting users.");
       }
     } catch (e) {
       print(e.toString());
@@ -78,6 +77,8 @@ class _HomeScreenState extends State<searchPage> {
       isLoading = true;
     });
 
+    getDevice();
+
     setState(() {
       isLoading = false;
       //autoCompleteData = List.empty();
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<searchPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDevice();
+
     fetchAutoCompleteData();
   }
 
