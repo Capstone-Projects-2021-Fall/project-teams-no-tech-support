@@ -23,4 +23,11 @@ class comm {
     final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
     return parsed.map<Album>((json) => Album.fromJson(json)).toList();
   }
+
+  static String mydevice = '';
+  static String mybrand = '';
+  static String mymodel = '';
+  static String what = '';
+  static String when = '';
+  static String why = '';
 }

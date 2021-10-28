@@ -14,6 +14,8 @@ class _HomeScreenState extends State<searchPage> {
   bool isLoading = false;
 
   late List<String> autoCompleteData;
+  late List<String> autoCompleteDataBrand;
+  late List<String> autoCompleteDataModel;
   late TextEditingController controller;
   late List<globals.Album> users;
 
@@ -40,6 +42,74 @@ class _HomeScreenState extends State<searchPage> {
           jsonStringData.insert(i, users[i].RtnName.toString());
         }
         autoCompleteData = jsonStringData;
+        //print('autoCompleteData: ${autoCompleteData.length}');
+      } else {
+        print("Error getting users.");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void getBrand() async {
+    try {
+      globals.comm.mydevice = "computer";
+      final response = await http.get(
+          Uri.parse(
+              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
+                  globals.comm.mydevice),
+          headers: {
+            "Accept": "*/*",
+            "Access-Control_Allow_Origin": "*",
+            "Access-Control-Allow-Headers":
+                "origin, x-requested-with, content-type",
+            "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
+          });
+
+      if (response.statusCode == 200) {
+        users = globals.comm.loadJson(response.body);
+
+        var jsonStringData = <String>[];
+
+        for (int i = 0; i < users.length; i++) {
+          print(users[i].RtnName.toString());
+          jsonStringData.insert(i, users[i].RtnName.toString());
+        }
+        autoCompleteDataBrand = jsonStringData;
+        //print('autoCompleteData: ${autoCompleteData.length}');
+      } else {
+        print("Error getting users.");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void getModel() async {
+    try {
+      globals.comm.mydevice = "computer";
+      final response = await http.get(
+          Uri.parse(
+              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
+                  globals.comm.mydevice),
+          headers: {
+            "Accept": "*/*",
+            "Access-Control_Allow_Origin": "*",
+            "Access-Control-Allow-Headers":
+                "origin, x-requested-with, content-type",
+            "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
+          });
+
+      if (response.statusCode == 200) {
+        users = globals.comm.loadJson(response.body);
+
+        var jsonStringData = <String>[];
+
+        for (int i = 0; i < users.length; i++) {
+          print(users[i].RtnName.toString());
+          jsonStringData.insert(i, users[i].RtnName.toString());
+        }
+        autoCompleteDataModel = jsonStringData;
         //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
         print("Error getting users.");
@@ -165,7 +235,7 @@ class _HomeScreenState extends State<searchPage> {
                       if (textEditingValue.text.isEmpty) {
                         return const Iterable<String>.empty();
                       } else {
-                        return autoCompleteData.where((word) => word
+                        return autoCompleteDataBrand.where((word) => word
                             .toLowerCase()
                             .contains(textEditingValue.text.toLowerCase()));
                       }
@@ -237,7 +307,7 @@ class _HomeScreenState extends State<searchPage> {
                       if (textEditingValue.text.isEmpty) {
                         return const Iterable<String>.empty();
                       } else {
-                        return autoCompleteData.where((word) => word
+                        return autoCompleteDataModel.where((word) => word
                             .toLowerCase()
                             .contains(textEditingValue.text.toLowerCase()));
                       }
