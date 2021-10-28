@@ -53,7 +53,7 @@ class _HomeScreenState extends State<searchPage> {
 
   void getBrand() async {
     try {
-      globals.comm.mydevice = "computer";
+      if (globals.comm.mydevice == "") return;
       final response = await http.get(
           Uri.parse(
               'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
@@ -86,8 +86,8 @@ class _HomeScreenState extends State<searchPage> {
   }
 
   void getModel() async {
+    if (globals.comm.mybrand == "") return;
     try {
-      globals.comm.mydevice = "computer";
       final response = await http.get(
           Uri.parse(
               'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
@@ -125,6 +125,8 @@ class _HomeScreenState extends State<searchPage> {
     });
 
     getDevice();
+    // getBrand();
+    // getModel();
 
     setState(() {
       isLoading = false;
@@ -185,7 +187,6 @@ class _HomeScreenState extends State<searchPage> {
                                 textStyleHighlight:
                                     TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              subtitle: Text("This is subtitle"),
                               onTap: () {
                                 onSelected(option.toString());
                               },
@@ -197,7 +198,9 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      print(selectedString);
+                      //print('selectedString=' + selectedString.toString());
+                      globals.comm.mydevice = selectedString.toString();
+                      getBrand();
                     },
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
@@ -257,7 +260,6 @@ class _HomeScreenState extends State<searchPage> {
                                 textStyleHighlight:
                                     TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              subtitle: Text("This is subtitle"),
                               onTap: () {
                                 onSelected(option.toString());
                               },
@@ -269,7 +271,9 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      print(selectedString);
+                      //print(selectedString);
+                      globals.comm.mybrand = selectedString.toString();
+                      getModel();
                     },
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
@@ -329,7 +333,6 @@ class _HomeScreenState extends State<searchPage> {
                                 textStyleHighlight:
                                     TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              subtitle: Text("This is subtitle"),
                               onTap: () {
                                 onSelected(option.toString());
                               },
@@ -407,7 +410,6 @@ class _HomeScreenState extends State<searchPage> {
                                         textStyleHighlight: TextStyle(
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      subtitle: Text("This is subtitle"),
                                       onTap: () {
                                         onSelected(option.toString());
                                       },
@@ -485,7 +487,6 @@ class _HomeScreenState extends State<searchPage> {
                                         textStyleHighlight: TextStyle(
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      subtitle: Text("This is subtitle"),
                                       onTap: () {
                                         onSelected(option.toString());
                                       },
@@ -563,7 +564,6 @@ class _HomeScreenState extends State<searchPage> {
                                         textStyleHighlight: TextStyle(
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      subtitle: Text("This is subtitle"),
                                       onTap: () {
                                         onSelected(option.toString());
                                       },
