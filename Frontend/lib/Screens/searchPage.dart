@@ -72,11 +72,9 @@ class _HomeScreenState extends State<searchPage> {
         var jsonStringData = <String>[];
 
         for (int i = 0; i < users.length; i++) {
-          print(users[i].RtnName.toString());
           jsonStringData.insert(i, users[i].RtnName.toString());
         }
         autoCompleteDataBrand = jsonStringData;
-        //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
         print("Error getting users.");
       }
@@ -90,8 +88,8 @@ class _HomeScreenState extends State<searchPage> {
     try {
       final response = await http.get(
           Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
-                  globals.comm.mydevice),
+              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
+                  globals.comm.mybrand),
           headers: {
             "Accept": "*/*",
             "Access-Control_Allow_Origin": "*",
@@ -110,7 +108,6 @@ class _HomeScreenState extends State<searchPage> {
           jsonStringData.insert(i, users[i].RtnName.toString());
         }
         autoCompleteDataModel = jsonStringData;
-        //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
         print("Error getting users.");
       }
@@ -125,8 +122,6 @@ class _HomeScreenState extends State<searchPage> {
     });
 
     getDevice();
-    // getBrand();
-    // getModel();
 
     setState(() {
       isLoading = false;
@@ -160,6 +155,8 @@ class _HomeScreenState extends State<searchPage> {
                     padding: EdgeInsets.all(1.0),
                     child: Text(' '),
                   ),
+
+                  //device
                   Autocomplete(
                     optionsBuilder: (TextEditingValue textEditingValue) {
                       if (textEditingValue.text.isEmpty) {
@@ -198,7 +195,6 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      //print('selectedString=' + selectedString.toString());
                       globals.comm.mydevice = selectedString.toString();
                       getBrand();
                     },
@@ -233,6 +229,7 @@ class _HomeScreenState extends State<searchPage> {
                     padding: EdgeInsets.all(0.5),
                     child: Text(' '),
                   ),
+                  //Brand
                   Autocomplete(
                     optionsBuilder: (TextEditingValue textEditingValue) {
                       if (textEditingValue.text.isEmpty) {
@@ -271,7 +268,6 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      //print(selectedString);
                       globals.comm.mybrand = selectedString.toString();
                       getModel();
                     },
@@ -306,6 +302,8 @@ class _HomeScreenState extends State<searchPage> {
                     padding: EdgeInsets.all(0.5),
                     child: Text(' '),
                   ),
+
+                  //Model
                   Autocomplete(
                     optionsBuilder: (TextEditingValue textEditingValue) {
                       if (textEditingValue.text.isEmpty) {
@@ -344,7 +342,7 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      print(selectedString);
+                      globals.comm.mymodel = selectedString.toString();
                     },
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
@@ -377,10 +375,13 @@ class _HomeScreenState extends State<searchPage> {
                     padding: EdgeInsets.all(8.0),
                     child: Text(' '),
                   ),
+
                   Card(
                     child: Padding(
                         padding: EdgeInsets.all(10.0),
                         child: Column(children: <Widget>[
+
+                          //What is the problem
                           Autocomplete(
                             optionsBuilder:
                                 (TextEditingValue textEditingValue) {
@@ -422,7 +423,7 @@ class _HomeScreenState extends State<searchPage> {
                               );
                             },
                             onSelected: (selectedString) {
-                              print(selectedString);
+                              globals.comm.what = selectedString.toString();
                             },
                             fieldViewBuilder: (context, controller, focusNode,
                                 onEditingComplete) {
@@ -458,6 +459,7 @@ class _HomeScreenState extends State<searchPage> {
                             padding: EdgeInsets.all(2.0),
                             child: Text(' '),
                           ),
+                          //When does the problem occur
                           Autocomplete(
                             optionsBuilder:
                                 (TextEditingValue textEditingValue) {
@@ -499,7 +501,7 @@ class _HomeScreenState extends State<searchPage> {
                               );
                             },
                             onSelected: (selectedString) {
-                              print(selectedString);
+                              globals.comm.when = selectedString.toString();
                             },
                             fieldViewBuilder: (context, controller, focusNode,
                                 onEditingComplete) {
@@ -535,6 +537,8 @@ class _HomeScreenState extends State<searchPage> {
                             padding: EdgeInsets.all(2.0),
                             child: Text(' '),
                           ),
+
+                          //Why/What caused the problem
                           Autocomplete(
                             optionsBuilder:
                                 (TextEditingValue textEditingValue) {
@@ -576,7 +580,7 @@ class _HomeScreenState extends State<searchPage> {
                               );
                             },
                             onSelected: (selectedString) {
-                              print(selectedString);
+                              globals.comm.why = selectedString.toString();
                             },
                             fieldViewBuilder: (context, controller, focusNode,
                                 onEditingComplete) {
