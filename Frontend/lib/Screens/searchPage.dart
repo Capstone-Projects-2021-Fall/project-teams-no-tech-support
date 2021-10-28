@@ -1,8 +1,5 @@
-import 'dart:html';
 import 'package:myapp/globals.dart' as globals;
-
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:myapp/Screens/question_optimization.dart';
 import 'package:substring_highlight/substring_highlight.dart';
@@ -13,26 +10,11 @@ class searchPage extends StatefulWidget {
   _HomeScreenState createState() => new _HomeScreenState();
 }
 
-// class DeviceAlbum {
-//   String Devicename;
-
-//   DeviceAlbum({
-//     required this.Devicename,
-//   });
-
-//   factory DeviceAlbum.fromJson(Map<String, dynamic> json) {
-//     return DeviceAlbum(
-//       Devicename: json['name'],
-//     );
-//   }
-// }
-
 class _HomeScreenState extends State<searchPage> {
   bool isLoading = false;
 
   late List<String> autoCompleteData;
   late TextEditingController controller;
-  //late List<DeviceAlbum> users;
   late List<globals.Album> users;
 
   void getDevice() async {
@@ -49,7 +31,6 @@ class _HomeScreenState extends State<searchPage> {
           });
 
       if (response.statusCode == 200) {
-        //users = loadUsers(response.body);
         users = globals.comm.loadJson(response.body);
 
         var jsonStringData = <String>[];
@@ -67,13 +48,6 @@ class _HomeScreenState extends State<searchPage> {
       print(e.toString());
     }
   }
-
-  // static List<globals.Album> loadUsers(String jsonString) {
-  //   final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
-  //   return parsed
-  //       .map<globals.Album>((json) => globals.Album.fromJson(json))
-  //       .toList();
-  // }
 
   Future fetchAutoCompleteData() async {
     setState(() {
