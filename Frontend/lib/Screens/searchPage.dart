@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'package:myapp/globals.dart' as globals;
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -12,26 +13,27 @@ class searchPage extends StatefulWidget {
   _HomeScreenState createState() => new _HomeScreenState();
 }
 
-class DeviceAlbum {
-  String Devicename;
+// class DeviceAlbum {
+//   String Devicename;
 
-  DeviceAlbum({
-    required this.Devicename,
-  });
+//   DeviceAlbum({
+//     required this.Devicename,
+//   });
 
-  factory DeviceAlbum.fromJson(Map<String, dynamic> json) {
-    return DeviceAlbum(
-      Devicename: json['name'],
-    );
-  }
-}
+//   factory DeviceAlbum.fromJson(Map<String, dynamic> json) {
+//     return DeviceAlbum(
+//       Devicename: json['name'],
+//     );
+//   }
+// }
 
 class _HomeScreenState extends State<searchPage> {
   bool isLoading = false;
 
   late List<String> autoCompleteData;
   late TextEditingController controller;
-  late List<DeviceAlbum> users;
+  //late List<DeviceAlbum> users;
+  late List<globals.Album> users;
 
   void getDevice() async {
     try {
@@ -47,13 +49,14 @@ class _HomeScreenState extends State<searchPage> {
           });
 
       if (response.statusCode == 200) {
-        users = loadUsers(response.body);
+        //users = loadUsers(response.body);
+        users = globals.comm.loadJson(response.body);
 
         var jsonStringData = <String>[];
 
         for (int i = 0; i < users.length; i++) {
-          print(users[i].Devicename.toString());
-          jsonStringData.insert(i, users[i].Devicename.toString());
+          print(users[i].RtnName.toString());
+          jsonStringData.insert(i, users[i].RtnName.toString());
         }
         autoCompleteData = jsonStringData;
         //print('autoCompleteData: ${autoCompleteData.length}');
@@ -65,12 +68,12 @@ class _HomeScreenState extends State<searchPage> {
     }
   }
 
-  static List<DeviceAlbum> loadUsers(String jsonString) {
-    final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
-    return parsed
-        .map<DeviceAlbum>((json) => DeviceAlbum.fromJson(json))
-        .toList();
-  }
+  // static List<globals.Album> loadUsers(String jsonString) {
+  //   final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
+  //   return parsed
+  //       .map<globals.Album>((json) => globals.Album.fromJson(json))
+  //       .toList();
+  // }
 
   Future fetchAutoCompleteData() async {
     setState(() {
