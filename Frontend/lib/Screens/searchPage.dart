@@ -1,8 +1,9 @@
+import 'package:myapp/globals.dart' as globals;
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:myapp/Screens/question_optimization.dart';
 import 'package:substring_highlight/substring_highlight.dart';
+import 'package:http/http.dart' as http;
 
 class searchPage extends StatefulWidget {
   @override
@@ -13,22 +14,118 @@ class _HomeScreenState extends State<searchPage> {
   bool isLoading = false;
 
   late List<String> autoCompleteData;
+  late List<String> autoCompleteDataBrand;
+  late List<String> autoCompleteDataModel;
   late TextEditingController controller;
+  late List<globals.Album> users;
+
+  void getDevice() async {
+    try {
+      final response = await http.get(
+          Uri.parse(
+              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=device'),
+          headers: {
+            "Accept": "*/*",
+            "Access-Control_Allow_Origin": "*",
+            "Access-Control-Allow-Headers":
+                "origin, x-requested-with, content-type",
+            "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
+          });
+
+      if (response.statusCode == 200) {
+        users = globals.comm.loadJson(response.body);
+
+        var jsonStringData = <String>[];
+
+        for (int i = 0; i < users.length; i++) {
+          print(users[i].RtnName.toString());
+          jsonStringData.insert(i, users[i].RtnName.toString());
+        }
+        autoCompleteData = jsonStringData;
+        //print('autoCompleteData: ${autoCompleteData.length}');
+      } else {
+        print("Error getting users.");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void getBrand() async {
+    try {
+      if (globals.comm.mydevice == "") return;
+      final response = await http.get(
+          Uri.parse(
+              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
+                  globals.comm.mydevice),
+          headers: {
+            "Accept": "*/*",
+            "Access-Control_Allow_Origin": "*",
+            "Access-Control-Allow-Headers":
+                "origin, x-requested-with, content-type",
+            "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
+          });
+
+      if (response.statusCode == 200) {
+        users = globals.comm.loadJson(response.body);
+
+        var jsonStringData = <String>[];
+
+        for (int i = 0; i < users.length; i++) {
+          jsonStringData.insert(i, users[i].RtnName.toString());
+        }
+        autoCompleteDataBrand = jsonStringData;
+      } else {
+        print("Error getting users.");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void getModel() async {
+    if (globals.comm.mybrand == "") return;
+    try {
+      final response = await http.get(
+          Uri.parse(
+              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
+                  globals.comm.mybrand),
+          headers: {
+            "Accept": "*/*",
+            "Access-Control_Allow_Origin": "*",
+            "Access-Control-Allow-Headers":
+                "origin, x-requested-with, content-type",
+            "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
+          });
+
+      if (response.statusCode == 200) {
+        users = globals.comm.loadJson(response.body);
+
+        var jsonStringData = <String>[];
+
+        for (int i = 0; i < users.length; i++) {
+          print(users[i].RtnName.toString());
+          jsonStringData.insert(i, users[i].RtnName.toString());
+        }
+        autoCompleteDataModel = jsonStringData;
+      } else {
+        print("Error getting users.");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   Future fetchAutoCompleteData() async {
     setState(() {
       isLoading = true;
     });
 
-    final String stringData = await rootBundle.loadString("assets/data.json");
-
-    final List<dynamic> json = jsonDecode(stringData);
-
-    final List<String> jsonStringData = json.cast<String>();
+    getDevice();
 
     setState(() {
       isLoading = false;
-      autoCompleteData = jsonStringData;
+      //autoCompleteData = List.empty();
     });
   }
 
@@ -36,6 +133,7 @@ class _HomeScreenState extends State<searchPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     fetchAutoCompleteData();
   }
 
@@ -53,78 +151,12 @@ class _HomeScreenState extends State<searchPage> {
               padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 200),
               child: Column(
                 children: <Widget>[
-                  // Autocomplete(
-                  //   optionsBuilder: (TextEditingValue textEditingValue) {
-                  //     if (textEditingValue.text.isEmpty) {
-                  //       return const Iterable<String>.empty();
-                  //     } else {
-                  //       return autoCompleteData.where((word) => word
-                  //           .toLowerCase()
-                  //           .contains(textEditingValue.text.toLowerCase()));
-                  //     }
-                  //   },
-                  //   optionsViewBuilder:
-                  //       (context, Function(String) onSelected, options) {
-                  //     return Material(
-                  //       elevation: 4,
-                  //       child: ListView.separated(
-                  //         padding: EdgeInsets.zero,
-                  //         itemBuilder: (context, index) {
-                  //           final option = options.elementAt(index);
-
-                  //           return ListTile(
-                  //             // title: Text(option.toString()),
-                  //             title: SubstringHighlight(
-                  //               text: option.toString(),
-                  //               term: controller.text,
-                  //               textStyleHighlight:
-                  //                   TextStyle(fontWeight: FontWeight.w700),
-                  //             ),
-                  //             subtitle: Text("This is subtitle"),
-                  //             onTap: () {
-                  //               onSelected(option.toString());
-                  //             },
-                  //           );
-                  //         },
-                  //         separatorBuilder: (context, index) => Divider(),
-                  //         itemCount: options.length,
-                  //       ),
-                  //     );
-                  //   },
-                  //   onSelected: (selectedString) {
-                  //     print(selectedString);
-                  //   },
-                  //   fieldViewBuilder:
-                  //       (context, controller, focusNode, onEditingComplete) {
-                  //     this.controller = controller;
-
-                  //     return TextField(
-                  //       controller: controller,
-                  //       focusNode: focusNode,
-                  //       onEditingComplete: onEditingComplete,
-                  //       decoration: InputDecoration(
-                  //         border: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           borderSide: BorderSide(color: Colors.grey[300]!),
-                  //         ),
-                  //         focusedBorder: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           borderSide: BorderSide(color: Colors.grey[300]!),
-                  //         ),
-                  //         enabledBorder: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           borderSide: BorderSide(color: Colors.grey[300]!),
-                  //         ),
-                  //         hintText: "Search Something",
-                  //         prefixIcon: Icon(Icons.search),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
                   Padding(
                     padding: EdgeInsets.all(1.0),
                     child: Text(' '),
                   ),
+
+                  //device
                   Autocomplete(
                     optionsBuilder: (TextEditingValue textEditingValue) {
                       if (textEditingValue.text.isEmpty) {
@@ -152,7 +184,6 @@ class _HomeScreenState extends State<searchPage> {
                                 textStyleHighlight:
                                     TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              subtitle: Text("This is subtitle"),
                               onTap: () {
                                 onSelected(option.toString());
                               },
@@ -164,7 +195,8 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      print(selectedString);
+                      globals.comm.mydevice = selectedString.toString();
+                      getBrand();
                     },
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
@@ -193,17 +225,17 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                   ),
-                  
                   Padding(
                     padding: EdgeInsets.all(0.5),
                     child: Text(' '),
                   ),
+                  //Brand
                   Autocomplete(
                     optionsBuilder: (TextEditingValue textEditingValue) {
                       if (textEditingValue.text.isEmpty) {
                         return const Iterable<String>.empty();
                       } else {
-                        return autoCompleteData.where((word) => word
+                        return autoCompleteDataBrand.where((word) => word
                             .toLowerCase()
                             .contains(textEditingValue.text.toLowerCase()));
                       }
@@ -225,7 +257,6 @@ class _HomeScreenState extends State<searchPage> {
                                 textStyleHighlight:
                                     TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              subtitle: Text("This is subtitle"),
                               onTap: () {
                                 onSelected(option.toString());
                               },
@@ -237,7 +268,8 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      print(selectedString);
+                      globals.comm.mybrand = selectedString.toString();
+                      getModel();
                     },
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
@@ -260,7 +292,6 @@ class _HomeScreenState extends State<searchPage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide(color: Colors.grey[300]!),
                           ),
-                          
                           hintText: "Select the brand",
                           prefixIcon: Icon(Icons.home),
                         ),
@@ -271,12 +302,14 @@ class _HomeScreenState extends State<searchPage> {
                     padding: EdgeInsets.all(0.5),
                     child: Text(' '),
                   ),
+
+                  //Model
                   Autocomplete(
                     optionsBuilder: (TextEditingValue textEditingValue) {
                       if (textEditingValue.text.isEmpty) {
                         return const Iterable<String>.empty();
                       } else {
-                        return autoCompleteData.where((word) => word
+                        return autoCompleteDataModel.where((word) => word
                             .toLowerCase()
                             .contains(textEditingValue.text.toLowerCase()));
                       }
@@ -298,7 +331,6 @@ class _HomeScreenState extends State<searchPage> {
                                 textStyleHighlight:
                                     TextStyle(fontWeight: FontWeight.w700),
                               ),
-                              subtitle: Text("This is subtitle"),
                               onTap: () {
                                 onSelected(option.toString());
                               },
@@ -310,7 +342,7 @@ class _HomeScreenState extends State<searchPage> {
                       );
                     },
                     onSelected: (selectedString) {
-                      print(selectedString);
+                      globals.comm.mymodel = selectedString.toString();
                     },
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
@@ -346,228 +378,242 @@ class _HomeScreenState extends State<searchPage> {
 
                   Card(
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        children: <Widget>[
-                          
-                  Autocomplete(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return const Iterable<String>.empty();
-                      } else {
-                        return autoCompleteData.where((word) => word
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase()));
-                      }
-                    },
-                    optionsViewBuilder:
-                        (context, Function(String) onSelected, options) {
-                      return Material(
-                        elevation: 4,
-                        child: ListView.separated(
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            final option = options.elementAt(index);
+                        padding: EdgeInsets.all(10.0),
+                        child: Column(children: <Widget>[
 
-                            return ListTile(
-                              // title: Text(option.toString()),
-                              title: SubstringHighlight(
-                                text: option.toString(),
-                                term: controller.text,
-                                textStyleHighlight:
-                                    TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                              subtitle: Text("This is subtitle"),
-                              onTap: () {
-                                onSelected(option.toString());
-                              },
-                            );
-                          },
-                          separatorBuilder: (context, index) => Divider(),
-                          itemCount: options.length,
-                        ),
-                      );
-                    },
-                    onSelected: (selectedString) {
-                      print(selectedString);
-                    },
-                    fieldViewBuilder:
-                        (context, controller, focusNode, onEditingComplete) {
-                      this.controller = controller;
+                          //What is the problem
+                          Autocomplete(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text.isEmpty) {
+                                return const Iterable<String>.empty();
+                              } else {
+                                return autoCompleteData.where((word) => word
+                                    .toLowerCase()
+                                    .contains(
+                                        textEditingValue.text.toLowerCase()));
+                              }
+                            },
+                            optionsViewBuilder: (context,
+                                Function(String) onSelected, options) {
+                              return Material(
+                                elevation: 4,
+                                child: ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) {
+                                    final option = options.elementAt(index);
 
-                      return TextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        onEditingComplete: onEditingComplete,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
+                                    return ListTile(
+                                      // title: Text(option.toString()),
+                                      title: SubstringHighlight(
+                                        text: option.toString(),
+                                        term: controller.text,
+                                        textStyleHighlight: TextStyle(
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      onTap: () {
+                                        onSelected(option.toString());
+                                      },
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      Divider(),
+                                  itemCount: options.length,
+                                ),
+                              );
+                            },
+                            onSelected: (selectedString) {
+                              globals.comm.what = selectedString.toString();
+                            },
+                            fieldViewBuilder: (context, controller, focusNode,
+                                onEditingComplete) {
+                              this.controller = controller;
+
+                              return TextField(
+                                controller: controller,
+                                focusNode: focusNode,
+                                onEditingComplete: onEditingComplete,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  hintText: "What is the problem?",
+                                  //prefixIcon: Icon(Icons.account_tree),
+                                ),
+                              );
+                            },
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
+                          Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: Text(' '),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
+                          //When does the problem occur
+                          Autocomplete(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text.isEmpty) {
+                                return const Iterable<String>.empty();
+                              } else {
+                                return autoCompleteData.where((word) => word
+                                    .toLowerCase()
+                                    .contains(
+                                        textEditingValue.text.toLowerCase()));
+                              }
+                            },
+                            optionsViewBuilder: (context,
+                                Function(String) onSelected, options) {
+                              return Material(
+                                elevation: 4,
+                                child: ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) {
+                                    final option = options.elementAt(index);
+
+                                    return ListTile(
+                                      // title: Text(option.toString()),
+                                      title: SubstringHighlight(
+                                        text: option.toString(),
+                                        term: controller.text,
+                                        textStyleHighlight: TextStyle(
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      onTap: () {
+                                        onSelected(option.toString());
+                                      },
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      Divider(),
+                                  itemCount: options.length,
+                                ),
+                              );
+                            },
+                            onSelected: (selectedString) {
+                              globals.comm.when = selectedString.toString();
+                            },
+                            fieldViewBuilder: (context, controller, focusNode,
+                                onEditingComplete) {
+                              this.controller = controller;
+
+                              return TextField(
+                                controller: controller,
+                                focusNode: focusNode,
+                                onEditingComplete: onEditingComplete,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  hintText: "When does the problem occur?",
+                                  //prefixIcon: Icon(Icons.account_tree),
+                                ),
+                              );
+                            },
                           ),
-                          hintText: "What is the problem?",
-                          //prefixIcon: Icon(Icons.account_tree),
-                        ),
-                      );
-                    },
+                          Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: Text(' '),
+                          ),
+
+                          //Why/What caused the problem
+                          Autocomplete(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text.isEmpty) {
+                                return const Iterable<String>.empty();
+                              } else {
+                                return autoCompleteData.where((word) => word
+                                    .toLowerCase()
+                                    .contains(
+                                        textEditingValue.text.toLowerCase()));
+                              }
+                            },
+                            optionsViewBuilder: (context,
+                                Function(String) onSelected, options) {
+                              return Material(
+                                elevation: 4,
+                                child: ListView.separated(
+                                  padding: EdgeInsets.zero,
+                                  itemBuilder: (context, index) {
+                                    final option = options.elementAt(index);
+
+                                    return ListTile(
+                                      // title: Text(option.toString()),
+                                      title: SubstringHighlight(
+                                        text: option.toString(),
+                                        term: controller.text,
+                                        textStyleHighlight: TextStyle(
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      onTap: () {
+                                        onSelected(option.toString());
+                                      },
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      Divider(),
+                                  itemCount: options.length,
+                                ),
+                              );
+                            },
+                            onSelected: (selectedString) {
+                              globals.comm.why = selectedString.toString();
+                            },
+                            fieldViewBuilder: (context, controller, focusNode,
+                                onEditingComplete) {
+                              this.controller = controller;
+
+                              return TextField(
+                                controller: controller,
+                                focusNode: focusNode,
+                                onEditingComplete: onEditingComplete,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey[300]!),
+                                  ),
+                                  hintText: "Why/What caused the problem?",
+                                  //prefixIcon: Icon(Icons.account_tree),
+                                ),
+                              );
+                            },
+                          ),
+                        ])),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Text(' '),
-                  ),
-                  Autocomplete(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return const Iterable<String>.empty();
-                      } else {
-                        return autoCompleteData.where((word) => word
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase()));
-                      }
-                    },
-                    optionsViewBuilder:
-                        (context, Function(String) onSelected, options) {
-                      return Material(
-                        elevation: 4,
-                        child: ListView.separated(
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            final option = options.elementAt(index);
-
-                            return ListTile(
-                              // title: Text(option.toString()),
-                              title: SubstringHighlight(
-                                text: option.toString(),
-                                term: controller.text,
-                                textStyleHighlight:
-                                    TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                              subtitle: Text("This is subtitle"),
-                              onTap: () {
-                                onSelected(option.toString());
-                              },
-                            );
-                          },
-                          separatorBuilder: (context, index) => Divider(),
-                          itemCount: options.length,
-                        ),
-                      );
-                    },
-                    onSelected: (selectedString) {
-                      print(selectedString);
-                    },
-                    fieldViewBuilder:
-                        (context, controller, focusNode, onEditingComplete) {
-                      this.controller = controller;
-
-                      return TextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        onEditingComplete: onEditingComplete,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
-                          ),
-                          hintText: "When does the problem occur?",
-                          //prefixIcon: Icon(Icons.account_tree),
-                        ),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Text(' '),
-                  ),
-                  Autocomplete(
-                    optionsBuilder: (TextEditingValue textEditingValue) {
-                      if (textEditingValue.text.isEmpty) {
-                        return const Iterable<String>.empty();
-                      } else {
-                        return autoCompleteData.where((word) => word
-                            .toLowerCase()
-                            .contains(textEditingValue.text.toLowerCase()));
-                      }
-                    },
-                    optionsViewBuilder:
-                        (context, Function(String) onSelected, options) {
-                      return Material(
-                        elevation: 4,
-                        child: ListView.separated(
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            final option = options.elementAt(index);
-
-                            return ListTile(
-                              // title: Text(option.toString()),
-                              title: SubstringHighlight(
-                                text: option.toString(),
-                                term: controller.text,
-                                textStyleHighlight:
-                                    TextStyle(fontWeight: FontWeight.w700),
-                              ),
-                              subtitle: Text("This is subtitle"),
-                              onTap: () {
-                                onSelected(option.toString());
-                              },
-                            );
-                          },
-                          separatorBuilder: (context, index) => Divider(),
-                          itemCount: options.length,
-                        ),
-                      );
-                    },
-                    onSelected: (selectedString) {
-                      print(selectedString);
-                    },
-                    fieldViewBuilder:
-                        (context, controller, focusNode, onEditingComplete) {
-                      this.controller = controller;
-
-                      return TextField(
-                        controller: controller,
-                        focusNode: focusNode,
-                        onEditingComplete: onEditingComplete,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.grey[300]!),
-                          ),
-                          hintText: "Why/What caused the problem?",
-                          //prefixIcon: Icon(Icons.account_tree),
-                        ),
-                      );
-                    },
-                  ),
-                        ]
-                      )
-                      ),
-                    ),
-                
-                  
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(' '),
@@ -580,8 +626,8 @@ class _HomeScreenState extends State<searchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              QuestionOptimizationPage(generatedQuestion: "Not quite there yet"), //
+                          builder: (context) => QuestionOptimizationPage(
+                              generatedQuestion: "Not quite there yet"), //
                         ),
                       );
                     },
