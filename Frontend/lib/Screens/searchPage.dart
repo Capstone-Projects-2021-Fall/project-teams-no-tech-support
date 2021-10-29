@@ -16,6 +16,9 @@ class _HomeScreenState extends State<searchPage> {
   late List<String> autoCompleteData;
   late List<String> autoCompleteDataBrand;
   late List<String> autoCompleteDataModel;
+  List<String> autoCompleteDataWhat = List.empty();
+  List<String> autoCompleteDataWhen = List.empty();
+  List<String> autoCompleteDataWhy = List.empty();
   late TextEditingController controller;
   late List<globals.Album> users;
 
@@ -380,7 +383,6 @@ class _HomeScreenState extends State<searchPage> {
                     child: Padding(
                         padding: EdgeInsets.all(10.0),
                         child: Column(children: <Widget>[
-
                           //What is the problem
                           Autocomplete(
                             optionsBuilder:
@@ -388,7 +390,7 @@ class _HomeScreenState extends State<searchPage> {
                               if (textEditingValue.text.isEmpty) {
                                 return const Iterable<String>.empty();
                               } else {
-                                return autoCompleteData.where((word) => word
+                                return autoCompleteDataWhat.where((word) => word
                                     .toLowerCase()
                                     .contains(
                                         textEditingValue.text.toLowerCase()));
@@ -466,7 +468,7 @@ class _HomeScreenState extends State<searchPage> {
                               if (textEditingValue.text.isEmpty) {
                                 return const Iterable<String>.empty();
                               } else {
-                                return autoCompleteData.where((word) => word
+                                return autoCompleteDataWhen.where((word) => word
                                     .toLowerCase()
                                     .contains(
                                         textEditingValue.text.toLowerCase()));
@@ -545,7 +547,7 @@ class _HomeScreenState extends State<searchPage> {
                               if (textEditingValue.text.isEmpty) {
                                 return const Iterable<String>.empty();
                               } else {
-                                return autoCompleteData.where((word) => word
+                                return autoCompleteDataWhy.where((word) => word
                                     .toLowerCase()
                                     .contains(
                                         textEditingValue.text.toLowerCase()));
