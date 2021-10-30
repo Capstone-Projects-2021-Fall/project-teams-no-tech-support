@@ -1,0 +1,23 @@
+{
+  "_type": "SearchResponse",
+  "queryContext": {
+    "originalQuery": "computer"
+  },
+  "webPages": {
+    "webSearchUrl": "https://www.bing.com/search?q=computer",
+    "totalEstimatedMatches": 103000000,
+    "value": [
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.2",
+        "name": "Computers: PC, Laptops & Desktops at Every Day Low Price ...",
+        "url": "https://subdomain.walmart.com",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.walmart.com/cp/computers/3951",
+        "snippet": "Find your next computer at Walmart.com. Shop laptops, desktops, netbooks, ultra-books and tablets at Every Day Low prices.",
+        "dateLastCrawled": "2021-10-27T05:18:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      }
+    ]
+  }
+}
