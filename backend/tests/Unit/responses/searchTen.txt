@@ -1,0 +1,148 @@
+{
+  "_type": "SearchResponse",
+  "queryContext": {
+    "originalQuery": "computer"
+  },
+  "webPages": {
+    "webSearchUrl": "https://www.bing.com/search?q=computer",
+    "totalEstimatedMatches": 103000000,
+    "value": [
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.0",
+        "name": "Amazon.com: computer",
+        "url": "https://www.amazon.com/computer/s?k=computer",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.amazon.com/computer/s?k=computer",
+        "snippet": "In the desktop-computer world, inexpensive is not synonymous with low-quality or slow, especially nowadays. Read full article HP Elite Desktop PC Computer Intel Core i5 3.1-GHz, 8 gb Ram, 1 TB Hard Drive, DVDRW, 19 Inch LCD Monitor, Keyboard, Mouse, Wireless WiFi, Windows 10 (Renewed) 3.9 out of 5 ...",
+        "dateLastCrawled": "2021-10-26T20:19:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.1",
+        "name": "Computers: PC, Laptop & Tablet Options - Best Buy",
+        "url": "https://www.bestbuy.com/site/electronics/computers-pcs/abcat0500000.c?id=abcat0500000",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.bestbuy.com/site/electronics/computers-pcs/abcat0500000.c?id=abcat0500000",
+        "snippet": "Whether you're looking for a high powered computer to play PC games, a small computer to stream movies and stay connected while traveling, or you're looking for an affordable computer to use for word processing and social media, the latest computers and tablets balance portability with the performance and power you need. And the range of printers, computer software and accessories allow you to ...",
+        "deepLinks": [
+          {
+            "name": "Desktop Computers",
+            "url": "https://www.bestbuy.com/site/computers-pcs/desktop-computers/abcat0501000.c?id=abcat0501000"
+          },
+          {
+            "name": "PC Laptops",
+            "url": "https://www.bestbuy.com/site/all-laptops/pc-laptops/pcmcat247400050000.c?id=pcmcat247400050000"
+          },
+          {
+            "name": "All-In-One Computers",
+            "url": "https://www.bestbuy.com/site/all-desktops/all-in-one-computers/abcat0501005.c?id=abcat0501005"
+          },
+          {
+            "name": "Shop Now & Save",
+            "url": "https://www.bestbuy.com/"
+          },
+          {
+            "name": "iPad",
+            "url": "https://www.bestbuy.com/site/ipad-tablets-ereaders/ipad/pcmcat209000050007.c?id=pcmcat209000050007"
+          },
+          {
+            "name": "Shop Top Deals",
+            "url": "https://www.bestbuy.com/site/top-deals/computer-tablet-deals/pcmcat1563302961332.c?id=pcmcat1563302961332"
+          }
+        ],
+        "dateLastCrawled": "2021-10-27T13:22:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.2",
+        "name": "Computers: PC, Laptops & Desktops at Every Day Low Price ...",
+        "url": "https://www.walmart.com/cp/computers/3951",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.walmart.com/cp/computers/3951",
+        "snippet": "Find your next computer at Walmart.com. Shop laptops, desktops, netbooks, ultra-books and tablets at Every Day Low prices.",
+        "dateLastCrawled": "2021-10-27T05:18:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.3",
+        "name": "What is a Computer?",
+        "url": "https://www.computerhope.com/jargon/c/computer.htm",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.computerhope.com/jargon/c/computer.htm",
+        "snippet": "A computer is a programmable device that stores, retrieves, and processes data.The term \"computer\" was originally given to humans (human computers) who performed numerical calculations using mechanical calculators, such as the abacus and slide rule.The term was later given to mechanical devices as they began replacing human computers. Today's computers are electronic devices that accept data ...",
+        "dateLastCrawled": "2021-10-27T02:27:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.4",
+        "name": "computer | History, Parts, Networking, Operating Systems ...",
+        "url": "https://www.britannica.com/technology/computer",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.britannica.com/technology/computer",
+        "snippet": "computer, device for processing, storing, and displaying information.. Computer once meant a person who did computations, but now the term almost universally refers to automated electronic machinery. The first section of this article focuses on modern digital electronic computers and their design, constituent parts, and applications. The second section covers the history of computing.",
+        "dateLastCrawled": "2021-10-24T19:08:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.5",
+        "name": "Perkasie Computer Repair - Perkasie PC Repair & Recycling ...",
+        "url": "https://www.perkasiepcrepair.com/",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.perkasiepcrepair.com",
+        "snippet": "As a Perkasie Computer Repair Company in Bucks County PA, we service a large area surrounding our home in Perkasie, PA.Areas such as Doylestown 18901, Quakertown 18951, Warminster 18974, Furlong 18925, Newtown 18940, Jamison 18929, New Hope 18938, Richboro 18954, Southhampton 18966, Warrington 18976, Chalfont 18914, Horsham 19044, Ambler 19002, Dublin 18917, Pipersville 18947, Lahaska 18931 ...",
+        "dateLastCrawled": "2021-10-27T04:22:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.6",
+        "name": "Computer Store in St. Louis Park, MN - Micro Center",
+        "url": "https://www.microcenter.com/site/stores/st-louis-park.aspx",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.microcenter.com/site/stores/st-louis-park.aspx",
+        "snippet": "In 2000, Micro Center entered the Twin Cities area by building a store in St. Louis Park, MN. Micro Center St. Louis Park brought an era of computer retailing in the Twin Cities with a superior level of customer service and employee expertise, combined with an unmatched selection of computers, electronics, software, accessories and computer parts for building your own PC.",
+        "dateLastCrawled": "2021-10-27T06:27:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.7",
+        "name": "Top 10 Best Computer Repair Services in Perkasie PA | Angi",
+        "url": "https://www.angi.com/companylist/us/pa/perkasie/computer-repair.htm",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.angi.com/companylist/us/pa/perkasie/computer-repair.htm",
+        "snippet": "A&E Computer Solutions LLC is a Computer Store with over 17 years of expertise and experience. We specialize in computers sales/service/web design/web hosting. Laptop, gaming systems, virus removal local/remote(nationwide) and repairs either onsite, at your home or business or from our workshops.",
+        "dateLastCrawled": "2021-06-19T23:39:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.8",
+        "name": "Penn Computer Corporation - Used & Refurbished IT ...",
+        "url": "http://www.penncomputer.com/",
+        "isFamilyFriendly": true,
+        "displayUrl": "www.penncomputer.com",
+        "snippet": "Penn Computer Corporation is a leading global supplier of used and refurbished IT Equipment. We carry a full line of Servers, Workstations, Storage, SAN Switches, Parts and Networking Equipment from IBM, Sun Microsystems, Hewlett Packard, Dell, Cisco Systems & Brocade .",
+        "dateLastCrawled": "2021-10-24T22:29:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      },
+      {
+        "id": "https://api.bing.microsoft.com/api/v7/#WebPages.9",
+        "name": "DSM Computer Service Narvon PA, 17555 – Manta.com",
+        "url": "https://www.manta.com/c/mmddnv6/dsm-computer-service",
+        "isFamilyFriendly": true,
+        "displayUrl": "https://www.manta.com/c/mmddnv6/dsm-computer-service",
+        "snippet": "DSM Computer has been serving Lancaster and the surrounding areas since 2004. We service and repair all brand name computers. We are Dell Registered Partners, and sell both laptop and desktop computers. Our goal is to make your repair, or purchase of a new computer as easy as possible.",
+        "dateLastCrawled": "2021-09-13T09:52:00.0000000Z",
+        "language": "en",
+        "isNavigational": false
+      }
+    ]
+  }
+}
