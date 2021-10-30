@@ -22,10 +22,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test1', function () {
-    return view('test1');
-});
-
 //  Search-specific routes
 Route::get('/results', [SearchController::class, 'getResults']);
 Route::get('/related', [SearchController::class, 'getRelatedQueries']);
