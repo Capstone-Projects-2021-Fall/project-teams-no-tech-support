@@ -19,8 +19,11 @@ class BrandController extends Controller
      * @return HttpJSONResponse
      */
     public function getBrandInfo(Request $request) : HttpJSONResponse {
-        $brand = $request->input('brand');
-        $number = Brand::where('name', $brand)->pluck('tech_support_number')->all()[0];
-        return response()->json(['phone' => $number]);
+        $brand = $request->input('brand', '');
+        if(strlen($brand) > 0) {
+            $number = Brand::where('name', $brand)->pluck('tech_support_number')->all()[0];
+            return response()->json(['phone' => $number]);
+        }
+        return response()->json(NULL);
     }
 }

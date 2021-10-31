@@ -17,7 +17,7 @@ class DomainController extends Controller
      * @return HttpJSONResponse ({boolean is_certified, int likes})
      */
     public function getRating(Request $request) : HttpJSONResponse {
-        $domain = $request->input('domain');  
+        $domain = $request->input('domain', '');  
 
         //  TODO: Implement rating retrieval
 
@@ -31,8 +31,8 @@ class DomainController extends Controller
      * @return void
      */
     public function rateDomain(Request $request) : void {
-        $domain = $request->input('domain');
-        $like = $request->input('like');
+        $domain = $request->input('domain', '');
+        $like = $request->input('like', true);
 
         //  TODO: Implement domain rating ability
     }

@@ -24,7 +24,7 @@ class PromptController extends Controller
      * @return HttpJSONResponse
      */
     public function getSuggestions(Request $request) : HttpJSONResponse {
-        $input = $request->input('input');
+        $input = $request->input('input', '');
         $prompt = $request->input('prompt', '');
         $hint = $request->input('hint', '');    //  Device name (for brand) or brand name (for model)
         $suggestions = NULL;
@@ -54,7 +54,9 @@ class PromptController extends Controller
                 $suggestions = DeviceModel::nameLike($input)->get();    
             }
         } else {
-            $suggestions = $this->getSearchSuggestions($input);
+            if(strlen($input) > 0) {
+                $suggestions = $this->getSearchSuggestions($input);
+            }
         }
 
         return response()->json($suggestions);
