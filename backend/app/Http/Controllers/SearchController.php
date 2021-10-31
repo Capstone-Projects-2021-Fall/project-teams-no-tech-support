@@ -69,7 +69,7 @@ class SearchController extends Controller
                 }
 
                 usort($values->value, function($a, $b) {
-                    return ($a->domainLikes + $a->domainCertified * 50) <=> ($b->domainLikes + $b->domainCertified * 50);   //  Give cerficiation a weight of 50 likes
+                    return  ($b->domainLikes + $b->domainCertified * 50) <=> ($a->domainLikes + $a->domainCertified * 50);   //  Give cerficiation a weight of 50 likes
                 });
 
                 $sorted[$category] = $values->value;
