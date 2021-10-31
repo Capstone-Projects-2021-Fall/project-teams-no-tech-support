@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Models/_question.dart';
+import 'dart:developer';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:myapp/Actions/getRelatedSearches.dart';
+import 'package:myapp/Models/_question.dart';
 
 class QuestionOptimizationPage extends StatefulWidget {
   const QuestionOptimizationPage({Key? key, required this.generatedQuestion})
@@ -55,7 +61,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
     query4
   ];
   int addedQueryCounter = 0;
-  static List<Question> queryLog = <Question>[query1];
+  static List<Question> queryLog = <Question>[];
   static Question activeQuery = query1;
   static String activeQueryName = 'Version 1';
   static double deviceHeight(BuildContext context) =>
@@ -92,6 +98,32 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
         queryLog = queryLog.sublist(0, index + 1);
       }
       //Do nothing
+    });
+  }
+@override
+  void initState() {
+    super.initState();
+     
+    String initialQuestion = 'My Phone';
+    getRelatedSearches(initialQuestion).then((value) {
+      setState(() {
+        activeQuery = new Question(initialQuestion, value);
+        queryLog.add(activeQuery);
+      });
+
+      //queryLog.add(new Question("initialQuestion", <String>[]));
+      print("Async done");
+    });
+  }
+
+  handleNewQuestion(String? question) async {
+    debugger();
+    List<String> relatedQuestions = await getRelatedSearches(question!);
+
+    setState(() {
+      activeQuery = new Question(question, relatedQuestions);
+      queryLog.add(activeQuery);
+       activeQueryName = 'Version ${queryLog.length}';
     });
   }
 
@@ -197,7 +229,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                               );
                             },
                           ).toList(),
-                          onChanged: addToQueryLog,
+                          onChanged: handleNewQuestion,
                         )
                       ],
               ),
