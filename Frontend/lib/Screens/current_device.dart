@@ -1,101 +1,98 @@
+import 'dart:io';
+import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class aboutUsPage extends StatelessWidget {
-  List<Widget> pageChildren(double width) {
-    return <Widget>[
-      Container(
-        width: width * 2,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: Colors.white),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 80),
-              child: Text(
-                "Thanks for using NoTechSupport developed by Temple University CIS 4398 NoTechSupport team!",
-                style: TextStyle(fontSize: 20.0, color: Colors.white),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Text(' '),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('images/pic1.jpg'),
-                      Text('Aidan E Buehler'),
-                    ],
-                  ),
-                ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('images/pic1.jpg'),
-                      Text('Jixi He'),
-                    ],
-                  ),
-                ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('images/pic1.jpg'),
-                      Text('Henry Keja Kombem'),
-                    ],
-                  ),
-                ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('images/pic1.jpg'),
-                      Text('Dajun Lin'),
-                    ],
-                  ),
-                ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('images/pic1.jpg'),
-                      Text('Yangmiao Wu'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ];
+class DeviceDetail extends StatefulWidget {
+  @override
+  _DeviceDetailState createState() => _DeviceDetailState();
+}
+
+class _DeviceDetailState extends State<DeviceDetail> {
+  String deviceName = '';
+  String deviceVersion = '';
+  String identifier = '';
+
+  Future<void> _deviceDetails() async {
+    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        var build = await deviceInfoPlugin.androidInfo;
+        setState(() {
+          deviceName = build.model;
+          deviceVersion = build.version.toString();
+          identifier = build.androidId;
+        });
+        //UUID for Android
+      } else if (Platform.isIOS) {
+        var data = await deviceInfoPlugin.iosInfo;
+        setState(() {
+          deviceName = data.name;
+          deviceVersion = data.systemVersion;
+          identifier = data.identifierForVendor;
+        }); //UUID for iOS
+      }
+    } on PlatformException {
+      print('Failed to get platform version');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth > 800) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: pageChildren(constraints.biggest.width / 2),
-          );
-        } else {
-          return Column(
-            children: pageChildren(constraints.biggest.width),
-          );
-        }
-      },
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent[100],
+        title: Text("Device Details"),
+        automaticallyImplyLeading: false,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RaisedButton(
+              padding: EdgeInsets.all(14),
+              color: Colors.cyan[50],
+              onPressed: () {
+                _deviceDetails();
+              },
+              child: Text(
+                "Device Details",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            deviceVersion.isNotEmpty &&
+                    deviceName.isNotEmpty &&
+                    identifier.isNotEmpty
+                ? Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text("Device Name:- " + deviceName,
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text("Device Version:- " + deviceVersion,
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text("Device Identifier:- " + identifier,
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold)),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  )
+                : Container(),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -4,6 +4,8 @@ import 'package:myapp/Components/Navbar.dart';
 import 'package:myapp/Screens/resultPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/Screens/Home/aboutUs.dart';
+import 'package:myapp/Screens/MobileSearchPage.dart';
+import 'package:myapp/Screens/current_device.dart';
 
 void main() => runApp(MyApp());
 
@@ -93,6 +95,17 @@ class mysearchpage extends StatelessWidget {
   }
 }
 
+class Mobilemysearchpage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+                child: MobilesearchPage()
+              )
+    );
+  }
+}
+
 class myaboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -121,6 +134,18 @@ class myaboutUsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class mydeviceinfopage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+                child: DeviceDetail()
+              )
     );
   }
 }

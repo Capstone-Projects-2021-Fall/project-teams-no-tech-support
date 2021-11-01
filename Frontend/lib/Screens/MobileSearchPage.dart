@@ -1,17 +1,16 @@
-import 'package:myapp/Screens/resultsPage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/Screens/questionFilteringPage.dart';
+import 'package:myapp/Screens/MobileQuestion_Opt.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 import 'package:http/http.dart' as http;
 
-class searchPage extends StatefulWidget {
+class MobilesearchPage extends StatefulWidget {
   @override
-  _HomeScreenState createState() => new _HomeScreenState();
+  HomeScreenState createState() => new HomeScreenState();
 }
 
-class _HomeScreenState extends State<searchPage> {
+class HomeScreenState extends State<MobilesearchPage> {
   bool isLoading = false;
 
   late List<String> autoCompleteData;
@@ -93,9 +92,7 @@ class _HomeScreenState extends State<searchPage> {
       final response = await http.get(
           Uri.parse(
               'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
-                  globals.comm.mybrand +
-                  '%7C' +
-                  globals.comm.mydevice),
+                  globals.comm.mybrand),
           headers: {
             "Accept": "*/*",
             "Access-Control_Allow_Origin": "*",
@@ -147,14 +144,14 @@ class _HomeScreenState extends State<searchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Data Collection"),
+        title: Text("iTechSupport"),
       ),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
           : Padding(
-              padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 200),
+              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 15),
               child: Column(
                 children: <Widget>[
                   Padding(
@@ -232,7 +229,7 @@ class _HomeScreenState extends State<searchPage> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.all(0.5),
+                    padding: EdgeInsets.all(0),
                     child: Text(' '),
                   ),
                   //Brand
@@ -631,7 +628,7 @@ class _HomeScreenState extends State<searchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => QuestionOptimizationPage(
+                          builder: (context) => MobileQuestionOptimizationPage(
                               generatedQuestion: "Not quite there yet"), //
                         ),
                       );

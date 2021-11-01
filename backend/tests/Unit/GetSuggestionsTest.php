@@ -56,7 +56,7 @@ class GetSuggestionsTest extends TestCase
 
         $response = $this->json('GET','/suggestions', ['prompt' => 'unknown']);
 
-        $response->assertSuccessful()->assertJsonCount(10, $key = null);
+        $response->assertSuccessful()->assertJsonCount(0, $key = null);
     }
 
     /**

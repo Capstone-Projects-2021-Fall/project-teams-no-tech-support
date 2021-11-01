@@ -24,7 +24,7 @@ class PromptController extends Controller
      * @return HttpJSONResponse
      */
     public function getSuggestions(Request $request) : HttpJSONResponse {
-        $input = $request->input('input');
+        $input = $request->input('input', '');
         $prompt = $request->input('prompt', '');
         $hint = $request->input('hint', '');    //  Device name (for brand) or brand name (for model)
         $suggestions = NULL;
@@ -44,8 +44,15 @@ class PromptController extends Controller
             }
         } elseif(strcasecmp($prompt, "model") == 0) {
             $brand = NULL;
-            if(strlen($hint) > 0) { //  Check for hint (brand name)
-                $brand = Brand::where('name', $hint)->first();
+            if(strlen($hint) > 0) { //  Check for hint (brand name and device type)
+                $hints = explode('|', $hint);
+
+                if(count($hints) == 2) {
+                    $device = Device::where('name', $hints[1])->select('id')->first();
+                    $brand = Brand::where('name', $hints[0])->where('device_id', $device->id)->first();
+                } else {
+                    $brand = Brand::where('name', $hint)->first();  //  TODO: Remove this functionality (Require both parts of the hint for model prompt)
+                }
             }
 
             if(!is_null($brand)) {  //  Check brand name hint validity
@@ -54,7 +61,9 @@ class PromptController extends Controller
                 $suggestions = DeviceModel::nameLike($input)->get();    
             }
         } else {
-            $suggestions = $this->getSearchSuggestions($input);
+            if(strlen($input) > 0) {
+                $suggestions = $this->getSearchSuggestions($input);
+            }
         }
 
         return response()->json($suggestions);
