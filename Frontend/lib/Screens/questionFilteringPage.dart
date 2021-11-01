@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Models/_question.dart';
-import 'dart:developer';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:myapp/Actions/getRelatedSearches.dart';
-import 'package:myapp/Models/_question.dart';
+import 'package:myapp/Actions/get-related-searches.dart';
+import 'package:myapp/Screens/resultsPage.dart';
+import 'package:myapp/Screens/tempSearchPage.dart';
+
 
 class QuestionOptimizationPage extends StatefulWidget {
+  final String generatedQuestion;
   const QuestionOptimizationPage({Key? key, required this.generatedQuestion})
       : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String generatedQuestion;
-
+ 
   @override
   QuestionOptimizationPageState createState() =>
       QuestionOptimizationPageState();
@@ -31,25 +20,26 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
   int addedQueryCounter = 0;
   List<Question> queryLog = <Question>[];
   Question activeQuery = new Question("", <String>[]);
-  String activeQueryName = 'Version 1';
+  String activeQueryName = '';
+  String initialQueryName = 'Initial Question ';
   double deviceHeight(BuildContext context) =>MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
   @override
   void initState() {
     super.initState();
-
-    String initialQuestion ='My Phone'; // Temporary, get this from previous view
+    activeQueryName = initialQueryName;
+    String initialQuestion =widget.generatedQuestion; 
     getRelatedSearches(initialQuestion).then((value) {
+  
       setState(() {
         activeQuery = new Question(initialQuestion, value);
         queryLog.add(activeQuery);
       });
-
-      //queryLog.add(new Question("initialQuestion", <String>[]));
-      print("Async done");
     });
+    
   }
+
 
   void removeFromQueryLog(int index) {
     //delete all questions past index given
@@ -57,9 +47,13 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
       addedQueryCounter = index;
       if (queryLog.length > 1) {
         activeQuery = queryLog[index];
-        activeQueryName = 'Version ${index + 1}';
+        activeQueryName = 'Related Search ${index}';
         queryLog = queryLog.sublist(0, index + 1);
+        if(queryLog.length == 1){
+        activeQueryName = initialQueryName;
       }
+      }
+      
       //Do nothing
     });
   }
@@ -70,7 +64,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
     setState(() {
       activeQuery = new Question(question, relatedQuestions);
       queryLog.add(activeQuery);
-      activeQueryName = 'Version ${queryLog.length}';
+      activeQueryName = 'Related Search ${queryLog.length-1}';
     });
   }
 
@@ -86,7 +80,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text('Question Optimization'),
+        title: const Text('Question Filtering'),
       ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +93,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
               SizedBox(height: 30),
               SizedBox(
                 width: 900,
-                height: 200,
+                height: 400,
                 child: ListView.separated(
                   shrinkWrap: true,
                   scrollDirection: Axis
@@ -111,10 +105,11 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                       title: Row(
                         children: [
                           Text(
-                            'Version ${index + 1}:   ',
+                            index == 0?initialQueryName:'Related Search ${index}:   ',
                             style: TextStyle(
                                 color: Colors.orange[300],
-                                fontWeight: FontWeight.bold),
+                                //fontWeight: FontWeight.bold
+                                ),
                           ),
                           Text(queryLog[index].content),
                           const SizedBox(
@@ -151,7 +146,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: Text(
-                            'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question versions',
+                            'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question Related Searches',
                             style: TextStyle(
                                 color: Colors.red[300],
                                 fontSize: 19,
@@ -165,7 +160,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                         DropdownButton(
                           //isExpanded: true,
                           hint: Text(
-                              'View/Select Question suggestions for $activeQueryName '),
+                              'View/Select Question related searches for $activeQueryName '),
                           items: activeQuery.suggestions.map(
                             (suggestion) {
                               return DropdownMenuItem<String>(
@@ -186,14 +181,36 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 17)),
-                      onPressed: () {},
+                      onPressed: () {
+                         Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        //   builder: (context) => QuestionOptimizationPage(
+                        //       generatedQuestion: "Not quite there yet"), //
+                        // ),
+                          builder: (context) => tempSearchPage()
+                             //
+                        ),
+                      );
+                      },
                       child: const Text('Cancel'), //temporary
                     ),
                     const SizedBox(width: 30),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 17)),
-                      onPressed: () {}, //temporary
+                      onPressed: () {
+                         Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        //   builder: (context) => QuestionOptimizationPage(
+                        //       generatedQuestion: "Not quite there yet"), //
+                        // ),
+                          builder: (context) => ResultsPage(
+                              finalQuestion: activeQuery.content), //
+                        ),
+                      );
+                      }, //temporary
                       child: const Text('Get Results'),
                     )
                   ],

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Screens/searchPage.dart';
+import 'package:myapp/Screens/tempSearchPage.dart';
 
 class homePage extends StatelessWidget {
-  List<Widget> pageChildren(double width,BuildContext context) {
+  List<Widget> pageChildren(double width, BuildContext context) {
     return <Widget>[
       Container(
         width: width,
@@ -28,12 +29,12 @@ class homePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               onPressed: () {
-                 Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => searchPage(), 
-                        ),
-                      );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => tempSearchPage(),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -64,11 +65,11 @@ class homePage extends StatelessWidget {
         if (constraints.maxWidth > 800) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: pageChildren(constraints.biggest.width / 2,context),
+            children: pageChildren(constraints.biggest.width / 2, context),
           );
         } else {
           return Column(
-            children: pageChildren(constraints.biggest.width,context),
+            children: pageChildren(constraints.biggest.width, context),
           );
         }
       },

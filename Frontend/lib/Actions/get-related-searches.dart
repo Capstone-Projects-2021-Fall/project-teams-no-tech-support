@@ -9,16 +9,16 @@ Future<List<String>> getRelatedSearches(String question) async {
   try {
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
-      
+    if(response.body == "{}")  return <String>[];
       List<dynamic> json = jsonDecode(response.body);
-      if(json.length == 0) return <String>[];
       List<String> relatedSearches =
-          json.map((e) => e['text']).toList().cast<String>();
+          json.map((item) => item['text']).toList().cast<String>();
       return relatedSearches;
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load related searches');
+      
     }
   } catch (err) {
-    throw Exception('Failed to load album\n' + err.toString());
+    throw Exception('Failed to load related searches\n' + err.toString());
   }
 }
