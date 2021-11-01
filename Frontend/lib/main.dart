@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:myapp/Screens/current_device.dart';
+import 'package:myapp/Screens/homePage.dart';
+import 'package:myapp/Components/Navbar.dart';
+import 'package:myapp/Screens/resultPage.dart';
+import 'package:myapp/Screens/searchPage.dart';
+import 'package:myapp/Screens/Home/aboutUs.dart';
+import 'package:myapp/Screens/MobilesearchPage.dart';
+>>>>>>> Stashed changes
 
 void main() {
   runApp(const MyApp());
@@ -61,6 +71,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+<<<<<<< Updated upstream
+=======
+class mymobilesearchpage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+                child: MobilesearchPage()
+              )
+    );
+  }
+}
+
+class myaboutUsPage extends StatelessWidget {
+>>>>>>> Stashed changes
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -113,3 +138,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+<<<<<<< Updated upstream
+=======
+
+
+
+class mydeviceinfopage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+                child: DeviceDetailDemo()
+              )
+    );
+  }
+}
+>>>>>>> Stashed changes
