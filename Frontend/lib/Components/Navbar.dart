@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/main.dart';
 
-
 class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -109,36 +108,83 @@ class MobileNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+      padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 0),
       child: Container(
-        child: Column(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              "",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 20),
+            ),
+            Row(
               children: <Widget>[
-                ElevatedButton(
+                TextButton(
+                  child: Text(
+                    "Home",
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
                   onPressed: () {
-                    //Navigator.of(context).push(
-                    //MaterialPageRoute(builder: (context) => searchPage()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => MyHomePage()));
                   },
-                  child: Text("Home"),
                   //style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                  width: 50,
-                ),
-                Text(
-                  "About Us",
-                  style: TextStyle(color: Colors.white),
+                    width: 20,
+                    ),
+                TextButton(
+                  child: Text(
+                    "About Us",
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => myaboutUsPage()));
+                  },
+                  //style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                  width: 50,
+                    width: 20,
+                    ),
+                TextButton(
+                  child: Text(
+                    "Search",
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => mysearchpage()));
+                  },
+                  //style: TextStyle(color: Colors.white),
                 ),
+                //Text(
+                //  "Search",
+                //  style: TextStyle(color: Colors.white),
+                //),
+                SizedBox(
+                    width: 10,
+                    ),
+                MaterialButton(
+                  color: Colors.pink,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => myresultpage()));
+                  },
+                  child: Text(
+                    "My Device Info",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
               ],
-            ),
-          )
-        ]),
+            )
+          ],
+        ),
       ),
     );
   }
