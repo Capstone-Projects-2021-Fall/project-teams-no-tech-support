@@ -27,7 +27,7 @@ Users will access No Tech Support from a standard web browser on either a mobile
   * Results are gotten from the backend based on the question string from the Query Filtering vue
   * Ued results to buil a generic seaarch results page
 * Link API data to Query Filtering Page
-* Synchronized all pagws and the required data
+* Synchronized all pages and the required data
 
 Please see the [releases page](https://github.com/Capstone-Projects-2021-Fall/project-teams-no-tech-support/releases) for information on non-visual changes such as work on the backend and database
 
