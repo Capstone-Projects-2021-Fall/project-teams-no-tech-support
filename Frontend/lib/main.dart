@@ -4,6 +4,7 @@ import 'package:myapp/Components/Navbar.dart';
 import 'package:myapp/Screens/resultPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/Screens/Home/aboutUs.dart';
+import 'package:myapp/Screens/MobileSearchPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -88,6 +89,17 @@ class mysearchpage extends StatelessWidget {
     return Scaffold(
       body: Container(
                 child: searchPage()
+              )
+    );
+  }
+}
+
+class Mobilemysearchpage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+                child: MobilesearchPage()
               )
     );
   }

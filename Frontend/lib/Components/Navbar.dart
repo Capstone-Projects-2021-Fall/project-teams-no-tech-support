@@ -157,7 +157,7 @@ class MobileNavbar extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => mysearchpage()));
+                        builder: (context) => Mobilemysearchpage()));
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
