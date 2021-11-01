@@ -28,63 +28,26 @@ class QuestionOptimizationPage extends StatefulWidget {
 }
 
 class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
-  int _counter = 0;
-  // activeQuery ='My Pixel 3a My Phone screen turns blue when I try to reduce the volume';
-  static String mockQuery1Content =
-      'My Pixel 3a  screen turns blue when I try to reduce the volume';
-  static List<String> mockQuerySuggestion1 = <String>[
-    'My Pixel 3 screen turns blue when I try to reduce the volume while watching a video',
-    'My Pixel 3a  screen turns blue when I go to my gallery',
-    'Black Screen when I turn on my google pixel 3',
-  ];
-  static String mockQueryContent2 =
-      'My Pixel 3 screen turns blue when I try to reduce the volume while watching a video';
-  static List<String> mockQuerySuggestion2 = <String>[
-    'My Pixel 3XL  screen turns blue and battery overheates after watchign a video for a few minutes',
-    'My Pixel 3a  screen turns blue when I attempt to watch a video'
-  ];
-
-  static String mockQuery3Content =
-      'My Pixel 3XL  screen turns blue and battery overheates after watching a video for a few minutes';
-  static List<String> mockQuerySuggestion3 = <String>[];
-
-  static Question query1 = Question(mockQuery1Content, mockQuerySuggestion1);
-  static Question query2 = Question(mockQueryContent2, mockQuerySuggestion2);
-  static Question query3 = Question(mockQuery3Content, mockQuerySuggestion3);
-  static Question query4 =
-      Question(mockQuery3Content, <String>[]); //no suggestions
-
-  static List<Question> queryLogHelper = <Question>[
-    query1,
-    query2,
-    query3,
-    query4
-  ];
   int addedQueryCounter = 0;
-  static List<Question> queryLog = <Question>[];
-  static Question activeQuery = query1;
-  static String activeQueryName = 'Version 1';
-  static double deviceHeight(BuildContext context) =>
-      MediaQuery.of(context).size.height;
+  List<Question> queryLog = <Question>[];
+  Question activeQuery = new Question("", <String>[]);
+  String activeQueryName = 'Version 1';
+  double deviceHeight(BuildContext context) =>MediaQuery.of(context).size.height;
+  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
-  static double deviceWidth(BuildContext context) =>
-      MediaQuery.of(context).size.width;
+  @override
+  void initState() {
+    super.initState();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+    String initialQuestion ='My Phone'; // Temporary, get this from previous view
+    getRelatedSearches(initialQuestion).then((value) {
+      setState(() {
+        activeQuery = new Question(initialQuestion, value);
+        queryLog.add(activeQuery);
+      });
 
-  void addToQueryLog(String? incomingQuestion) {
-    setState(() {
-      //API Call to get suggestions for incoming question then initialize Question Object, using dummy for now
-      addedQueryCounter++; //temp
-      Question questionToBeAdded = queryLogHelper[addedQueryCounter]; //temp
-
-      queryLog.add(questionToBeAdded);
-      activeQuery = questionToBeAdded;
-      activeQueryName = 'Version ${queryLog.length}';
+      //queryLog.add(new Question("initialQuestion", <String>[]));
+      print("Async done");
     });
   }
 
@@ -100,30 +63,14 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
       //Do nothing
     });
   }
-@override
-  void initState() {
-    super.initState();
-     
-    String initialQuestion = 'My Phone';
-    getRelatedSearches(initialQuestion).then((value) {
-      setState(() {
-        activeQuery = new Question(initialQuestion, value);
-        queryLog.add(activeQuery);
-      });
 
-      //queryLog.add(new Question("initialQuestion", <String>[]));
-      print("Async done");
-    });
-  }
-
-  handleNewQuestion(String? question) async {
-    debugger();
+  addToQueryLog(String? question) async {
     List<String> relatedQuestions = await getRelatedSearches(question!);
 
     setState(() {
       activeQuery = new Question(question, relatedQuestions);
       queryLog.add(activeQuery);
-       activeQueryName = 'Version ${queryLog.length}';
+      activeQueryName = 'Version ${queryLog.length}';
     });
   }
 
@@ -166,10 +113,8 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                           Text(
                             'Version ${index + 1}:   ',
                             style: TextStyle(
-                              color: Colors.orange[300],
-                              fontWeight: FontWeight.bold
-                              
-                            ),
+                                color: Colors.orange[300],
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(queryLog[index].content),
                           const SizedBox(
@@ -208,11 +153,11 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                           child: Text(
                             'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question versions',
                             style: TextStyle(
-                              color: Colors.red[300],
-                              fontSize: 19,
-                              fontFamily: 'RobotoMono'
-                              //fontWeight: FontWeight.bold
-                            ),
+                                color: Colors.red[300],
+                                fontSize: 19,
+                                fontFamily: 'RobotoMono'
+                                //fontWeight: FontWeight.bold
+                                ),
                           ),
                         )
                       ]
@@ -229,7 +174,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                               );
                             },
                           ).toList(),
-                          onChanged: handleNewQuestion,
+                          onChanged: addToQueryLog,
                         )
                       ],
               ),
@@ -258,12 +203,6 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
           ),
         ],
       ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
