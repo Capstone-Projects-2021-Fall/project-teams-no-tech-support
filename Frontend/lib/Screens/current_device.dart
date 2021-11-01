@@ -4,12 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class DeviceDetailDemo extends StatefulWidget {
+class DeviceDetail extends StatefulWidget {
   @override
-  _DeviceDetailDemoState createState() => _DeviceDetailDemoState();
+  _DeviceDetailState createState() => _DeviceDetailState();
 }
 
-class _DeviceDetailDemoState extends State<DeviceDetailDemo> {
+class _DeviceDetailState extends State<DeviceDetail> {
   String deviceName = '';
   String deviceVersion = '';
   String identifier = '';

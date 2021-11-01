@@ -50,7 +50,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      Image.asset('images/pic1.jpg'),
+                      //Image.asset('images/pic1.jpg'),
                       Text('Aidan E Buehler'),
                     ],
                   ),
@@ -59,7 +59,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      Image.asset('images/pic1.jpg'),
+                      //Image.asset('images/pic1.jpg'),
                       Text('Jixi He'),
                     ],
                   ),
@@ -68,7 +68,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      Image.asset('images/pic1.jpg'),
+                      //Image.asset('images/pic1.jpg'),
                       Text('Henry Keja Kombem'),
                     ],
                   ),
@@ -77,7 +77,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      Image.asset('images/pic1.jpg'),
+                      //Image.asset('images/pic1.jpg'),
                       Text('Dajun Lin'),
                     ],
                   ),
@@ -86,7 +86,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      Image.asset('images/pic1.jpg'),
+                      //Image.asset('images/pic1.jpg'),
                       Text('Yangmiao Wu'),
                     ],
                   ),
@@ -123,7 +123,7 @@ class MobileaboutUsPage extends StatelessWidget {
   List<Widget> pageChildren(double width) {
     return <Widget>[
       Container(
-        width: width * 2,
+        //width: width * 2,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -135,7 +135,7 @@ class MobileaboutUsPage extends StatelessWidget {
                   color: Colors.white),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 70.0, horizontal: 80),
+              padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 0),
               child: Text(
                 "Thanks for using NoTechSupport developed by Temple University CIS 4398 NoTechSupport team!",
                 style: TextStyle(fontSize: 20.0, color: Colors.white),

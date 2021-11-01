@@ -144,7 +144,7 @@ class mydeviceinfopage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-                child: DeviceDetailDemo()
+                child: DeviceDetail()
               )
     );
   }

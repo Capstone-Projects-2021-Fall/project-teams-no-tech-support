@@ -82,16 +82,16 @@ class DesktopNavbar extends StatelessWidget {
                 SizedBox(
                   width: 30,
                 ),
-                MaterialButton(
+               MaterialButton(
                   color: Colors.pink,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => myresultpage()));
+                        builder: (context) => mydeviceinfopage()));
                   },
                   child: Text(
-                    "Get Started",
+                    "My Device Info",
                     style: TextStyle(color: Colors.white),
                   ),
                 )
