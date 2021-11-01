@@ -20,10 +20,22 @@ class BrandController extends Controller
      */
     public function getBrandInfo(Request $request) : HttpJSONResponse {
         $brand = $request->input('brand', '');
+        $errorText = 'brand name cannot be blank';
+
         if(strlen($brand) > 0) {
-            $number = Brand::where('name', $brand)->pluck('tech_support_number')->all()[0];
-            return response()->json(['phone' => $number]);
+            $brandData = Brand::where('name', $brand)->pluck('tech_support_number')->all();
+
+            if(count($brandData) > 0) {
+                $phone = $brandData[0];
+
+                if(strlen($phone) > 0) {
+                    return response()->json(['phone' => $phone]);
+                }
+            }
+
+            $errorText = 'no tech support number found for brand with name ' . $brand;
         }
-        return response()->json(NULL);
+        
+        return response()->json(['error' => 'Backend API returned error: '.$errorText]);
     }
 }
