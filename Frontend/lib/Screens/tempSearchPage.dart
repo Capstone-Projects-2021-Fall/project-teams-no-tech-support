@@ -95,7 +95,9 @@ class _HomeScreenState extends State<tempSearchPage> {
       final response = await http.get(
           Uri.parse(
               'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
-                  globals.comm.mybrand),
+                  globals.comm.mybrand +
+                  '%7C' +
+                  globals.comm.mydevice),
           headers: {
             "Accept": "*/*",
             "Access-Control_Allow_Origin": "*",
