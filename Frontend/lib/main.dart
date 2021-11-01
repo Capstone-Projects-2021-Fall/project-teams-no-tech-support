@@ -5,6 +5,7 @@ import 'package:myapp/Screens/resultPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/Screens/Home/aboutUs.dart';
 import 'package:myapp/Screens/MobileSearchPage.dart';
+import 'package:myapp/Screens/current_device.dart';
 
 void main() => runApp(MyApp());
 
@@ -133,6 +134,18 @@ class myaboutUsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class mydeviceinfopage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+                child: DeviceDetailDemo()
+              )
     );
   }
 }

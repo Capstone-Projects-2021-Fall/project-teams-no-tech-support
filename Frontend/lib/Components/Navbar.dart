@@ -174,7 +174,7 @@ class MobileNavbar extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => myresultpage()));
+                        builder: (context) => mydeviceinfopage()));
                   },
                   child: Text(
                     "My Device Info",
