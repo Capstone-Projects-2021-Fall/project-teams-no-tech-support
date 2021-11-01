@@ -3,7 +3,6 @@ import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/Screens/tempSearchPage.dart';
 
 class homePage extends StatelessWidget {
-  List<Widget> pageChildren(double width, BuildContext context) {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
