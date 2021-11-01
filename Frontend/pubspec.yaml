@@ -38,6 +38,8 @@ dependencies:
   device_info: ^2.0.2
   substring_highlight: ^1.0.33
   http: ^0.13.4
+  flutter_linkify: ^5.0.2
+  url_launcher: ^6.0.12
 
 dev_dependencies:
   flutter_test:

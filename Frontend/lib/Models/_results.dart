@@ -1,12 +1,10 @@
 import '_domain.dart';
 
 class Results{
-  String id;
   List<TextLink> textLinks;
   List<VideoLink> videoLinks;
 
   Results(
-    this.id,
     this.textLinks,
     this.videoLinks
   );
@@ -21,21 +19,23 @@ class Results{
 
 class TextLink{
   Domain  domain;
-  String  summary; //Text to be displayed under the link in the results view
+  String  snippet; //Text to be displayed under the link in the results view
+  String lastUpdated;
+  String name;
 
   
-  TextLink(this.domain, this.summary);
+  TextLink(this.domain, this.snippet, this.lastUpdated, this.name);
 }
 
 class VideoLink{
   Domain  domain;
-  DateTime created;
+  String lastUpdated;
   int length; //in minutes
   
   
   VideoLink(
     this.domain, 
-    this.created,
+    this.lastUpdated,
     this.length
   );
 }
