@@ -3563,7 +3563,7 @@ INSERT INTO Domains (name,is_certified, likes) VALUES
 
 -- For Reviewing
 -- select * from Model;
-select * from brand where device_id=2;
+-- select * from brand where device_id=2;
 -- select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
 -- select * from model where brand_id>1;
 -- select * from Domains;
