@@ -3042,6 +3042,36 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (56, "LGVS660.AVRZDN","2020"),
 (56, "LGVS980W.AVRZWH","2020");
 
+INSERT INTO Model (brand_id,name,year) VALUES 
+(61, "Pixel 6 Pro","2020"),
+(61, "Pixel 6","2020"),
+(61, "Pixel 5a 5G","2020"),
+(61, "Pixel 5","2020"),
+(61, "Pixel 4a 5G","2020"),
+(61, "Pixel 4a","2020"),
+(61, "Pixel 4 XL","2020"),
+(61, "Pixel 4","2020"),
+(61, "Pixel 3a XL","2020"),
+(61, "Pixel 3a","2020"),
+(61, "Pixel 3 XL","2020"),
+(61, "Pixel 3","2020"),
+(61, "Pixel 2","2020"),
+(61, "Pixel 2 XL","2020"),
+(61, "Pixel XL","2020"),
+(61, "Pixel","2020"),
+(61, "Pixel C","2020");
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+
+-- INSERT INTO Model (brand_id,name,year) VALUES 
+
+
+
+
 -- Update Domain information
 INSERT INTO Domains (name,is_certified, likes) VALUES
 ("yahoo.com",1,0),
@@ -3063,9 +3093,12 @@ INSERT INTO Domains (name,is_certified, likes) VALUES
 ("tek-tips.com",1,0),
 ("codeproject.com",1,0);
 
+
+
+
 -- For Reviewing
 -- select * from Model;
--- select * from brand where device_id=2;
+select * from brand where device_id=2;
 -- select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
 -- select * from model where brand_id>1;
 -- select * from Domains;
