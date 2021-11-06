@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/Screens/MobileSearchPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/Screens/tempSearchPage.dart';
 
@@ -124,7 +125,7 @@ class MobilehomePage extends StatelessWidget {
                  Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => searchPage(), 
+                          builder: (context) => MobilesearchPage(), 
                         ),
                       );
               },
