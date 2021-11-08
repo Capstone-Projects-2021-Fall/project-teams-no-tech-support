@@ -10,6 +10,7 @@ return [
     ],
     'azureCognitive' => [
         'base' => 'https://ntsazurecognitive.cognitiveservices.azure.com/',
-        'keyPhrases' => 'text/analytics/v3.1/keyPhrases'
+        'keyPhrases' => 'text/analytics/v3.1/keyPhrases',
+        'namedEntityRecognition' => 'text/analytics/v3.1/entities/recognition/general'
     ]
 ];
