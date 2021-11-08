@@ -7,5 +7,9 @@ return [
         'base' => 'https://api.bing.microsoft.com/',
         'search' => 'v7.0/search',
         'autosuggest' => 'v7.0/suggestions'
+    ],
+    'azureCognitive' => [
+        'base' => 'https://ntsazurecognitive.cognitiveservices.azure.com/',
+        'keyPhrases' => 'text/analytics/v3.1/keyPhrases'
     ]
 ];
