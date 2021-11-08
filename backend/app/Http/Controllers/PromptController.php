@@ -105,4 +105,29 @@ class PromptController extends Controller
             return ['error' => 'Search API returned error '.$errorType];
         }
     }
+
+    /**
+     * Extract key phrases and categorize them using Azure Cognitive language API 
+     * 
+     * @param Request $request (String $query)
+     * @return HttpJSONResponse
+     */
+    public function extractPhrases(Request $request) : HttpJSONResponse {
+        $azureKey = config('services.azure_cognitive.key');  //  Retrieve Azure API key
+        $phrasesEndpoint = config('constants.azureCognitive.base') . config('constants.azureCognitive.keyPhrases');  //  Retrieve Azure endpoint constants
+
+        $query = $request->input('query', '');
+
+        if(strlen($query) > 0) {
+            $body = '{ documents: [{ id: "1", language:"en", text: "'.$query.'"}]}';
+
+            $response = Http::withHeaders([ //  Send basic get request
+                'Ocp-Apim-Subscription-Key' => $azureKey
+            ])->withBody($body, 'application/json')->post($phrasesEndpoint);
+
+            return response()->json($response->json()['documents'][0]['keyPhrases']);
+        }
+
+        return response()->json(['error' => 'Azure Cognitive error']);
+    }
 }
