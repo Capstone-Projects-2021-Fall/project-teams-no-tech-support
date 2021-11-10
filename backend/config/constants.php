@@ -12,5 +12,9 @@ return [
         'base' => 'https://ntsazurecognitive.cognitiveservices.azure.com/',
         'keyPhrases' => 'text/analytics/v3.1/keyPhrases',
         'namedEntityRecognition' => 'text/analytics/v3.1/entities/recognition/general'
+    ],
+    'googleLanguage' => [
+        'base' => 'https://language.googleapis.com/v1/',
+        'syntax' => 'documents:analyzeSyntax'
     ]
 ];

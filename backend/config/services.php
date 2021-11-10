@@ -33,8 +33,10 @@ return [
     'bing_search' => [
         'key' => env('BING_SEARCH_KEY'),
     ],
-
     'azure_cognitive' => [
         'key' => env('AZURE_COGNITIVE_KEY'),
+    ],
+    'google_cloud' => [
+        'key' => env('GOOGLE_CLOUD_KEY'),
     ],
 ];
