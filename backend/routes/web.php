@@ -37,3 +37,4 @@ Route::get('/brand', [BrandController::class, 'getBrandInfo']);
 //  Suggestion-specific routes
 Route::get('/suggestions', [PromptController::class, 'getSuggestions']);
 Route::get('/extract', [PromptController::class, 'extractPhrases']);
+Route::get('/syntax', [PromptController::class, 'extractSyntax']);

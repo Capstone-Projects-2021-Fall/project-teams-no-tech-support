@@ -37,6 +37,6 @@ return [
         'key' => env('AZURE_COGNITIVE_KEY'),
     ],
     'google_cloud' => [
-        'key' => env('GOOGLE_CLOUD_KEY'),
+        'credentials' => env('GOOGLE_CLOUD_CREDENTIALS'),
     ],
 ];

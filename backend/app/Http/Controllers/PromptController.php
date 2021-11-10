@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse as HttpJSONResponse;
 
+use Google\Cloud\Language\LanguageClient;
+
 use App\Models\Device;
 use App\Models\Brand;
 use App\Models\DeviceModel;
@@ -129,5 +131,46 @@ class PromptController extends Controller
         }
 
         return response()->json(['error' => 'Azure Cognitive error']);
+    }
+
+    public function extractSyntax(Request $request) : HttpJSONResponse {
+        $query = $request->input('query', '');
+
+        $query = "my computer will not turn on";
+
+        $config = [
+            'keyFilePath' => config('services.google_cloud.credentials'),
+        ];
+
+        $client = new LanguageClient($config);
+
+        $tokens = $client->analyzeSyntax($query)->tokens();
+
+        foreach($tokens as $token) {
+            $word = $token['text']['content'];
+            $tag = $token['partOfSpeech']['tag'];
+            
+            echo($word . ': ' . $tag . ' ');
+
+            if(strcmp($tag, 'NOUN') == 0) {
+                $device = Device::where('name', 'like', $word)->first();
+                $brand = Brand::where('name', 'like', $word)->first();
+                $model = DeviceModel::where('name', 'like', $word)->first();
+
+                if(!is_null($device)) {
+                    echo('DEVICE');
+                }
+
+                if(!is_null($brand)) {
+                    echo('BRAND');
+                }
+
+                if(!is_null($model)) {
+                    echo('MODEL');
+                }
+            }
+            echo('</br>');
+        }
+        die();
     }
 }
