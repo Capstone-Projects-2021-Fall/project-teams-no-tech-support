@@ -1252,7 +1252,6 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (7, "P-ClassSingle Epyc","2020");
 
 INSERT INTO Model (brand_id,name,year) VALUES 
-(10, "","2020"),
 (10, "Dell Canvas 27","2020"),
 (10, "Precision 3630 Tower","2020"),
 (10, "Precision 610","2020"),
@@ -2432,7 +2431,6 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (23, "HP ZBook 17 G4 Mobile Workstation","2020");
 
 INSERT INTO Model (brand_id,name,year) VALUES 
-(29, "","2020"),
 (29, "100-14IBD Laptop (ideapad)","2020"),
 (29, "100-14IBY Laptop (ideapad)","2020"),
 (29, "100-15IBD Laptop (ideapad)","2020"),
@@ -2947,7 +2945,74 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (44, "Vaio VGN-TX2","2020");
 
 INSERT INTO Model (brand_id,name,year) VALUES 
-
+(26, "IBM System/23","2020"),
+(26, "IBM 2003","2020"),
+(26, "IBM 2064","2020"),
+(26, "IBM 2066","2020"),
+(26, "IBM 2084","2020"),
+(26, "IBM 2086","2020"),
+(26, "IBM 2094","2020"),
+(26, "IBM 2096","2020"),
+(26, "IBM 2097","2020"),
+(26, "IBM 2098","2020"),
+(26, "IBM 2817","2020"),
+(26, "IBM 2818","2020"),
+(26, "IBM 2827","2020"),
+(26, "IBM 2828","2020"),
+(26, "IBM 2964","2020"),
+(26, "IBM Personal Computer","2020"),
+(26, "IBM 5150","2020"),
+(26, "IBM 5160","2020"),
+(26, "IBM 5162","2020"),
+(26, "IBM 5271","2020"),
+(26, "IBM 5160 Model 588","2020"),
+(26, "IBM 5155","2020"),
+(26, "IBM 4860","2020"),
+(26, "IBM 5170","2020"),
+(26, "IBM 5140","2020"),
+(26, "IBM 5281","2020"),
+(26, "IBM 5550","2020"),
+(26, "IBM 5510","2020"),
+(26, "IBM 5511","2020"),
+(26, "IBM 5530","2020"),
+(26, "IBM 5535","2020"),
+(26, "IBM 5541","2020"),
+(26, "IBM 5551","2020"),
+(26, "IBM 5561","2020"),
+(26, "IBM PS/2","2020"),
+(26, "IBM PS/1","2020"),
+(26, "IBM Aptiva","2020"),
+(26, "IBM PS/ValuePoint","2020"),
+(26, "IBM RT PC","2020"),
+(26, "IBM 4575","2020"),
+(26, "IBM 4576","2020"),
+(26, "IBM 7060, also known as Multiprise 3000","2020"),
+(26, "IBM System 9000","2020"),
+(26, "IBM 9075","2020"),
+(26, "IBM 9672","2020"),
+(26, "G1","2020"),
+(26, "G2","2020"),
+(26, "G3","2020"),
+(26, "G4","2020"),
+(26, "G5","2020"),
+(26, "G6","2020"),
+(26, "IBM 9674","2020"),
+(26, "IBM PC Series","2020"),
+(26, "IBM NetVista","2020"),
+(26, "IBM ThinkCentre","2020"),
+(26, "IBM ThinkPad","2020"),
+(26, "IBM IntelliStation Workstations","2020"),
+(26, "System/390","2020"),
+(26, "IBM AS/400","2020"),
+(26, "IBM System p","2020"),
+(26, "IBM System x","2020"),
+(26, "System z","2020"),
+(26, "zSeries","2020"),
+(26, "IBM PureSystems","2020"),
+(26, "IBM System Cluster 1350","2020"),
+(26, "IBM BladeCenter","2020"),
+(26, "IBM eServer 32x","2020"),
+(26, "IBM OpenPower","2020");
 
 -- phone
 
@@ -4702,13 +4767,9 @@ INSERT INTO Domains (name,is_certified, likes) VALUES
 ("codeproject.com",1,0);
 
 
-
-
-
-
 -- For Reviewing
 -- select * from Model;
- select * from brand where device_id=1;
+-- select * from brand where device_id=1;
 -- select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
 -- select * from model where brand_id>1;
 -- select * from Domains;
