@@ -4467,11 +4467,38 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (68, "Coral200 Sollar","2020"),
 (68, "Blade V20","2020");
 
-
-
-
-
-
+INSERT INTO Model (brand_id,name,year) VALUES 
+(69, "Surface Duo 2","2020"),
+(69, "Surface Duo","2020"),
+(69, "Lumia 650","2020"),
+(69, "Lumia 950 XL Dual SIM","2020"),
+(69, "Lumia 950 XL","2020"),
+(69, "Lumia 950 Dual SIM","2020"),
+(69, "Lumia 950","2020"),
+(69, "Lumia 550","2020"),
+(69, "Lumia 540 Dual SIM","2020"),
+(69, "Lumia 430 Dual SIM","2020"),
+(69, "Lumia 640 XL LTE Dual SIM","2020"),
+(69, "Lumia 640 XL LTE","2020"),
+(69, "Lumia 640 XL Dual SIM","2020"),
+(69, "Lumia 640 XL","2020"),
+(69, "Lumia 640 LTE Dual SIM","2020"),
+(69, "Lumia 640 LTE","2020"),
+(69, "Lumia 640 Dual SIM","2020"),
+(69, "Lumia 532 Dual SIM","2020"),
+(69, "Lumia 532","2020"),
+(69, "Lumia 435 Dual SIM","2020"),
+(69, "Lumia 435","2020"),
+(69, "Lumia 535 Dual SIM","2020"),
+(69, "Lumia 535","2020"),
+(69, "Surface 2","2020"),
+(69, "Surface","2020"),
+(69, "Kin TWOm","2020"),
+(69, "Kin ONEm","2020"),
+(69, "Kin Two","2020"),
+(69, "Kin One","2020"),
+(69, "Lumia 850","2020"),
+(69, "Lumia 1030","2020");
 
 
 
@@ -4503,7 +4530,7 @@ INSERT INTO Domains (name,is_certified, likes) VALUES
 
 -- For Reviewing
 -- select * from Model;
- select * from brand where device_id=2;
+-- select * from brand where device_id=2;
 -- select brand.name,model.name from model left join brand on model.brand_id=brand.id where brand_id>1; 
 -- select * from model where brand_id>1;
 -- select * from Domains;
