@@ -133,10 +133,17 @@ class PromptController extends Controller
         return response()->json(['error' => 'Azure Cognitive error']);
     }
 
+    /** 
+     * Extract device type, brand name, and model from a query using Google's Cloud Language API
+     * Also reformats query based on what stored information is recognized
+     * 
+     * TODO: Improve reformatting logic and move all query revision logic to its own function
+     * 
+     * @param Request $request (String $query)
+     * @return HttpJSONResponse
+     */
     public function extractSyntax(Request $request) : HttpJSONResponse {
         $query = $request->input('query', '');
-
-        $query = "my computer will not turn on aspire 3000";
 
         $config = [
             'keyFilePath' => config('services.google_cloud.credentials'),
@@ -156,7 +163,6 @@ class PromptController extends Controller
 
         if(!is_null($model)) {  //  Pull model name from text if possible
             $model = $model->name;
-            
             $revisedSentence = str_ireplace($model, $model, $revisedSentence);
         }
 
@@ -170,8 +176,7 @@ class PromptController extends Controller
         if(!is_null($device)) { //  Pull device type from text if possible
             $device = $device->name;
         } elseif(!is_null($model)) {    //  Determine device type from model (brand alone is not necessarily accurate)
-            $brandObj = DeviceModel::where('name', $model)->first()->brand;
-            $device = $brandObj->device->name;
+            $device = DeviceModel::where('name', $model)->first()->brand->device->name;
         }
 
         if(!is_null($device)) {
@@ -186,9 +191,15 @@ class PromptController extends Controller
                 }
             }
         }
-
-        $revisedSentence = str_ireplace($device, '', $revisedSentence);
-
         $revisedSentence = preg_replace('/\s+/', ' ', $revisedSentence);
+
+        $responseArr = [
+            'device' => $device,
+            'brand' => $brand,
+            'model' => $model,
+            'revisedQuery' => $revisedSentence,
+        ];
+
+        return response()->json($responseArr);
     }
 }
