@@ -136,7 +136,7 @@ class PromptController extends Controller
     public function extractSyntax(Request $request) : HttpJSONResponse {
         $query = $request->input('query', '');
 
-        $query = "my computer will not turn on";
+        $query = "my computer will not turn on aspire 3000";
 
         $config = [
             'keyFilePath' => config('services.google_cloud.credentials'),
@@ -144,33 +144,51 @@ class PromptController extends Controller
 
         $client = new LanguageClient($config);
 
-        $tokens = $client->analyzeSyntax($query)->tokens();
+        $annotated = $client->analyzeSyntax($query);
+        $tokens = $annotated->tokens();
+        $sentence = $annotated->sentences()[0]['text']['content'];
 
-        foreach($tokens as $token) {
-            $word = $token['text']['content'];
-            $tag = $token['partOfSpeech']['tag'];
+        $device = Device::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
+        $brand = Brand::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
+        $model = DeviceModel::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
+
+        $revisedSentence = preg_replace('/\s+/', ' ', $sentence);
+
+        if(!is_null($model)) {  //  Pull model name from text if possible
+            $model = $model->name;
             
-            echo($word . ': ' . $tag . ' ');
+            $revisedSentence = str_ireplace($model, $model, $revisedSentence);
+        }
 
-            if(strcmp($tag, 'NOUN') == 0) {
-                $device = Device::where('name', 'like', $word)->first();
-                $brand = Brand::where('name', 'like', $word)->first();
-                $model = DeviceModel::where('name', 'like', $word)->first();
+        if(!is_null($brand)) {  //  Pull brand name from text if possible
+            $brand = $brand->name;
+            $revisedSentence = str_ireplace($brand, $brand, $revisedSentence);
+        } elseif(!is_null($model)) {    //  Determine brand name from model
+            $brand = DeviceModel::where('name', $model)->first()->brand->name;
+        }
 
-                if(!is_null($device)) {
-                    echo('DEVICE');
-                }
+        if(!is_null($device)) { //  Pull device type from text if possible
+            $device = $device->name;
+        } elseif(!is_null($model)) {    //  Determine device type from model (brand alone is not necessarily accurate)
+            $brandObj = DeviceModel::where('name', $model)->first()->brand;
+            $device = $brandObj->device->name;
+        }
 
-                if(!is_null($brand)) {
-                    echo('BRAND');
-                }
+        if(!is_null($device)) {
+            if(!is_null($brand)) {
+                $revisedSentence = str_ireplace($brand, '', $revisedSentence);
 
                 if(!is_null($model)) {
-                    echo('MODEL');
+                    $revisedSentence = str_ireplace($model, '', $revisedSentence);
+                    $revisedSentence = str_ireplace($device, $brand . ' ' . $model, $revisedSentence);
+                } else {
+                    $revisedSentence = str_ireplace($device, $brand . ' ' . $device, $revisedSentence);
                 }
             }
-            echo('</br>');
         }
-        die();
+
+        $revisedSentence = str_ireplace($device, '', $revisedSentence);
+
+        $revisedSentence = preg_replace('/\s+/', ' ', $revisedSentence);
     }
 }
