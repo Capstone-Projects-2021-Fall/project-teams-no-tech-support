@@ -138,6 +138,7 @@ class PromptController extends Controller
      * Also reformats query based on what stored information is recognized
      * 
      * TODO: Improve reformatting logic and move all query revision logic to its own function
+     *       Add error catch for language API calls
      * 
      * @param Request $request (String $query)
      * @return HttpJSONResponse
