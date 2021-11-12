@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse as HttpJSONResponse;
 
+use Google\Cloud\Language\LanguageClient;
+
 use App\Models\Device;
 use App\Models\Brand;
 use App\Models\DeviceModel;
@@ -104,5 +106,101 @@ class PromptController extends Controller
             
             return ['error' => 'Search API returned error '.$errorType];
         }
+    }
+
+    /**
+     * Extract key phrases and categorize them using Azure Cognitive language API 
+     * 
+     * @param Request $request (String $query)
+     * @return HttpJSONResponse
+     */
+    public function extractPhrases(Request $request) : HttpJSONResponse {
+        $azureKey = config('services.azure_cognitive.key');  //  Retrieve Azure API key
+        $phrasesEndpoint = config('constants.azureCognitive.base') . config('constants.azureCognitive.keyPhrases');  //  Retrieve Azure endpoint constants
+
+        $query = $request->input('query', '');
+
+        if(strlen($query) > 0) {
+            $body = '{ documents: [{ id: "1", language:"en", text: "'.$query.'"}]}';
+
+            $response = Http::withHeaders([ //  Send basic get request
+                'Ocp-Apim-Subscription-Key' => $azureKey
+            ])->withBody($body, 'application/json')->post($phrasesEndpoint);
+
+            return response()->json($response->json()['documents'][0]['keyPhrases']);
+        }
+
+        return response()->json(['error' => 'Azure Cognitive error']);
+    }
+
+    /** 
+     * Extract device type, brand name, and model from a query using Google's Cloud Language API
+     * Also reformats query based on what stored information is recognized
+     * 
+     * TODO: Improve reformatting logic and move all query revision logic to its own function
+     *       Add error catch for language API calls
+     * 
+     * @param Request $request (String $query)
+     * @return HttpJSONResponse
+     */
+    public function extractSyntax(Request $request) : HttpJSONResponse {
+        $query = $request->input('query', '');
+
+        $config = [
+            'keyFilePath' => config('services.google_cloud.credentials'),
+        ];
+
+        $client = new LanguageClient($config);
+
+        $annotated = $client->analyzeSyntax($query);
+        $tokens = $annotated->tokens();
+        $sentence = $annotated->sentences()[0]['text']['content'];
+
+        $device = Device::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
+        $brand = Brand::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
+        $model = DeviceModel::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
+
+        $revisedSentence = preg_replace('/\s+/', ' ', $sentence);
+
+        if(!is_null($model)) {  //  Pull model name from text if possible
+            $model = $model->name;
+            $revisedSentence = str_ireplace($model, $model, $revisedSentence);
+        }
+
+        if(!is_null($brand)) {  //  Pull brand name from text if possible
+            $brand = $brand->name;
+            $revisedSentence = str_ireplace($brand, $brand, $revisedSentence);
+        } elseif(!is_null($model)) {    //  Determine brand name from model
+            $brand = DeviceModel::where('name', $model)->first()->brand->name;
+        }
+
+        if(!is_null($device)) { //  Pull device type from text if possible
+            $device = $device->name;
+        } elseif(!is_null($model)) {    //  Determine device type from model (brand alone is not necessarily accurate)
+            $device = DeviceModel::where('name', $model)->first()->brand->device->name;
+        }
+
+        if(!is_null($device)) {
+            if(!is_null($brand)) {
+                $revisedSentence = str_ireplace($brand, '', $revisedSentence);
+
+                if(!is_null($model)) {
+                    $revisedSentence = str_ireplace($model, '', $revisedSentence);
+                    $revisedSentence = str_ireplace($device, $brand . ' ' . $model, $revisedSentence);
+                } else {
+                    $revisedSentence = str_ireplace($device, $brand . ' ' . $device, $revisedSentence);
+                }
+            }
+        }
+        $revisedSentence = preg_replace('/\s+/', ' ', $revisedSentence);
+
+        $responseArr = [
+            'device' => $device,
+            'brand' => $brand,
+            'model' => $model,
+            'revisedQuery' => $revisedSentence,
+        ];
+
+        return response()->json($responseArr);
     }
 }

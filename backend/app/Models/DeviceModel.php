@@ -14,7 +14,7 @@ class DeviceModel extends Model
     protected $table = 'Model';
     public $timestamps = false;
 
-    public function device () {
-        return $this->hasOne(Device::class, 'id');
+    public function brand () {
+        return $this->belongsTo(Brand::class);
     }
 }
