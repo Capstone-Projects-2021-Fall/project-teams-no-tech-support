@@ -125,7 +125,7 @@ class DesktophomePage extends StatelessWidget {
                 );
               },
               onSelected: (selectedString) {
-                globals.comm.search = selectedString.toString();
+                //globals.comm.search = selectedString.toString();
                 //getSearch();
               },
               fieldViewBuilder:

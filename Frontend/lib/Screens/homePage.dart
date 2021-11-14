@@ -50,7 +50,7 @@ class DesktophomePage extends StatelessWidget {
           print(users[i].RtnName.toString());
           jsonStringData.insert(i, users[i].RtnName.toString());
         }
-        autoCompleteData = jsonStringData;
+        //autoCompleteData = jsonStringData;
         //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
         print("Error getting users.");
@@ -153,6 +153,72 @@ class DesktophomePage extends StatelessWidget {
                   ),
                 );
               },
+            ),
+
+            Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Text(' '),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Card(
+                  child: Column(
+                    children: [
+                      Text(
+                          'There is not matched device, brand and model, do you want to add them manually? '),
+                      Row(children: [
+                        MaterialButton(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => tempSearchPage(),
+                            //   ),
+                            // );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2.0, horizontal: 2.0),
+                            child: Text(
+                              "Yes",
+                              style:
+                                  TextStyle(fontSize: 8.0, color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        MaterialButton(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                          onPressed: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => tempSearchPage(),
+                            //   ),
+                            // );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2.0, horizontal: 2.0),
+                            child: Text(
+                              "No",
+                              style:
+                                  TextStyle(fontSize: 8.0, color: Colors.black),
+                            ),
+                          ),
+                        )
+                      ])
+                    ],
+                  ),
+                ),
+              ],
             ),
 
             Padding(
