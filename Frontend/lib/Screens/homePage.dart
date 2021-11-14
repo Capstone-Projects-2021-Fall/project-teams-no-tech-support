@@ -191,6 +191,10 @@ class DesktophomePage extends StatelessWidget {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text(' '),
+                        ),
                         MaterialButton(
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
