@@ -6,28 +6,18 @@ This application proposes a search tool intended to act as an alternative to tra
 
 Users will access No Tech Support from a standard web browser on either a mobile phone, desktop, or laptop. They will first be prompted for their problem device and will then be given further prompts based on input to previous prompts. The user will be provided autocorrect and text suggestions when typing into each prompt area. Once enough detail has been given or a user is no longer able to provide other details, the user can click a button to perform a web search. The user will be provided with sorted search results with the most relevant or recommended at the top. An overlay will allow the user to rank their current link for helpfulness. A bar with the final query and brand-relevant tech support information will be displayed, if possible, for the information provided.
 
-## Release Notes for v2.0 (Milestone 2) 
+## Release Notes for v3.0 (Milestone 3) 
 
-* Fixed links on home page
-* Populated database with brands and models for use with autocompletion
-  * Brands for both phones and computers are included
-  * Brands all have tech support numbers included for later use
-  * Multiple common models are included for each brand
-* Improved main search page (iTechSupport titled page)
-  * Added What/When/Why text boxes for collecting information
-  * Enabled auto-complete functionality for device, brand, and model prompts
-  * Enabled filtering autocompletion results from previous prompt input
-    * Brands are filtered by device type
-    * Models are sorted by brand and device type
-* Updated backend API for stability and expanded API documentation
-  * Greatly expanded unit tests
-  * Improved error checks for bad input and feedback
-
-* Added to the results page
-  * Results are gotten from the backend based on the question string from the Query Filtering vue
-  * Ued results to buil a generic seaarch results page
-* Link API data to Query Filtering Page
-* Synchronized all pages and the required data
+* Updated home page layout
+  * Added search bar
+* Changed search flow
+  * Device, brand, and model are now detected from an initial query
+  * If device, brand, and model are present, the query is refined and the user is brought to the refining page
+  * If the device, brand, or model is missing, the user is brought to a page and missing infomation is requested but not required before the user is allowed to continue to the query refining page
+* Added language detection to the backend
+  * Google's Cloud Natural Language API has been added but not fully implemented into logic
+  * Added MySQL-based device, brand, and model recognition
+    * Device and brand can be found if a model is present that exists in the No Tech Support database
 
 Please see the [releases page](https://github.com/Capstone-Projects-2021-Fall/project-teams-no-tech-support/releases) for information on non-visual changes such as work on the backend and database
 
@@ -103,6 +93,29 @@ Although No Tech Support will work on any browser, testing should focus on deskt
 * Henry Kombem
 
 ## Previous Release Notes
+
+### Release Notes for v2.0 (Milestone 2)
+
+* Fixed links on home page
+* Populated database with brands and models for use with autocompletion
+  * Brands for both phones and computers are included
+  * Brands all have tech support numbers included for later use
+  * Multiple common models are included for each brand
+* Improved main search page (iTechSupport titled page)
+  * Added What/When/Why text boxes for collecting information
+  * Enabled auto-complete functionality for device, brand, and model prompts
+  * Enabled filtering autocompletion results from previous prompt input
+    * Brands are filtered by device type
+    * Models are sorted by brand and device type
+* Updated backend API for stability and expanded API documentation
+  * Greatly expanded unit tests
+  * Improved error checks for bad input and feedback
+
+* Added to the results page
+  * Results are gotten from the backend based on the question string from the Query Filtering vue
+  * Ued results to buil a generic seaarch results page
+* Link API data to Query Filtering Page
+* Synchronized all pages and the required data
 
 ### Release Notes for v1.0 (Milestone 1) 
 
