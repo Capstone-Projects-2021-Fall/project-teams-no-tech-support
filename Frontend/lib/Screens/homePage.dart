@@ -28,11 +28,11 @@ class DesktophomePage extends StatelessWidget {
   late TextEditingController controller;
   late List<globals.Album> users;
 
-  void getSearch() async {
+  void SendQuestion() async {
     try {
       final response = await http.get(
-          Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=device'),
+          Uri.parse('http://notechapi.aidanbuehler.net/extract?query=' +
+              globals.comm.question),
           headers: {
             "Accept": "*/*",
             "Access-Control_Allow_Origin": "*",
@@ -50,7 +50,7 @@ class DesktophomePage extends StatelessWidget {
           print(users[i].RtnName.toString());
           jsonStringData.insert(i, users[i].RtnName.toString());
         }
-        autoCompleteDataSearch = jsonStringData;
+        autoCompleteData = jsonStringData;
         //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
         print("Error getting users.");
@@ -125,8 +125,7 @@ class DesktophomePage extends StatelessWidget {
                 );
               },
               onSelected: (selectedString) {
-                globals.comm.search = selectedString.toString();
-                //getSearch();
+                globals.comm.question = selectedString.toString();
               },
               fieldViewBuilder:
                   (context, controller, focusNode, onEditingComplete) {
@@ -166,12 +165,15 @@ class DesktophomePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => tempSearchPage(),
-                  ),
-                );
+                //
+                SendQuestion();
+
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => tempSearchPage(),
+                //   ),
+                // );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
