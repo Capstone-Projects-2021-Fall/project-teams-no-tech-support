@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse as HttpJSONResponse;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 use App\Models\Domain;
+use App\Models\Brand;
 
 /**
  * Controller class which handles all operations related to performing searches and ingesting the new domains
@@ -116,6 +117,7 @@ class SearchController extends Controller
      */
     public function getResults(Request $request) : HttpJSONResponse {
         $query = $request->input('query', '');  
+        $brand = $request->input('brand', '');  
 
         if(strlen($query) > 0) {
             $response = $this->search($query);
@@ -127,6 +129,15 @@ class SearchController extends Controller
         
                 $sorted = $this->sortResults($results);
         
+                if(strlen($brand) > 0) {
+                    $brandData = Brand::where('name', $brand)->pluck('tech_support_number')->all();
+                    $phone = '';
+                    if(count($brandData) > 0) {
+                        $phone = $brandData[0];
+                    }  
+                    $sorted['tech_support_number'] = $phone;
+                }
+
                 return response()->json($sorted);
             } else {
                 $errorType = '(server)';
