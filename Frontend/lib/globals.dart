@@ -23,15 +23,19 @@ class comm {
     final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
     return parsed.map<Album>((json) => Album.fromJson(json)).toList();
   }
+
   static String search = '';
   static String mydevice = '';
   static String mybrand = '';
   static String mymodel = '';
+  //need delete
   static String what = '';
   static String when = '';
   static String why = '';
-   static String question = '';
+  //////////
+  static String question = '';
+  static String reviseQuery = '';
 
-  static String InitialGeneratedQuery = question + " "+ mybrand + " "+ mymodel + " "+ mydevice;
-  
+  static String InitialGeneratedQuery =
+      question + " " + mybrand + " " + mymodel + " " + mydevice;
 }
