@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse as HttpJSONResponse;
 
+use App\Models\Domain;
+
 /**
  * Controller class which handles all operations specific to Domain objects
  */
@@ -17,11 +19,16 @@ class DomainController extends Controller
      * @return HttpJSONResponse ({boolean is_certified, int likes})
      */
     public function getRating(Request $request) : HttpJSONResponse {
-        $domain = $request->input('domain', '');  
-
-        //  TODO: Implement rating retrieval
-
-        return response()->json($domain);
+        $domainName = $request->input('domain', '');  
+        $domain = NULL;
+        if(strlen($domainName) > 0) {
+            $domain = Domain::where('name', $domainName)->first();
+            if(is_null($domain)) {
+                return response()->json(['error' => 'Backend API returned error: Domain not found']);
+            }
+            return response()->json($domain);
+        }
+        return response()->json(['error' => 'Backend API returned error: Null input']);
     }
 
     /**
@@ -31,9 +38,15 @@ class DomainController extends Controller
      * @return void
      */
     public function rateDomain(Request $request) : void {
-        $domain = $request->input('domain', '');
+        $domainName = $request->input('domain', '');
         $like = $request->input('like', true);
 
-        //  TODO: Implement domain rating ability
+        if(strlen($domainName) > 0) {
+            if($like) {
+                $domain = Domain::where('name', $domainName)->increment('likes');
+            } else {
+                $domain = Domain::where('name', $domainName)->decrement('likes');
+            }
+        }
     }
 }

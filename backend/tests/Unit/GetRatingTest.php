@@ -65,8 +65,9 @@ class GetRatingTest extends TestCase
         $response = $this->json('GET','/domain', ['domain' => $newDomain->name]);
 
         $response->assertSuccessful()->assertJson(fn (AssertableJson $json) =>
-            $json->where('rating', $newDomain->likes)
+            $json->where('likes', $newDomain->likes)
                 ->where('is_certified', $newDomain->is_certified)
+                ->etc()
         );
     }
 
@@ -83,8 +84,9 @@ class GetRatingTest extends TestCase
         $response = $this->json('GET','/domain', ['domain' => $newDomain->name]);
 
         $response->assertSuccessful()->assertJson(fn (AssertableJson $json) =>
-            $json->where('rating', $newDomain->likes)
+            $json->where('likes', $newDomain->likes)
                 ->where('is_certified', $newDomain->is_certified)
+                ->etc()
         );
     }
 }
