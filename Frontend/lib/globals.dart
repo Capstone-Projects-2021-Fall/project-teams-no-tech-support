@@ -42,10 +42,16 @@ class TQuestion {
 }
 
 class comm {
-  //load json to list
+  //load json to list for device model and brand
   static List<Album> loadJson(String jsonString) {
     final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
     return parsed.map<Album>((json) => Album.fromJson(json)).toList();
+  }
+
+  //load json to list for revise query device model and brand
+  static List<TQuestion> loadQuestionJson(String jsonString) {
+    final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
+    return parsed.map<TQuestion>((json) => TQuestion.fromJson(json)).toList();
   }
 
   static String mydevice = '';
