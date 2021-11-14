@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Screens/MobileSearchPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/Screens/tempSearchPage.dart';
+import 'package:myapp/Screens/questionFilteringPage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:substring_highlight/substring_highlight.dart';
@@ -16,7 +17,8 @@ class homePage extends StatelessWidget {
         } else if (constraints.maxWidth > 800 && constraints.maxWidth < 1200) {
           return DesktophomePage();
         } else {
-          return MobilehomePage();
+          return DesktophomePage();
+          //return MobilehomePage();
         }
       },
     );
@@ -27,6 +29,57 @@ class DesktophomePage extends StatelessWidget {
   late List<String> autoCompleteDataSearch;
   late TextEditingController controller;
   late List<globals.Album> users;
+
+  String generateInitialQuery() {
+    return globals.comm.question +
+        " " +
+        globals.comm.mybrand +
+        " " +
+        globals.comm.mymodel +
+        " " +
+        globals.comm.mydevice;
+  }
+
+  void showMyMaterialDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new AlertDialog(
+            title: new Text(" "),
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.45,
+              child: Text(
+                "There is not matched device, brand and model, do you want to add them manually? ",
+              ),
+            ),
+            actions: <Widget>[
+              new MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => tempSearchPage(),
+                    ),
+                  );
+                },
+                child: new Text("Yes"),
+              ),
+              new MaterialButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuestionOptimizationPage(
+                          generatedQuestion: generateInitialQuery()), //
+                    ),
+                  );
+                },
+                child: new Text("No"),
+              ),
+            ],
+          );
+        });
+  }
 
   void SendQuestion() async {
     try {
@@ -155,75 +208,75 @@ class DesktophomePage extends StatelessWidget {
               },
             ),
 
-            Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Text(' '),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      Text(
-                          'There is not matched device, brand and model, do you want to add them manually? '),
-                      Row(children: [
-                        MaterialButton(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => tempSearchPage(),
-                            //   ),
-                            // );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2.0, horizontal: 2.0),
-                            child: Text(
-                              "Yes",
-                              style:
-                                  TextStyle(fontSize: 8.0, color: Colors.black),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: Text(' '),
-                        ),
-                        MaterialButton(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0))),
-                          onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => tempSearchPage(),
-                            //   ),
-                            // );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2.0, horizontal: 2.0),
-                            child: Text(
-                              "No",
-                              style:
-                                  TextStyle(fontSize: 8.0, color: Colors.black),
-                            ),
-                          ),
-                        )
-                      ])
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            // Padding(
+            //   padding: EdgeInsets.all(5.0),
+            //   child: Text(' '),
+            // ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     Card(
+            //       child: Column(
+            //         children: [
+            //           Text(
+            //               'There is not matched device, brand and model, do you want to add them manually? '),
+            //           Row(children: [
+            //             MaterialButton(
+            //               color: Colors.white,
+            //               shape: RoundedRectangleBorder(
+            //                   borderRadius:
+            //                       BorderRadius.all(Radius.circular(10.0))),
+            //               onPressed: () {
+            //                 // Navigator.push(
+            //                 //   context,
+            //                 //   MaterialPageRoute(
+            //                 //     builder: (context) => tempSearchPage(),
+            //                 //   ),
+            //                 // );
+            //               },
+            //               child: Padding(
+            //                 padding: const EdgeInsets.symmetric(
+            //                     vertical: 2.0, horizontal: 2.0),
+            //                 child: Text(
+            //                   "Yes",
+            //                   style:
+            //                       TextStyle(fontSize: 8.0, color: Colors.black),
+            //                 ),
+            //               ),
+            //             ),
+            //             Padding(
+            //               padding: EdgeInsets.all(5.0),
+            //               child: Text(' '),
+            //             ),
+            //             MaterialButton(
+            //               color: Colors.white,
+            //               shape: RoundedRectangleBorder(
+            //                   borderRadius:
+            //                       BorderRadius.all(Radius.circular(10.0))),
+            //               onPressed: () {
+            //                 // Navigator.push(
+            //                 //   context,
+            //                 //   MaterialPageRoute(
+            //                 //     builder: (context) => tempSearchPage(),
+            //                 //   ),
+            //                 // );
+            //               },
+            //               child: Padding(
+            //                 padding: const EdgeInsets.symmetric(
+            //                     vertical: 2.0, horizontal: 2.0),
+            //                 child: Text(
+            //                   "No",
+            //                   style:
+            //                       TextStyle(fontSize: 8.0, color: Colors.black),
+            //                 ),
+            //               ),
+            //             )
+            //           ])
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // ),
 
             Padding(
               padding: EdgeInsets.all(2.0),
@@ -237,6 +290,7 @@ class DesktophomePage extends StatelessWidget {
               onPressed: () {
                 //
                 SendQuestion();
+                showMyMaterialDialog(context);
 
                 // Navigator.push(
                 //   context,
