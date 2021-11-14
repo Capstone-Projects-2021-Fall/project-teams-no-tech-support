@@ -50,7 +50,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      //Image.asset('images/pic1.jpg'),
+                      Image.asset('Aidan.png'),
                       Text('Aidan E Buehler'),
                     ],
                   ),
@@ -59,7 +59,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      //Image.asset('images/pic1.jpg'),
+                      Image.asset('Jixi.png'),
                       Text('Jixi He'),
                     ],
                   ),
@@ -68,7 +68,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      //Image.asset('images/pic1.jpg'),
+                      Image.asset('Henry.png'),
                       Text('Henry Keja Kombem'),
                     ],
                   ),
@@ -77,7 +77,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      //Image.asset('images/pic1.jpg'),
+                      Image.asset('Dajun.png'),
                       Text('Dajun Lin'),
                     ],
                   ),
@@ -86,7 +86,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                 Card(
                   child: Column(
                     children: [
-                      //Image.asset('images/pic1.jpg'),
+                      Image.asset('Yangmiao.png'),
                       Text('Yangmiao Wu'),
                     ],
                   ),
