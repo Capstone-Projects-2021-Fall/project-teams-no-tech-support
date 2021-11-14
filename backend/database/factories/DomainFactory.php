@@ -23,7 +23,7 @@ class DomainFactory extends Factory
     {
         return [
             'name' => $this->faker->domainName(),
-            'is_certified' => false,
+            'is_certified' => 0,
             'likes' => 0,
         ];
     }
@@ -37,7 +37,7 @@ class DomainFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_certified' => true,
+                'is_certified' => 1,
             ];
         });
     }
