@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Screens/MobileSearchPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
-import 'package:myapp/Screens/tempSearchPage.dart';
+//import 'package:myapp/Screens/tempSearchPage.dart';
 import 'package:myapp/Screens/questionFilteringPage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:http/http.dart' as http;
@@ -28,7 +28,7 @@ class homePage extends StatelessWidget {
 class DesktophomePage extends StatelessWidget {
   late List<String> autoCompleteDataSearch;
   late TextEditingController controller;
-  late List<globals.Album> users;
+  late List<globals.TQuestion> ReviseQuery;
 
   String generateInitialQuery() {
     return globals.comm.question +
@@ -58,7 +58,7 @@ class DesktophomePage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => tempSearchPage(),
+                      builder: (context) => searchPage(),
                     ),
                   );
                 },
@@ -95,16 +95,15 @@ class DesktophomePage extends StatelessWidget {
           });
 
       if (response.statusCode == 200) {
-        users = globals.comm.loadJson(response.body);
+        ReviseQuery = globals.comm.loadQuestionJson(response.body);
 
-        var jsonStringData = <String>[];
-
-        for (int i = 0; i < users.length; i++) {
-          print(users[i].RtnName.toString());
-          jsonStringData.insert(i, users[i].RtnName.toString());
+        if (ReviseQuery.length > 0) {
+          print(ReviseQuery[0].sQuery.toString());
+          globals.comm.mydevice = ReviseQuery[0].sDevice.toString();
+          globals.comm.mybrand = ReviseQuery[0].sBrand.toString();
+          globals.comm.mymodel = ReviseQuery[0].sModel.toString();
+          globals.comm.reviseQuestion = ReviseQuery[0].sQuery.toString();
         }
-        //autoCompleteData = jsonStringData;
-        //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
         print("Error getting users.");
       }
