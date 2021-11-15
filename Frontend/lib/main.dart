@@ -10,7 +10,6 @@ import 'package:myapp/Screens/current_device.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,10 +40,9 @@ class MyHomePage extends StatelessWidget {
             children: <Widget>[
               Navbar(),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 100.0, horizontal: 80.0),
-                child: homePage()
-              )
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 100.0, horizontal: 80.0),
+                  child: homePage())
             ],
           ),
         ),
@@ -73,10 +71,9 @@ class myresultpage extends StatelessWidget {
             children: <Widget>[
               Navbar(),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 20.0, horizontal: 40.0),
-                child: resultPage()
-              )
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 40.0),
+                  child: resultPage())
             ],
           ),
         ),
@@ -84,25 +81,18 @@ class myresultpage extends StatelessWidget {
     );
   }
 }
+
 class mysearchpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-                child: searchPage()
-              )
-    );
+    return Scaffold(body: Container(child: searchPage()));
   }
 }
 
 class Mobilemysearchpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-                child: MobilesearchPage()
-              )
-    );
+    return Scaffold(body: Container(child: MobilesearchPage()));
   }
 }
 
@@ -126,10 +116,9 @@ class myaboutUsPage extends StatelessWidget {
             children: <Widget>[
               Navbar(),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 20.0, horizontal: 40.0),
-                child: aboutUsPage()
-              )
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 40.0),
+                  child: aboutUsPage())
             ],
           ),
         ),
@@ -138,14 +127,9 @@ class myaboutUsPage extends StatelessWidget {
   }
 }
 
-
 class mydeviceinfopage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-                child: DeviceDetail()
-              )
-    );
+    return Scaffold(body: Container(child: DeviceDetail()));
   }
 }

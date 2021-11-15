@@ -41,7 +41,7 @@ class DesktophomePage extends StatelessWidget {
         globals.comm.mydevice;
   }
 
-  void showMyMaterialDialog(BuildContext context) {
+  void showMyMaterialDialog(BuildContext context, String sS) {
     showDialog(
         context: context,
         builder: (context) {
@@ -50,7 +50,9 @@ class DesktophomePage extends StatelessWidget {
             content: Container(
               width: MediaQuery.of(context).size.width * 0.45,
               child: Text(
-                "There is not matched device, brand and model, do you want to add them manually? ",
+                "There is not matched " +
+                    sS +
+                    ", do you want to add them manually? ",
               ),
             ),
             actions: <Widget>[
@@ -61,8 +63,7 @@ class DesktophomePage extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => searchPage(),
                     ),
-                  );
-                  //Navigator.of(context).pop();
+                  ).then((value) => Navigator.of(context).pop());
                 },
                 child: new Text("Yes"),
               ),
@@ -74,8 +75,7 @@ class DesktophomePage extends StatelessWidget {
                       builder: (context) => QuestionOptimizationPage(
                           generatedQuestion: generateInitialQuery()), //
                     ),
-                  );
-                  //Navigator.of(context).pop();
+                  ).then((value) => Navigator.of(context).pop());
                 },
                 child: new Text("No"),
               ),
@@ -108,24 +108,28 @@ class DesktophomePage extends StatelessWidget {
       if (response.statusCode == 200) {
         Map<String, dynamic> user = jsonDecode(response.body);
 
-        globals.comm.mydevice = (user['device'].toString() == "null")
+        globals.comm.mydevice =
+            (user['device'] == null) ? "" : user['device'].toString();
+        globals.comm.mybrand =
+            (user['brand'] == null) ? "" : user['brand'].toString();
+        globals.comm.mymodel =
+            (user['model'] == null) ? "" : user['model'].toString();
+        globals.comm.reviseQuestion = (user['revisedQuery'] == null)
             ? ""
-            : user['device'].toString();
-        globals.comm.mybrand = (user['brand'].toString() == "null")
-            ? ""
-            : user['brand'].toString();
-        globals.comm.mymodel = (user['model'].toString() == "null")
-            ? ""
-            : user['model'].toString();
-        globals.comm.reviseQuestion = user['revisedQuery'].toString();
+            : user['revisedQuery'].toString();
 
+//showMyMaterialDialog
         /////////
         bool isOk = ((globals.comm.mydevice == "") &&
             (globals.comm.mybrand == "") &&
             (globals.comm.mymodel == ""));
+        String ss = "";
+        if (globals.comm.mydevice == "") ss += "device ";
+        if (globals.comm.mybrand == "") ss += "brand ";
+        if (globals.comm.mymodel == "") ss += "model ";
 
         if (isOk) {
-          showMyMaterialDialog(context);
+          showMyMaterialDialog(context, ss);
         } else {
           Navigator.push(
             context,
