@@ -30,7 +30,7 @@ class comm {
   static String what = '';
   static String when = '';
   static String why = '';
-   static String question = '';
+  static String question = '';
 
   static String InitialGeneratedQuery = question + " "+ mybrand + " "+ mymodel + " "+ mydevice;
   

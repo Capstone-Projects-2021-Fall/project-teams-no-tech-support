@@ -42,9 +42,6 @@ class ResultsPageState extends State<ResultsPage> {
         results = value;
         textlinks = value.textLinks;
       });
-
-      //queryLog.add(new Question("initialQuestion", <String>[]));
-      print("Async done");
     });
   }
 
