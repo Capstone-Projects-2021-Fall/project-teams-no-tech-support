@@ -9,7 +9,6 @@ Future<Results> getResults(String question) async {
   String urlString =
       'http://notechapi.aidanbuehler.net/results?query=' + question;
   Uri url = Uri.parse(urlString);
-
   try {
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
