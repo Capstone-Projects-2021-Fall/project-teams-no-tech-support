@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse as HttpJSONResponse;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 
 use App\Models\Domain;
+use App\Models\Brand;
 
 /**
  * Controller class which handles all operations related to performing searches and ingesting the new domains
@@ -115,26 +116,40 @@ class SearchController extends Controller
      * @return HttpJSONResponse
      */
     public function getResults(Request $request) : HttpJSONResponse {
-        $query = $request->input('query');  
+        $query = $request->input('query', '');  
+        $brand = $request->input('brand', '');  
 
-        $response = $this->search($query);
-        
-        if($response->successful()) {
-            $results = $response->object();
-
-            $this->storeDomains($results);
-    
-            $sorted = $this->sortResults($results);
-    
-            return response()->json($sorted);
-        } else {
-            $errorType = '(server)';
-            if($response->clientError()) {
-                $errorType = '(client)';
-            } 
+        if(strlen($query) > 0) {
+            $response = $this->search($query);
             
-            return response()->json(['error' => 'Search API returned error '.$errorType]);
+            if($response->successful()) {
+                $results = $response->object();
+
+                $this->storeDomains($results);
+        
+                $sorted = $this->sortResults($results);
+        
+                if(strlen($brand) > 0) {
+                    $brandData = Brand::where('name', $brand)->pluck('tech_support_number')->all();
+                    $phone = '';
+                    if(count($brandData) > 0) {
+                        $phone = $brandData[0];
+                    }  
+                    $sorted['tech_support_number'] = $phone;
+                }
+
+                return response()->json($sorted);
+            } else {
+                $errorType = '(server)';
+                if($response->clientError()) {
+                    $errorType = '(client)';
+                } 
+                
+                return response()->json(['error' => 'Search API returned error '.$errorType]);
+            }
         }
+
+        return response()->json(NULL);
     }
 
     /**
@@ -147,31 +162,37 @@ class SearchController extends Controller
         $bingKey = config('services.bing_search.key');  //  Retrieve Bing API key
         $searchEndpoint = config('constants.bing.base') . config('constants.bing.search');  //  Retrieve Bing endpoint constants
 
-        $query = $request->input('query');
+        $query = $request->input('query', '');
 
         $filters = 'RelatedSearches';
 
-        $response = Http::withHeaders([ //  Send basic get request
-            'Ocp-Apim-Subscription-Key' => $bingKey,
-            'Pragma' => 'no-cache'
-        ])->get($searchEndpoint, [
-            'q' => urlencode($query),
-            'responseFilter' => $filters,
-            'count' => 50,  //  Max count is 50
-        ]);
+        if(strlen($query) > 0) {
+            $response = Http::withHeaders([ //  Send basic get request
+                'Ocp-Apim-Subscription-Key' => $bingKey,
+                'Pragma' => 'no-cache'
+            ])->get($searchEndpoint, [
+                'q' => urlencode($query),
+                'responseFilter' => $filters,
+                'count' => 50,  //  Max count is 50
+            ]);
 
-        if($response->successful()) {
-            $results = $response->json()['relatedSearches']['value'];
+            if($response->successful()) {
+                $json = $response->json();
 
-            return response()->json($results);
-        } else {
-            $errorType = '(server)';
-            if($response->clientError()) {
-                $errorType = '(client)';
+                if(array_key_exists('relatedSearches', $json)) {
+                    return response()->json($json['relatedSearches']['value']);
+                }
+            } else {
+                $errorType = '(server)';
+                if($response->clientError()) {
+                    $errorType = '(client)';
+                }
+                
+                return response()->json(['error' => 'Search API returned error '.$errorType]);
             }
-            
-            return response()->json(['error' => 'Search API returned error '.$errorType]);
         }
+
+        return response()->json(NULL);
     }
 
     /**

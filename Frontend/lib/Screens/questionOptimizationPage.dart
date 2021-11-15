@@ -8,6 +8,7 @@ import 'package:myapp/Models/_results.dart';
 import 'package:myapp/Screens/resultsPage.dart';
 import 'package:myapp/Screens/tempSearchPage.dart';
 import 'package:myapp/partsOfSpeech.dart';
+import 'package:myapp/globals.dart' as globals;
 
 class QuestionOptimizationPage extends StatefulWidget {
   final String generatedQuestion;
@@ -33,6 +34,7 @@ class WordFrequency {
 class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
   int addedQueryCounter = 0;
   List<Question> queryLog = <Question>[];
+  String selectedIssue = '';
   Question activeQuery = new Question("", <String>[]);
   String activeQueryName = '';
   String initialQueryName = 'Initial Question ';
@@ -42,30 +44,38 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
   Results allResults = new Results([], []);
   List<WordFrequency> mostRecurringWordsInResultHeaders = [];
 
+  String getFomulatedQuery() {
+    // globals.comm.reviseQuestion = globals.comm.reviseQuestion.toLowerCase().replaceAll('computer', '');
+    // globals.comm.reviseQuestion = globals.comm.reviseQuestion.toLowerCase().replaceAll('phone', '');
+    if (globals.comm.mymodel.isNotEmpty) {
+      return globals.comm.mybrand.toLowerCase() +
+          " " +
+          globals.comm.mymodel +
+          " " +
+          globals.comm.reviseQuestion;
+    } else if (globals.comm.mybrand.isNotEmpty) {
+      return globals.comm.mybrand.toLowerCase() +
+          " " +
+          globals.comm.reviseQuestion;
+    } else if (globals.comm.mydevice.isNotEmpty) {
+      return globals.comm.mydevice.toLowerCase() +
+          " " +
+          globals.comm.reviseQuestion;
+    } else {
+      return globals.comm.question;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     activeQueryName = initialQueryName;
-    String initialQuestion = widget.generatedQuestion;
-    // getRelatedSearches(initialQuestion).then((value) {
-    //   setState(() {
-    //     activeQuery = new Question(initialQuestion, value);
-    //     queryLog.add(activeQuery);
-    //   });
-    // });
+    String initialQuestion = getFomulatedQuery();
     getResults(initialQuestion).then((value) {
       setState(() {
-        // debugger();
-        // activeQuery = new Question("What is CORS issue in javascript", []);
-        // queryLog.add(activeQuery);
         allResults = value;
-        // List<String> tempPrePosition = ["when", "by"];
-        // // List<WordFrequency> tempFrequentHeaders = [];
-        // // tempFrequentHeaders.add(new WordFrequency("cors", 4));
-        // // tempFrequentHeaders.add(new WordFrequency("javascript", 2));
-        // int mostRecurringWordsInResultHeadersLength = 0;
-
-        activeQuery = new Question(initialQuestion, getOptimizedResultsHeaders());
+        activeQuery =
+            new Question(initialQuestion, getOptimizedResultsHeaders());
         queryLog.add(activeQuery);
         //debugger();
       });
@@ -80,35 +90,38 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
       int highFrequencyMatches = 0;
       mostRecurringWordsInResultHeaders.forEach((element) {
         //debugger();
-        if (textlink.name.toLowerCase().contains(element.word.toLowerCase() + ' ')) {
+        if (textlink.name
+            .toLowerCase()
+            .contains(element.word.toLowerCase() + ' ')) {
           //debugger();
           highFrequencyMatches++;
           if (highFrequencyMatches ==
               mostRecurringWordsInResultHeaders.length) {
-            for (String prePosition in partsOfSpeech.partsOfSpeechforAcceptedResultFiltering) {
+            for (String prePosition
+                in partsOfSpeech.partsOfSpeechforAcceptedResultFiltering) {
               //debugger();
               bool breakOutOfPrepositionLoop = false;
               //debugger();
-               for (String text in partsOfSpeech.unwantedTextForFiltering) {
-                if(textlink.name.toLowerCase().contains(text.toLowerCase())){
+              for (String text in partsOfSpeech.unwantedTextForFiltering) {
+                if (textlink.name.toLowerCase().contains(text.toLowerCase())) {
                   breakOutOfPrepositionLoop = true;
                   break;
                 }
               }
-              if(breakOutOfPrepositionLoop){
+              if (breakOutOfPrepositionLoop) {
                 break;
               }
-              if (textlink.name.toLowerCase().contains(prePosition.toLowerCase())) {
-                //textlink.name = textlink.name.replaceAll('...', '');
-                //debugger();
-                 //if(!textlink.domain.url.toLowerCase().contains("youtube")){ /* Youtube links will be used for video results */
-                  acceptedResultHeaders.add(textlink.name);
-                  break;
-                //} 
-              
+              if (textlink.name
+                      .toLowerCase()
+                      .contains(prePosition.toLowerCase()) &&
+                  textlink.name.toLowerCase() != selectedIssue.toLowerCase()) {
+                acceptedResultHeaders.add(textlink.name);
+                break;
               }
-              if(breakOutOfPrepositionLoop){break;};
-              
+              if (breakOutOfPrepositionLoop) {
+                break;
+              }
+              ;
             }
             ;
           }
@@ -119,7 +132,8 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
     return acceptedResultHeaders.toSet().toList();
   }
 
-  List<WordFrequency> getmostRecurringWordsInResultHeaders(int frequencyDifferenceCap) {
+  List<WordFrequency> getmostRecurringWordsInResultHeaders(
+      int frequencyDifferenceCap) {
     /* frequencyDifferenceCap is the accepted frequency difference between the words of high frequency, to determing the most recurring text in the result headers*/
     if (allResults.textLinks.isEmpty) return [];
 //debugger();
@@ -179,12 +193,11 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
     });
   }
 
-  addToQueryLog(String? question)  {
-     
-       getResults(question.toString()).then((value) {
-   
+  addToQueryLog(String? question) {
+    selectedIssue = question.toString();
+    getResults(question.toString()).then((value) {
       setState(() {
-             //debugger();
+        //debugger();
         // debugger();
         // activeQuery = new Question("What is CORS issue in javascript", []);
         // queryLog.add(activeQuery);
@@ -195,14 +208,13 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
         // // tempFrequentHeaders.add(new WordFrequency("javascript", 2));
         // int mostRecurringWordsInResultHeadersLength = 0;
 
-        activeQuery = new Question(question.toString(), getOptimizedResultsHeaders());
+        activeQuery =
+            new Question(question.toString(), getOptimizedResultsHeaders());
         queryLog.add(activeQuery);
         activeQueryName = 'Related Issue ${queryLog.length - 1}';
         //debugger();
       });
     });
-     
- 
   }
 
   @override

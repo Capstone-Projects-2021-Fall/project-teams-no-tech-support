@@ -15,7 +15,7 @@ class Brand extends Model
     public $timestamps = false;
 
     public function device () {
-        return $this->hasOne(Device::class, 'id');
+        return $this->belongsTo(Device::class);
     }
 
     public function models () {

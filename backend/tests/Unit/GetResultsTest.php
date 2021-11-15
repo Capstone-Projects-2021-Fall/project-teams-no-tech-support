@@ -42,7 +42,7 @@ class GetResultsTest extends TestCase
         $response = $this->json('GET','/results', ['query' => 'Dell XPS 13 slow wifi']);
 
         $response->assertSuccessful()->assertJson(fn (AssertableJson $json) =>
-            $json->whereType('webPages', 'array')
+            $json->whereType('webPages', 'array')->etc()
         );
     }
 
