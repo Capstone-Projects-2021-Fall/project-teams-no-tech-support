@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Screens/MobileSearchPage.dart';
+import 'package:flutter/services.dart';
 import 'package:myapp/Screens/searchPage.dart';
-//import 'package:myapp/Screens/tempSearchPage.dart';
 import 'package:myapp/Screens/questionFilteringPage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:substring_highlight/substring_highlight.dart';
+import 'dart:async';
+import 'dart:convert';
 
 class homePage extends StatelessWidget {
   @override
@@ -28,7 +30,6 @@ class homePage extends StatelessWidget {
 class DesktophomePage extends StatelessWidget {
   late List<String> autoCompleteDataSearch;
   late TextEditingController controller;
-  late List<globals.TQuestion> ReviseQuery;
 
   String generateInitialQuery() {
     return globals.comm.question +
@@ -61,6 +62,7 @@ class DesktophomePage extends StatelessWidget {
                       builder: (context) => searchPage(),
                     ),
                   );
+                  //Navigator.of(context).pop();
                 },
                 child: new Text("Yes"),
               ),
@@ -73,6 +75,7 @@ class DesktophomePage extends StatelessWidget {
                           generatedQuestion: generateInitialQuery()), //
                     ),
                   );
+                  //Navigator.of(context).pop();
                 },
                 child: new Text("No"),
               ),
@@ -81,8 +84,16 @@ class DesktophomePage extends StatelessWidget {
         });
   }
 
-  void SendQuestion() async {
+  Future<void> fetchUserOrder() {
+    // Imagine that this function is fetching user info from another service or database.
+    return Future.delayed(
+        const Duration(seconds: 2), () => {print('Large Latte')});
+  }
+
+  void SendQuestion(BuildContext context) async {
     try {
+      if (globals.comm.question == "") return;
+
       final response = await http.get(
           Uri.parse('http://notechapi.aidanbuehler.net/extract?query=' +
               globals.comm.question),
@@ -95,19 +106,39 @@ class DesktophomePage extends StatelessWidget {
           });
 
       if (response.statusCode == 200) {
-        ReviseQuery = globals.comm.loadQuestionJson(response.body);
+        Map<String, dynamic> user = jsonDecode(response.body);
 
-        if (ReviseQuery.length > 0) {
-          print(ReviseQuery[0].sQuery.toString());
-          globals.comm.mydevice = ReviseQuery[0].sDevice.toString();
-          globals.comm.mybrand = ReviseQuery[0].sBrand.toString();
-          globals.comm.mymodel = ReviseQuery[0].sModel.toString();
-          globals.comm.reviseQuestion = ReviseQuery[0].sQuery.toString();
+        globals.comm.mydevice = (user['device'].toString() == "null")
+            ? ""
+            : user['device'].toString();
+        globals.comm.mybrand = (user['brand'].toString() == "null")
+            ? ""
+            : user['brand'].toString();
+        globals.comm.mymodel = (user['model'].toString() == "null")
+            ? ""
+            : user['model'].toString();
+        globals.comm.reviseQuestion = user['revisedQuery'].toString();
+
+        /////////
+        bool isOk = ((globals.comm.mydevice == "") &&
+            (globals.comm.mybrand == "") &&
+            (globals.comm.mymodel == ""));
+
+        if (isOk) {
+          showMyMaterialDialog(context);
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => searchPage(),
+            ),
+          );
         }
       } else {
         print("Error getting users.");
       }
     } catch (e) {
+      print("Catch error: ");
       print(e.toString());
     }
   }
@@ -144,9 +175,10 @@ class DesktophomePage extends StatelessWidget {
                 if (textEditingValue.text.isEmpty) {
                   return const Iterable<String>.empty();
                 } else {
-                  return autoCompleteDataSearch.where((word) => word
-                      .toLowerCase()
-                      .contains(textEditingValue.text.toLowerCase()));
+                  return const Iterable<String>.empty();
+                  // return autoCompleteDataSearch.where((word) => word
+                  //     .toLowerCase()
+                  //     .contains(textEditingValue.text.toLowerCase()));
                 }
               },
               optionsViewBuilder:
@@ -177,105 +209,37 @@ class DesktophomePage extends StatelessWidget {
                 );
               },
               onSelected: (selectedString) {
-                globals.comm.question = selectedString.toString();
+                //globals.comm.question = selectedString.toString();
               },
               fieldViewBuilder:
                   (context, controller, focusNode, onEditingComplete) {
                 this.controller = controller;
 
                 return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  onEditingComplete: onEditingComplete,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    controller: controller,
+                    focusNode: focusNode,
+                    onEditingComplete: onEditingComplete,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(color: Colors.grey[300]!),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(color: Colors.grey[300]!),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide(color: Colors.grey[300]!),
+                      ),
+                      hintText: "Search",
+                      prefixIcon: Icon(Icons.search),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: Colors.grey[300]!),
-                    ),
-                    hintText: "Search",
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                );
+                    onChanged: (value) {
+                      globals.comm.question = value;
+                    });
               },
             ),
-
-            // Padding(
-            //   padding: EdgeInsets.all(5.0),
-            //   child: Text(' '),
-            // ),
-            // Row(
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   children: [
-            //     Card(
-            //       child: Column(
-            //         children: [
-            //           Text(
-            //               'There is not matched device, brand and model, do you want to add them manually? '),
-            //           Row(children: [
-            //             MaterialButton(
-            //               color: Colors.white,
-            //               shape: RoundedRectangleBorder(
-            //                   borderRadius:
-            //                       BorderRadius.all(Radius.circular(10.0))),
-            //               onPressed: () {
-            //                 // Navigator.push(
-            //                 //   context,
-            //                 //   MaterialPageRoute(
-            //                 //     builder: (context) => tempSearchPage(),
-            //                 //   ),
-            //                 // );
-            //               },
-            //               child: Padding(
-            //                 padding: const EdgeInsets.symmetric(
-            //                     vertical: 2.0, horizontal: 2.0),
-            //                 child: Text(
-            //                   "Yes",
-            //                   style:
-            //                       TextStyle(fontSize: 8.0, color: Colors.black),
-            //                 ),
-            //               ),
-            //             ),
-            //             Padding(
-            //               padding: EdgeInsets.all(5.0),
-            //               child: Text(' '),
-            //             ),
-            //             MaterialButton(
-            //               color: Colors.white,
-            //               shape: RoundedRectangleBorder(
-            //                   borderRadius:
-            //                       BorderRadius.all(Radius.circular(10.0))),
-            //               onPressed: () {
-            //                 // Navigator.push(
-            //                 //   context,
-            //                 //   MaterialPageRoute(
-            //                 //     builder: (context) => tempSearchPage(),
-            //                 //   ),
-            //                 // );
-            //               },
-            //               child: Padding(
-            //                 padding: const EdgeInsets.symmetric(
-            //                     vertical: 2.0, horizontal: 2.0),
-            //                 child: Text(
-            //                   "No",
-            //                   style:
-            //                       TextStyle(fontSize: 8.0, color: Colors.black),
-            //                 ),
-            //               ),
-            //             )
-            //           ])
-            //         ],
-            //       ),
-            //     ),
-            //   ],
-            // ),
 
             Padding(
               padding: EdgeInsets.all(2.0),
@@ -287,16 +251,7 @@ class DesktophomePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               onPressed: () {
-                //
-                SendQuestion();
-                showMyMaterialDialog(context);
-
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => tempSearchPage(),
-                //   ),
-                // );
+                SendQuestion(context);
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
