@@ -2,7 +2,7 @@ library globals;
 
 import 'dart:convert';
 
-//Class for return json
+//Class for return autocomplete list json
 class Album {
   String RtnName;
 
@@ -18,20 +18,23 @@ class Album {
 }
 
 class comm {
-  //load json to list
+  //load json to list for device model and brand
   static List<Album> loadJson(String jsonString) {
     final parsed = json.decode(jsonString).cast<Map<String, dynamic>>();
     return parsed.map<Album>((json) => Album.fromJson(json)).toList();
   }
-  static String search = '';
+
   static String mydevice = '';
   static String mybrand = '';
   static String mymodel = '';
+  //need delete
   static String what = '';
   static String when = '';
   static String why = '';
-   static String question = '';
+  ////////
+  static String question = '';
+  static String reviseQuestion = '';
 
-  static String InitialGeneratedQuery = question + " "+ mybrand + " "+ mymodel + " "+ mydevice;
-  
+  static String InitialGeneratedQuery =
+      question + " " + mybrand + " " + mymodel + " " + mydevice;
 }

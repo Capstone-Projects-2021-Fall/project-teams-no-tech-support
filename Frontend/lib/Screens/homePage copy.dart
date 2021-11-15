@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Screens/MobileSearchPage.dart';
-import 'package:flutter/services.dart';
 import 'package:myapp/Screens/searchPage.dart';
-import 'package:myapp/Screens/questionFilteringPage.dart';
+import 'package:myapp/Screens/tempSearchPage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:substring_highlight/substring_highlight.dart';
-import 'dart:async';
-import 'dart:convert';
 
 class homePage extends StatelessWidget {
   @override
@@ -19,8 +16,7 @@ class homePage extends StatelessWidget {
         } else if (constraints.maxWidth > 800 && constraints.maxWidth < 1200) {
           return DesktophomePage();
         } else {
-          return DesktophomePage();
-          //return MobilehomePage();
+          return MobilehomePage();
         }
       },
     );
@@ -30,73 +26,13 @@ class homePage extends StatelessWidget {
 class DesktophomePage extends StatelessWidget {
   late List<String> autoCompleteDataSearch;
   late TextEditingController controller;
+  late List<globals.Album> users;
 
-  String generateInitialQuery() {
-    return globals.comm.question +
-        " " +
-        globals.comm.mybrand +
-        " " +
-        globals.comm.mymodel +
-        " " +
-        globals.comm.mydevice;
-  }
-
-  void showMyMaterialDialog(BuildContext context, String sS) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new AlertDialog(
-            title: new Text(" "),
-            content: Container(
-              width: MediaQuery.of(context).size.width * 0.45,
-              child: Text(
-                "There is not matched " +
-                    sS +
-                    ", do you want to add them manually? ",
-              ),
-            ),
-            actions: <Widget>[
-              new MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => searchPage(),
-                    ),
-                  ).then((value) => Navigator.of(context).pop());
-                },
-                child: new Text("Yes"),
-              ),
-              new MaterialButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => QuestionOptimizationPage(
-                          generatedQuestion: generateInitialQuery()), //
-                    ),
-                  ).then((value) => Navigator.of(context).pop());
-                },
-                child: new Text("No"),
-              ),
-            ],
-          );
-        });
-  }
-
-  Future<void> fetchUserOrder() {
-    // Imagine that this function is fetching user info from another service or database.
-    return Future.delayed(
-        const Duration(seconds: 2), () => {print('Large Latte')});
-  }
-
-  void SendQuestion(BuildContext context) async {
+  void getSearch() async {
     try {
-      if (globals.comm.question == "") return;
-
       final response = await http.get(
-          Uri.parse('http://notechapi.aidanbuehler.net/extract?query=' +
-              globals.comm.question),
+          Uri.parse(
+              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=device'),
           headers: {
             "Accept": "*/*",
             "Access-Control_Allow_Origin": "*",
@@ -106,43 +42,20 @@ class DesktophomePage extends StatelessWidget {
           });
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> user = jsonDecode(response.body);
+        users = globals.comm.loadJson(response.body);
 
-        globals.comm.mydevice =
-            (user['device'] == null) ? "" : user['device'].toString();
-        globals.comm.mybrand =
-            (user['brand'] == null) ? "" : user['brand'].toString();
-        globals.comm.mymodel =
-            (user['model'] == null) ? "" : user['model'].toString();
-        globals.comm.reviseQuestion = (user['revisedQuery'] == null)
-            ? ""
-            : user['revisedQuery'].toString();
+        var jsonStringData = <String>[];
 
-//showMyMaterialDialog
-        /////////
-        bool isOk = ((globals.comm.mydevice == "") &&
-            (globals.comm.mybrand == "") &&
-            (globals.comm.mymodel == ""));
-        String ss = "";
-        if (globals.comm.mydevice == "") ss += "device ";
-        if (globals.comm.mybrand == "") ss += "brand ";
-        if (globals.comm.mymodel == "") ss += "model ";
-
-        if (isOk) {
-          showMyMaterialDialog(context, ss);
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => searchPage(),
-            ),
-          );
+        for (int i = 0; i < users.length; i++) {
+          print(users[i].RtnName.toString());
+          jsonStringData.insert(i, users[i].RtnName.toString());
         }
+        autoCompleteDataSearch = jsonStringData;
+        //print('autoCompleteData: ${autoCompleteData.length}');
       } else {
         print("Error getting users.");
       }
     } catch (e) {
-      print("Catch error: ");
       print(e.toString());
     }
   }
@@ -179,10 +92,9 @@ class DesktophomePage extends StatelessWidget {
                 if (textEditingValue.text.isEmpty) {
                   return const Iterable<String>.empty();
                 } else {
-                  return const Iterable<String>.empty();
-                  // return autoCompleteDataSearch.where((word) => word
-                  //     .toLowerCase()
-                  //     .contains(textEditingValue.text.toLowerCase()));
+                  return autoCompleteDataSearch.where((word) => word
+                      .toLowerCase()
+                      .contains(textEditingValue.text.toLowerCase()));
                 }
               },
               optionsViewBuilder:
@@ -213,35 +125,34 @@ class DesktophomePage extends StatelessWidget {
                 );
               },
               onSelected: (selectedString) {
-                //globals.comm.question = selectedString.toString();
+                //globals.comm.search = selectedString.toString();
+                //getSearch();
               },
               fieldViewBuilder:
                   (context, controller, focusNode, onEditingComplete) {
                 this.controller = controller;
 
                 return TextField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    onEditingComplete: onEditingComplete,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey[300]!),
-                      ),
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
+                  controller: controller,
+                  focusNode: focusNode,
+                  onEditingComplete: onEditingComplete,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
                     ),
-                    onChanged: (value) {
-                      globals.comm.question = value;
-                    });
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    hintText: "Search",
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                );
               },
             ),
 
@@ -255,7 +166,12 @@ class DesktophomePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               onPressed: () {
-                SendQuestion(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => tempSearchPage(),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(

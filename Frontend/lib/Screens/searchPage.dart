@@ -207,6 +207,8 @@ class _HomeScreenState extends State<searchPage> {
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
                       this.controller = controller;
+                      controller.text = globals.comm.mydevice.toString();
+                      getBrand();
 
                       return TextField(
                         controller: controller,
@@ -225,7 +227,9 @@ class _HomeScreenState extends State<searchPage> {
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide(color: Colors.grey[300]!),
                           ),
+
                           hintText: "Select the device",
+                          //hintText: globals.comm.mydevice,
                           prefixIcon: Icon(Icons.devices),
                         ),
                       );
@@ -280,7 +284,8 @@ class _HomeScreenState extends State<searchPage> {
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
                       this.controller = controller;
-
+                      controller.text = globals.comm.mybrand.toString();
+                      getModel();
                       return TextField(
                         controller: controller,
                         focusNode: focusNode,
@@ -299,6 +304,7 @@ class _HomeScreenState extends State<searchPage> {
                             borderSide: BorderSide(color: Colors.grey[300]!),
                           ),
                           hintText: "Select the brand",
+                          //hintText: globals.comm.mybrand,
                           prefixIcon: Icon(Icons.home),
                         ),
                       );
@@ -353,6 +359,7 @@ class _HomeScreenState extends State<searchPage> {
                     fieldViewBuilder:
                         (context, controller, focusNode, onEditingComplete) {
                       this.controller = controller;
+                      controller.text = globals.comm.mymodel.toString();
 
                       return TextField(
                         controller: controller,
@@ -372,6 +379,7 @@ class _HomeScreenState extends State<searchPage> {
                             borderSide: BorderSide(color: Colors.grey[300]!),
                           ),
                           hintText: "Select the model",
+                          //hintText: globals.comm.mymodel,
                           prefixIcon: Icon(Icons.account_tree),
                         ),
                       );
@@ -381,7 +389,6 @@ class _HomeScreenState extends State<searchPage> {
                     padding: EdgeInsets.all(8.0),
                     child: Text(' '),
                   ),
-
                   Card(
                     child: Padding(
                         padding: EdgeInsets.all(10.0),
@@ -407,7 +414,6 @@ class _HomeScreenState extends State<searchPage> {
                                   padding: EdgeInsets.zero,
                                   itemBuilder: (context, index) {
                                     final option = options.elementAt(index);
-
                                     return ListTile(
                                       // title: Text(option.toString()),
                                       title: SubstringHighlight(
@@ -438,6 +444,9 @@ class _HomeScreenState extends State<searchPage> {
                                 controller: controller,
                                 focusNode: focusNode,
                                 onEditingComplete: onEditingComplete,
+                                onChanged: (value) {
+                                  globals.comm.what = value;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -455,6 +464,7 @@ class _HomeScreenState extends State<searchPage> {
                                         BorderSide(color: Colors.grey[300]!),
                                   ),
                                   hintText: "What is the problem?",
+
                                   //prefixIcon: Icon(Icons.account_tree),
                                 ),
                               );
@@ -516,6 +526,9 @@ class _HomeScreenState extends State<searchPage> {
                                 controller: controller,
                                 focusNode: focusNode,
                                 onEditingComplete: onEditingComplete,
+                                onChanged: (value) {
+                                  globals.comm.when = value;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -595,6 +608,9 @@ class _HomeScreenState extends State<searchPage> {
                                 controller: controller,
                                 focusNode: focusNode,
                                 onEditingComplete: onEditingComplete,
+                                onChanged: (value) {
+                                  globals.comm.why = value;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -619,6 +635,7 @@ class _HomeScreenState extends State<searchPage> {
                           ),
                         ])),
                   ),
+
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(' '),
@@ -640,7 +657,7 @@ class _HomeScreenState extends State<searchPage> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 20.0, horizontal: 40.0),
                       child: Text(
-                        "Search!",
+                        "Continue!",
                         style: TextStyle(fontSize: 20.0, color: Colors.red),
                       ),
                     ),
