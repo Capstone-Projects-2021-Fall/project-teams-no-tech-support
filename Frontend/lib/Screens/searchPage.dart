@@ -444,6 +444,9 @@ class _HomeScreenState extends State<searchPage> {
                                 controller: controller,
                                 focusNode: focusNode,
                                 onEditingComplete: onEditingComplete,
+                                onChanged: (value) {
+                                  globals.comm.what = value;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -461,6 +464,7 @@ class _HomeScreenState extends State<searchPage> {
                                         BorderSide(color: Colors.grey[300]!),
                                   ),
                                   hintText: "What is the problem?",
+
                                   //prefixIcon: Icon(Icons.account_tree),
                                 ),
                               );
@@ -522,6 +526,9 @@ class _HomeScreenState extends State<searchPage> {
                                 controller: controller,
                                 focusNode: focusNode,
                                 onEditingComplete: onEditingComplete,
+                                onChanged: (value) {
+                                  globals.comm.when = value;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -601,6 +608,9 @@ class _HomeScreenState extends State<searchPage> {
                                 controller: controller,
                                 focusNode: focusNode,
                                 onEditingComplete: onEditingComplete,
+                                onChanged: (value) {
+                                  globals.comm.why = value;
+                                },
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
