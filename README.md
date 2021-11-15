@@ -18,6 +18,8 @@ Users will access No Tech Support from a standard web browser on either a mobile
   * Google's Cloud Natural Language API has been added but not fully implemented into logic
   * Added MySQL-based device, brand, and model recognition
     * Device and brand can be found if a model is present that exists in the No Tech Support database
+* Improved related search suggestions
+* Improved About Us page
 
 Please see the [releases page](https://github.com/Capstone-Projects-2021-Fall/project-teams-no-tech-support/releases) for information on non-visual changes such as work on the backend and database
 
@@ -29,22 +31,24 @@ Please see the [releases page](https://github.com/Capstone-Projects-2021-Fall/pr
 
 **Usage Guide**
 
-Please note that web application does not return any live search results at the time of this release.
-
 Users can begin by visiting the No Tech 
-Support homepage at [notech.aidanbuehler.net](http://notech.aidanbuehler.net) from any web browser. The application is intended to be usable on a wide variety of devices but is best viewed on a laptop or desktop computer at this time. From there, the "Search" links in the navigation bar or center of the home page will bring the user to the search page. 
+Support homepage at [notech.aidanbuehler.net](http://notech.aidanbuehler.net) from any web browser. The application is intended to be usable on a wide variety of devices but is best viewed on a laptop or desktop computer at this time. From the homepage, the user has access to a search bar in which they can input their initial query and begin their search.
 
-The search page is the page where the majority of data is collected from the user regarding their problem. Text boxes are intended to be filled out top to bottom starting with the box containing the text "Select the device." The device, brand, and model prompts have autocomplete enabled and pull results from our API as the user types. Suggestions are filtered based on the contents of the previous textbox.
+If the user has not entered a device, brand, and model in their query, they will be brought to an intermediate search page and prompted for the missing information with suggestions in each prompt. Any present information will be pre-filled. These fields are optional and a user that does not posess further device information will not be prevented from continuing their search.
 
-After device information is recorded, the user is asked to fill in what they think the problem is, when it occurs, and what they believe caused it. At this time data is recorded in these boxes but they are placeholders.
+Clicking search will bring the user to the "Question Optimization" page. On this page the user is able to see the a refined version of their original search query as well as a list of similar questions that might better reflect their situation. They are asked to either choose a suggestion or search using their current query. The user can go back to a previous revision of their query at any time by selecting the box surrounding their preferred query. 
 
-Clicking search will bring the user to the "Question Optimization" page. On this page the user is able to see the initial search query that they have formed as well as a list of similar questions that might better reflect their situation. They are asked to either choose a suggestion or search using their current query. The user can go back to a previous revision of their query at any time by selecting the box surrounding their preferred query. The cancel button would revert to the original query and search would bring the user to the results page, but neither button is enabled at the time of this release.
+Clicking search will bring the user to the results page. On this page the user can browse a sorted list of results based on their final query. A "Video" button is provided to switch to video results, but only web page results are available at the time of this release.
 
 **Testing Guide**
 
 Please utilize the [Jira issue collector form](https://notechsupport.atlassian.net/rest/collectors/1.0/template/form/c2b63cc0) to report bugs and provide usage feedback to the development team. Thank you!
 
-Although No Tech Support will work on any browser, testing should focus on desktop computers or other devices with large screens at this time due to rendering issues. Testing of the autocomplete functionality on the main search page is a top priority for this milestone. We have included relevant functional requirements from our testing document below.
+PLEASE NOTE: Clicking on the "My Device Info" link on the No Tech Support Homepage will lead to a dead-end in some browsers. This page is not currently functional on any version of the web application and should not be tested in this release.
+
+Testing of the device/brand/model detection from the initial query as well as the related searches are the main priorities for this release. The site can be tested on any device from a web browser. The web application is also downloadable as a progressive web app, but this functionality is still being developed and does not support all features. However, all reported bugs are appreciated!
+
+In order to effectively test this release, we have included the following relevant requirements from the No Tech Support testing procedures document:
 
 1. No Tech Support will have a simple and easy to use interface 
    1. Task: No Tech Support should be easy to use and should not need any tutorial  
@@ -83,6 +87,11 @@ Although No Tech Support will work on any browser, testing should focus on deskt
       1. Pass Condition: Suggestions are relevant to the user's responses to previous prompt(s)
    3. Task: No Tech Support should sort search results
       1. Pass Condition: The most likely solutions appear first on the results screen based on a rating system
+5. No Tech Support will allow users to browse from a list of search results  
+   1. Task: Users can view the web page at each link. 
+      1. Pass condition: User needed to complete the steps on functional requirements 1 in order to view the web page at each link 
+   2. Task: Users can return to the list of results. 
+      1. Pass condition: User completed the steps on functional requirements 1, and currently on a result page, user can return to the list of results by clicking on the “back” button. 
 
 ## Contributors
 
