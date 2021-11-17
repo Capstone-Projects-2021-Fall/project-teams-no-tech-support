@@ -33,11 +33,27 @@ CREATE TABLE Model (
 
 -- Creating Domains table
 CREATE TABLE Domains (
-  id                    		      int AUTO_INCREMENT,
-  name                            varchar(50) NOT NULL,
-  is_certified                    bit NOT NULL,
-  likes                           int NOT NULL,
+  id                   		      int AUTO_INCREMENT,
+  name                            varchar(50) NOT NULL,  
   PRIMARY Key (id)
+);
+
+-- Creating TrustedDomains table
+CREATE TABLE TrustedDomains (
+  id                  		      int AUTO_INCREMENT,
+  domain_id                    	  int NOT NULL,
+  domainRank                      int NOT NULL,
+  PRIMARY Key (id),
+  FOREIGN KEY (domain_id) REFERENCES Domains(id)
+);
+
+-- Creating InteractiveDomains table
+CREATE TABLE InteractiveDomains (
+  id                  		      int AUTO_INCREMENT,
+  domain_id                    	  int NOT NULL,
+  likes_dislikes_difference       int,
+  PRIMARY Key (id),
+  FOREIGN KEY (domain_id) REFERENCES Domains(id)
 );
 
 -- import Data --
@@ -4740,31 +4756,26 @@ INSERT INTO Model (brand_id,name,year) VALUES
 (69, "Lumia 850","2020"),
 (69, "Lumia 1030","2020");
 
-
-
-
-
-
 -- Update Domain information
-INSERT INTO Domains (name,is_certified, likes) VALUES
-("yahoo.com",1,0),
-("google.com",1,0),
-("bleepingcomputer.com",1,0),
-("brighthub.com",1,0),
-("computerhope.com",1,0),
-("dummies.com",1,0),
-("github.com",1,0),
-("support.apple.com",1,0),
-("support.microsoft.com",1,0),
-("rddit.com",1,0),
-("slashdot.org",1,0),
-("stackoverflow.com",1,0),
-("techguy.org",1,0),
-("technibble.com",1,0),
-("techspot.com",1,0),
-("youtube.com",1,0),
-("tek-tips.com",1,0),
-("codeproject.com",1,0);
+INSERT INTO Domains (name) VALUES
+("yahoo.com"),
+("google.com"),
+("bleepingcomputer.com"),
+("brighthub.com"),
+("computerhope.com"),
+("dummies.com"),
+("github.com"),
+("support.apple.com"),
+("support.microsoft.com"),
+("rddit.com"),
+("slashdot.org"),
+("stackoverflow.com"),
+("techguy.org"),
+("technibble.com"),
+("techspot.com"),
+("youtube.com"),
+("tek-tips.com"),
+("codeproject.com");
 
 
 -- For Reviewing
