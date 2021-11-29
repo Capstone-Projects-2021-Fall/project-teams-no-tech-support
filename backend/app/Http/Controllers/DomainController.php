@@ -43,9 +43,9 @@ class DomainController extends Controller
 
         if(strlen($domainName) > 0) {
             if($like) {
-                $domain = Domain::where('name', $domainName)->increment('likes');
+                $domain = Domain::where('name', $domainName)->interactiveDomain->increment('likes_dislikes_difference');
             } else {
-                $domain = Domain::where('name', $domainName)->decrement('likes');
+                $domain = Domain::where('name', $domainName)->interactiveDomain->decrement('likes_dislikes_difference');
             }
         }
     }
