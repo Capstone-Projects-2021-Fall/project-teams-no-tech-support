@@ -118,8 +118,6 @@ class DesktophomePage extends StatelessWidget {
             ? ""
             : user['revisedQuery'].toString();
 
-//showMyMaterialDialog
-        /////////
         bool isOk = ((globals.comm.mydevice == "") &&
             (globals.comm.mybrand == "") &&
             (globals.comm.mymodel == ""));

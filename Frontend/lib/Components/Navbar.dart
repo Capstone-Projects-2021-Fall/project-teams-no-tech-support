@@ -82,7 +82,7 @@ class DesktopNavbar extends StatelessWidget {
                 SizedBox(
                   width: 30,
                 ),
-               MaterialButton(
+                MaterialButton(
                   color: Colors.pink,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -94,7 +94,23 @@ class DesktopNavbar extends StatelessWidget {
                     "My Device Info",
                     style: TextStyle(color: Colors.white),
                   ),
-                )
+                ),
+////////////////////////////
+                ///
+                TextButton(
+                  child: Text(
+                    "FP",
+                    style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => myFailurePage()));
+                  },
+                  //style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  width: 30,
+                ),
               ],
             )
           ],
@@ -134,8 +150,8 @@ class MobileNavbar extends StatelessWidget {
                   //style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                    width: 20,
-                    ),
+                  width: 20,
+                ),
                 TextButton(
                   child: Text(
                     "About Us",
@@ -148,8 +164,8 @@ class MobileNavbar extends StatelessWidget {
                   //style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(
-                    width: 20,
-                    ),
+                  width: 20,
+                ),
                 TextButton(
                   child: Text(
                     "Search",
@@ -166,8 +182,8 @@ class MobileNavbar extends StatelessWidget {
                 //  style: TextStyle(color: Colors.white),
                 //),
                 SizedBox(
-                    width: 10,
-                    ),
+                  width: 10,
+                ),
                 MaterialButton(
                   color: Colors.pink,
                   shape: RoundedRectangleBorder(
