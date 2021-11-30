@@ -6,7 +6,7 @@ import 'package:myapp/Models/_question.dart';
 import 'package:myapp/Actions/get-related-searches.dart';
 import 'package:myapp/Models/_results.dart';
 import 'package:myapp/Screens/resultsPage.dart';
-import 'package:myapp/Screens/tempSearchPage.dart';
+import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/partsOfSpeech.dart';
 import 'package:myapp/globals.dart' as globals;
 
@@ -339,7 +339,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                               //   builder: (context) => QuestionOptimizationPage(
                               //       generatedQuestion: "Not quite there yet"), //
                               // ),
-                              builder: (context) => tempSearchPage()
+                              builder: (context) => searchPage()
                               //
                               ),
                         );
