@@ -95,8 +95,7 @@ class DesktopNavbar extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-////////////////////////////
-                ///
+                //TODO: TextButton 'FP' fot testing only. It need to delete before release.
                 TextButton(
                   child: Text(
                     "FP",
