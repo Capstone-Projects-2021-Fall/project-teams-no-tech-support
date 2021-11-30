@@ -61,14 +61,26 @@ class Domain extends Model
     }
 
     public function getLikesAttribute() {
+        if(is_null($this->interactiveDomain)) {
+            $this->interactiveDomain()->create();
+            return 0;
+        }
         return $this->interactiveDomain->likes_dislikes_difference;
     }
 
     public function getIsCertifiedAttribute() {
+        if(is_null($this->trustedDomain)) {
+            $this->trustedDomain()->create();
+            return 0;
+        }
         return intval($this->trustedDomain->domainRank > 0);
     }
 
     public function getRankAttribute() {
+        if(is_null($this->trustedDomain)) {
+            $this->trustedDomain()->create();
+            return 0;
+        }
         return $this->trustedDomain->domainRank;
     }
 }
