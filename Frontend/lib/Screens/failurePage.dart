@@ -21,13 +21,9 @@ class _HomeScreenState extends State<failurePage> {
       MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
-  void GetTechPhone(BuildContext context) async {
+  Future GetTechPhone() async {
     try {
-      globals.comm.mybrand = "Apple";
       if (globals.comm.mybrand == "") return;
-
-      print("Brand:");
-      print(globals.comm.mybrand);
 
       final response = await http.get(
           Uri.parse('http://notechapi.aidanbuehler.net/brand?brand=' +
@@ -50,6 +46,8 @@ class _HomeScreenState extends State<failurePage> {
               globals.comm.mybrand + ' technology support number: ' + sPhone;
         }
 
+        //setState();
+
         print("phone:");
         print(sPhone);
       } else {
@@ -63,78 +61,85 @@ class _HomeScreenState extends State<failurePage> {
 
   @override
   void initState() {
-    super.initState();
-
     //Start here
-    GetTechPhone;
+
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("No Result"),
-      ),
-      body: Center(
-        child: Padding(
-          //padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 200),
-          padding: EdgeInsets.symmetric(vertical: 50.0),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(1.0),
-                child: Text(' '),
+    return FutureBuilder(
+        future: GetTechPhone(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Text("");
+          } else {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("No Result"),
               ),
-              SizedBox(
-                width: deviceWidth(context) / 2,
-                child: Card(
-                  child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(children: <Widget>[
-                        //What is the problem
-
-                        Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: Text(''),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: Text(sPhone),
-                        ),
-                        Text(sPhone),
-                      ])),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(' '),
-              ),
-              MaterialButton(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => QuestionOptimizationPage(
-                          generatedQuestion: "Not quite there yet"), //
-                    ),
-                  );
-                },
+              body: Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 20.0, horizontal: 40.0),
-                  child: Text(
-                    "Continue!",
-                    style: TextStyle(fontSize: 20.0, color: Colors.red),
+                  //padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 200),
+                  padding: EdgeInsets.symmetric(vertical: 50.0),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(1.0),
+                        child: Text(' '),
+                      ),
+                      SizedBox(
+                        width: deviceWidth(context) / 1.6,
+                        child: Card(
+                          child: Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Column(children: <Widget>[
+                                //What is the problem
+
+                                Padding(
+                                  padding: EdgeInsets.all(2.0),
+                                  child: Text(''),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(2.0),
+                                  child: Text(sPhone),
+                                ),
+                              ])),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(' '),
+                      ),
+                      MaterialButton(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0))),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuestionOptimizationPage(
+                                  generatedQuestion: "Not quite there yet"), //
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: 40.0),
+                          child: Text(
+                            sPhone,
+                            style: TextStyle(fontSize: 20.0, color: Colors.red),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          }
+        });
   }
 }

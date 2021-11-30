@@ -84,11 +84,11 @@ class DesktophomePage extends StatelessWidget {
         });
   }
 
-  Future<void> fetchUserOrder() {
-    // Imagine that this function is fetching user info from another service or database.
-    return Future.delayed(
-        const Duration(seconds: 2), () => {print('Large Latte')});
-  }
+  // Future<void> fetchUserOrder() {
+  //   // Imagine that this function is fetching user info from another service or database.
+  //   return Future.delayed(
+  //       const Duration(seconds: 2), () => {print('Large Latte')});
+  // }
 
   void SendQuestion(BuildContext context) async {
     try {
