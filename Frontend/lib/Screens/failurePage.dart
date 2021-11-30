@@ -72,73 +72,86 @@ class _HomeScreenState extends State<failurePage> {
         future: GetTechPhone(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            return Text("");
+            return Text("Somthing wrong here...");
           } else {
             return Scaffold(
-              appBar: AppBar(
-                title: Text("No Result"),
-              ),
-              body: Center(
-                child: Padding(
-                  //padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 200),
-                  padding: EdgeInsets.symmetric(vertical: 50.0),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(1.0),
-                        child: Text(' '),
-                      ),
-                      SizedBox(
-                        width: deviceWidth(context) / 1.6,
-                        child: Card(
-                          child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Column(children: <Widget>[
-                                //What is the problem
-
-                                Padding(
-                                  padding: EdgeInsets.all(2.0),
-                                  child: Text(''),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(2.0),
-                                  child: Text(sPhone),
-                                ),
-                              ])),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(' '),
-                      ),
-                      MaterialButton(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0))),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => QuestionOptimizationPage(
-                                  generatedQuestion: "Not quite there yet"), //
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 40.0),
-                          child: Text(
-                            sPhone,
-                            style: TextStyle(fontSize: 20.0, color: Colors.red),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                appBar: AppBar(
+                  title: Text("Result not found"),
                 ),
-              ),
-            );
+                body: Stack(
+                  children: <Widget>[
+                    Container(
+                      decoration: new BoxDecoration(
+                        image: new DecorationImage(
+                          image: new AssetImage("images/1.jpg"),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 50.0),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(1.0),
+                              child: Text(' '),
+                            ),
+                            SizedBox(
+                              width: deviceWidth(context) / 1.6,
+                              child: Card(
+                                child: Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Column(children: <Widget>[
+                                      //What is the problem
+
+                                      Padding(
+                                        padding: EdgeInsets.all(2.0),
+                                        child: Text(''),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.all(2.0),
+                                        child: Text(sPhone),
+                                      ),
+                                    ])),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(' '),
+                            ),
+                            MaterialButton(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        QuestionOptimizationPage(
+                                            generatedQuestion:
+                                                "Not quite there yet"), //
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 40.0),
+                                child: Text(
+                                  sPhone,
+                                  style: TextStyle(
+                                      fontSize: 20.0, color: Colors.red),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ));
           }
         });
   }
