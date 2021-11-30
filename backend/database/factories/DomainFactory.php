@@ -23,50 +23,6 @@ class DomainFactory extends Factory
     {
         return [
             'name' => $this->faker->domainName(),
-            'is_certified' => 0,
-            'likes' => 0,
         ];
-    }
-
-    /**
-     * Indicate that the model's certification state should be true.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function certified()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_certified' => 1,
-            ];
-        });
-    }
-
-    /**
-     * Indicate that the model's like count should be positive
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function liked()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'likes' => $this->faker->numberBetween(1, 1000),
-            ];
-        });
-    }
-
-    /**
-     * Indicate that the model's like count should be negative
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function disliked()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'likes' => $this->faker->numberBetween(-1000, -1),
-            ];
-        });
     }
 }

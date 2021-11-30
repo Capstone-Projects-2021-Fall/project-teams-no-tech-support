@@ -14,6 +14,7 @@ use App\Models\Domain;
  */
 class RateDomainTest extends TestCase
 {
+    use WithFaker, RefreshDatabase;
     /**
      * Sends a request to the /rate route with null input
      * Tests error handling
@@ -58,7 +59,9 @@ class RateDomainTest extends TestCase
      */
     public function test_ratePositive()
     {
-        $newDomain = Domain::factory()->liked()->create();
+        $newDomain = Domain::factory()->create();
+        $newDomain->interactiveDomain->likes_dislikes_difference = $this->faker->numberBetween(1, 1000);
+        $newDomain->push();
 
         $response = $this->json('GET','/rate', ['domain' => $newDomain->name, 'like' => true]);
 
@@ -77,7 +80,9 @@ class RateDomainTest extends TestCase
      */
     public function test_rateNegative()
     {
-        $newDomain = Domain::factory()->disliked()->create();
+        $newDomain = Domain::factory()->create();
+        $newDomain->interactiveDomain->likes_dislikes_difference = $this->faker->numberBetween(-1000, -1);
+        $newDomain->push();
 
         $response = $this->json('GET','/rate', ['domain' => $newDomain->name, 'like' => false]);
 

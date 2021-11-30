@@ -16,7 +16,7 @@ class CreateModelTable extends Migration
         Schema::create('Model', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('brand_id')->index('brand_id');
-            $table->string('name', 50)->nullable();
+            $table->string('name', 200)->nullable();
             $table->string('year', 4)->nullable();
         });
     }

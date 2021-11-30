@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDomainsTable extends Migration
+class CreateTrustedDomainsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateDomainsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Domains', function (Blueprint $table) {
+        Schema::create('TrustedDomains', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('name', 50);
-            $table->boolean('is_certified');
-            $table->integer('likes');
+            $table->integer('domain_id')->index('domain_id');
+            $table->integer('domainRank');
         });
     }
 
@@ -28,6 +27,6 @@ class CreateDomainsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Domains');
+        Schema::dropIfExists('TrustedDomains');
     }
 }
