@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:myapp/Models/_question.dart';
 import 'package:myapp/Actions/get-related-searches.dart';
 import 'package:myapp/Screens/resultsPage.dart';
-import 'package:myapp/Screens/tempSearchPage.dart';
-
+import 'package:myapp/Screens/searchPage.dart';
 
 class QuestionOptimizationPage extends StatefulWidget {
   final String generatedQuestion;
   const QuestionOptimizationPage({Key? key, required this.generatedQuestion})
       : super(key: key);
 
- 
   @override
   QuestionOptimizationPageState createState() =>
       QuestionOptimizationPageState();
@@ -22,24 +20,22 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
   Question activeQuery = new Question("", <String>[]);
   String activeQueryName = '';
   String initialQueryName = 'Initial Question ';
-  double deviceHeight(BuildContext context) =>MediaQuery.of(context).size.height;
+  double deviceHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
   @override
   void initState() {
     super.initState();
     activeQueryName = initialQueryName;
-    String initialQuestion =widget.generatedQuestion; 
+    String initialQuestion = widget.generatedQuestion;
     getRelatedSearches(initialQuestion).then((value) {
-  
       setState(() {
         activeQuery = new Question(initialQuestion, value);
         queryLog.add(activeQuery);
       });
     });
-    
   }
-
 
   void removeFromQueryLog(int index) {
     //delete all questions past index given
@@ -49,11 +45,11 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
         activeQuery = queryLog[index];
         activeQueryName = 'Related Search ${index}';
         queryLog = queryLog.sublist(0, index + 1);
-        if(queryLog.length == 1){
-        activeQueryName = initialQueryName;
+        if (queryLog.length == 1) {
+          activeQueryName = initialQueryName;
+        }
       }
-      }
-      
+
       //Do nothing
     });
   }
@@ -64,7 +60,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
     setState(() {
       activeQuery = new Question(question, relatedQuestions);
       queryLog.add(activeQuery);
-      activeQueryName = 'Related Search ${queryLog.length-1}';
+      activeQueryName = 'Related Search ${queryLog.length - 1}';
     });
   }
 
@@ -105,11 +101,13 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                       title: Row(
                         children: [
                           Text(
-                            index == 0?initialQueryName:'Related Search ${index}:   ',
+                            index == 0
+                                ? initialQueryName
+                                : 'Related Search ${index}:   ',
                             style: TextStyle(
-                                color: Colors.orange[300],
-                                //fontWeight: FontWeight.bold
-                                ),
+                              color: Colors.orange[300],
+                              //fontWeight: FontWeight.bold
+                            ),
                           ),
                           Text(queryLog[index].content),
                           const SizedBox(
@@ -182,16 +180,16 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 17)),
                       onPressed: () {
-                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                        //   builder: (context) => QuestionOptimizationPage(
-                        //       generatedQuestion: "Not quite there yet"), //
-                        // ),
-                          builder: (context) => tempSearchPage()
-                             //
-                        ),
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              //   builder: (context) => QuestionOptimizationPage(
+                              //       generatedQuestion: "Not quite there yet"), //
+                              // ),
+                              builder: (context) => searchPage()
+                              //
+                              ),
+                        );
                       },
                       child: const Text('Cancel'), //temporary
                     ),
@@ -200,16 +198,16 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 17)),
                       onPressed: () {
-                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                        //   builder: (context) => QuestionOptimizationPage(
-                        //       generatedQuestion: "Not quite there yet"), //
-                        // ),
-                          builder: (context) => ResultsPage(
-                              finalQuestion: activeQuery.content), //
-                        ),
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            //   builder: (context) => QuestionOptimizationPage(
+                            //       generatedQuestion: "Not quite there yet"), //
+                            // ),
+                            builder: (context) => ResultsPage(
+                                finalQuestion: activeQuery.content), //
+                          ),
+                        );
                       }, //temporary
                       child: const Text('Get Results'),
                     )
