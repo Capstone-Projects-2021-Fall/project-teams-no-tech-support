@@ -65,7 +65,7 @@ class SearchController extends Controller
 
                 foreach($values->value as $value) {
                     $domainData = $baseDomains->where('name', $value->baseDomain)->first();
-                    $value->domainLikes = $domainData->rating;
+                    $value->domainLikes = $domainData->likes;
                     $value->domainRank = $domainData->rank;
                 }
 

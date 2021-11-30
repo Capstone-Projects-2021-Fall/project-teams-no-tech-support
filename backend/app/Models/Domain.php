@@ -9,7 +9,6 @@ use App\Traits\HasRatingsScope;
 class Domain extends Model
 {
     use HasFactory;
-    use HasRatingsScope;
 
     /**
      * The table associated with the Domain model.
@@ -18,6 +17,20 @@ class Domain extends Model
      */
     protected $table = 'Domains';
     public $timestamps = false;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['likes', 'is_certified'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['interactiveDomain', 'trustedDomain'];
 
     /**
      * The attributes that are mass assignable.
@@ -45,5 +58,17 @@ class Domain extends Model
 
     public function interactiveDomain() {
         return $this->hasOne(InteractiveDomain::class, 'domain_id');
+    }
+
+    public function getLikesAttribute() {
+        return $this->interactiveDomain->likes_dislikes_difference;
+    }
+
+    public function getIsCertifiedAttribute() {
+        return intval($this->trustedDomain->domainRank > 0);
+    }
+
+    public function getRankAttribute() {
+        return $this->trustedDomain->domainRank;
     }
 }
