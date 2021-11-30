@@ -66,11 +66,11 @@ class SearchController extends Controller
                 foreach($values->value as $value) {
                     $domainData = $baseDomains->where('name', $value->baseDomain)->first();
                     $value->domainLikes = $domainData->likes;
-                    $value->domainRank = $domainData->rank;
+                    $value->domainCertified = $domainData->is_certified;
                 }
 
                 usort($values->value, function($a, $b) {
-                    return  ($b->domainLikes + $b->domainRank * 50) <=> ($a->domainLikes + $a->domainRank * 50);   //  Give certificiation a weight of 50 likes
+                    return  ($b->domainLikes + $b->domainCertified * 50) <=> ($a->domainLikes + $a->domainCertified * 50);   //  Give cerficiation a weight of 50 likes
                 });
 
                 $sorted[$category] = $values->value;

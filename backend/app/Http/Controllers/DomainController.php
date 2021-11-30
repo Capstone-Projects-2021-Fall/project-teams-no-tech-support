@@ -42,10 +42,14 @@ class DomainController extends Controller
         $like = $request->input('like', true);
 
         if(strlen($domainName) > 0) {
-            if($like) {
-                $domain = Domain::where('name', $domainName)->interactiveDomain->increment('likes_dislikes_difference');
-            } else {
-                $domain = Domain::where('name', $domainName)->interactiveDomain->decrement('likes_dislikes_difference');
+            $domain = Domain::where('name', $domainName)->first();
+
+            if(!is_null($domain)) {
+                if($like) {
+                    $domain = $domain->interactiveDomain->increment('likes_dislikes_difference');
+                } else {
+                    $domain = $domain->interactiveDomain->decrement('likes_dislikes_difference');
+                }
             }
         }
     }

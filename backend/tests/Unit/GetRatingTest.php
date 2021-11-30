@@ -14,7 +14,7 @@ use App\Models\Domain;
  */
 class GetRatingTest extends TestCase
 {
-    use RefreshDatabase;
+    use WithFaker, RefreshDatabase;
 
     /**
      * Sends a request to the /domain route with null input
@@ -60,7 +60,9 @@ class GetRatingTest extends TestCase
      */
     public function test_uncertifiedDomain()
     {
-        $newDomain = Domain::factory()->liked()->create();
+        $newDomain = Domain::factory()->create();
+        $newDomain->interactiveDomain->likes_dislikes_difference = $this->faker->numberBetween(1, 1000);
+        $newDomain->push();
 
         $response = $this->json('GET','/domain', ['domain' => $newDomain->name]);
 
@@ -79,7 +81,9 @@ class GetRatingTest extends TestCase
      */
     public function test_certifiedDomain()
     {
-        $newDomain = Domain::factory()->certified()->create();
+        $newDomain = Domain::factory()->create();
+        $newDomain->trustedDomain->domainRank = $this->faker->numberBetween(1, 10);
+        $newDomain->push();
 
         $response = $this->json('GET','/domain', ['domain' => $newDomain->name]);
 
