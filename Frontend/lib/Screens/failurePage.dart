@@ -12,7 +12,7 @@ class failurePage extends StatefulWidget {
 
 class _HomeScreenState extends State<failurePage> {
   bool isFoundTechPhone = false;
-  String sPhone = "\n\nResult not found!\n\n";
+  String sPhone = "\nResult not found!\n";
 
   double deviceHeight(BuildContext context) =>
       MediaQuery.of(context).size.height;
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<failurePage> {
           sPhone = globals.comm.mybrand +
               '\n\n Technology support number: \n\n' +
               user['phone'].toString() +
-              "\n\n\n";
+              "\n\n";
         }
       } else {
         print("Error getting users.");
@@ -82,12 +82,11 @@ class _HomeScreenState extends State<failurePage> {
                     ),
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 50.0),
+                        padding: EdgeInsets.symmetric(vertical: 1.0),
                         child: Column(
                           children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(2.0),
-                              child: Text(' '),
+                            SizedBox(
+                              height: deviceHeight(context) / 30,
                             ),
                             SizedBox(
                               width: deviceWidth(context) / 1.6,
