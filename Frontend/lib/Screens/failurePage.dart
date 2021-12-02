@@ -1,6 +1,7 @@
 import 'package:myapp/globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:myapp/main.dart';
+import 'package:myapp/Screens/questionOptimizationPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -12,7 +13,7 @@ class failurePage extends StatefulWidget {
 
 class _HomeScreenState extends State<failurePage> {
   bool isFoundTechPhone = false;
-  String sPhone = "\n\nResult not found!\n\n";
+  String sPhone = "\nResult not found!\n";
 
   double deviceHeight(BuildContext context) =>
       MediaQuery.of(context).size.height;
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<failurePage> {
           sPhone = globals.comm.mybrand +
               '\n\n Technology support number: \n\n' +
               user['phone'].toString() +
-              "\n\n\n";
+              "\n\n";
         }
       } else {
         print("Error getting users.");
@@ -82,12 +83,11 @@ class _HomeScreenState extends State<failurePage> {
                     ),
                     Center(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 50.0),
+                        padding: EdgeInsets.symmetric(vertical: 1.0),
                         child: Column(
                           children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(2.0),
-                              child: Text(' '),
+                            SizedBox(
+                              height: deviceHeight(context) / 30,
                             ),
                             SizedBox(
                               width: deviceWidth(context) / 1.6,
@@ -130,45 +130,93 @@ class _HomeScreenState extends State<failurePage> {
                                     ])),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(' '),
+                            SizedBox(
+                              height: deviceHeight(context) / 30,
                             ),
                             SizedBox(
-                              width: deviceWidth(context) / 1.6,
-                              child: MaterialButton(
-                                elevation: 4,
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(14.0))),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MyHomePage(),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 40.0),
-                                  child: Wrap(
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    children: [
-                                      Icon(Icons.arrow_back,
-                                          color: Colors.blue),
-                                      Text(
-                                        " Search again!",
-                                        style: TextStyle(
-                                            fontSize: 18.0, color: Colors.blue),
+                                width: deviceWidth(context) / 1.6,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: MaterialButton(
+                                        elevation: 4,
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(14.0))),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  QuestionOptimizationPage(
+                                                      generatedQuestion: globals
+                                                          .comm
+                                                          .reviseQuestion), //
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20.0, horizontal: 40.0),
+                                          child: Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              Icon(Icons.arrow_back,
+                                                  color: Colors.blue),
+                                              Text(
+                                                " Back",
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: MaterialButton(
+                                        elevation: 4,
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(14.0))),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyHomePage(),
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20.0, horizontal: 40.0),
+                                          child: Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              Icon(Icons.search,
+                                                  color: Colors.blue),
+                                              Text(
+                                                " Search again!",
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
                           ],
                         ),
                       ),
