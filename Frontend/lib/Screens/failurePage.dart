@@ -129,9 +129,8 @@ class _HomeScreenState extends State<failurePage> {
                                     ])),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(' '),
+                            SizedBox(
+                              height: deviceHeight(context) / 30,
                             ),
                             SizedBox(
                               width: deviceWidth(context) / 1.6,

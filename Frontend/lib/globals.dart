@@ -35,6 +35,8 @@ class comm {
   static String question = '';
   static String reviseQuestion = '';
   static String tempreviseQuestion = 'apple iphone 11 heating up';
-  static String InitialGeneratedQuery = 
+  static String InitialGeneratedQuery =
       question + " " + mybrand + " " + mymodel + " " + mydevice;
+
+  static double H=0, W=0;
 }
