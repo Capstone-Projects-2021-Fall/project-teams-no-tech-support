@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:myapp/Actions/get-results.dart';
 import 'package:myapp/Actions/get-tech-support-number.dart';
-import 'package:myapp/Actions/update-domain-likes-dislike-difference.dart';
 import 'package:myapp/Models/_domain.dart';
 import 'package:myapp/Models/_results.dart';
 import 'dart:async';
@@ -34,40 +33,32 @@ class ResultsPageState extends State<ResultsPage>
   double deviceHeight(BuildContext context) =>
       MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
-  Size deviceSize(BuildContext context) => MediaQuery.of(context).size;
   String importedFinalQuestion =
       ''; // Has  to be immported form previous dart file
-
-  /*24 is for notification bar on Android*/
-
   Results results = new Results([], []);
-  //List<TextLink> textlinks = <TextLink>[];
-  //List<VideoLink> videoLinks = <VideoLink>[];
+  List<TextLink> textlinks = <TextLink>[];
+  List<VideoLink> videoLinks = <VideoLink>[];
   String techSupportPhoneNumber = '';
   late TabController _tabController;
-  var size;
-  var itemHeight;
-  var itemWidth;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.animateTo(ResultsPageTabViews.TextResults.index);
-    //  final double itemHeight = (deviceHeight(context). - kToolbarHeight - 24) / 2;
-    // final double itemWidth = size.width / 2;
-
-//       var size = MediaQuery.of(context).size;
-
-//     /*24 is for notification bar on Android*/
-//  itemHeight = (size.height - kToolbarHeight - 24) / 2;
-//  itemWidth = size.width / 2;
+    VideoLink vlMock1 = new VideoLink(new Domain("www.ttt", 0, 12), "10/10/2020", 90, "www.ww.com", "youtube", "1.1 M", "Reckless Video");
+    VideoLink vlMock2 = new VideoLink(new Domain("www.ttt", 0, 12), "11/10/2021", 90, "www.ww.com", "Bing", "36K", "Hills and Valleys");
+    videoLinks.add(vlMock1);
+    videoLinks.add(vlMock2);
+    results.videoLinks = videoLinks;
 
     importedFinalQuestion =
         widget.finalQuestion; // Temporary, get this from previous view
     getResults(importedFinalQuestion).then((value) {
       setState(() {
         results = value;
+        textlinks = value.textLinks;
+        
       });
     });
     getTechSupportPhoneNumber().then((value) {
@@ -76,13 +67,14 @@ class ResultsPageState extends State<ResultsPage>
   }
 
   Widget _buildVideoLinksList() {
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 0),
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   "Final Question",
@@ -110,138 +102,114 @@ class ResultsPageState extends State<ResultsPage>
                 Padding(padding: const EdgeInsets.symmetric(vertical: 30.0))
               ],
             ),
-            results.videoLinks.length == 0
-                ? Container(
-                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                    child: Text(
-                      'Sorry. No video Results Found for "$importedFinalQuestion." Please to to Pages section or go back and edit/filter questions if possible',
-                      style: TextStyle(
-                          color: Colors.red[300],
-                          fontSize: 19,
-                          fontFamily: 'RobotoMono'
-                          //fontWeight: FontWeight.bold
-                          ),
-                    ),
-                  )
-                : Expanded(
-                    //height: deviceHeight(context) / 1,
-                    //width: deviceWidth(context) / 1.35,
-                    child: Container(
-                      width: deviceWidth(context) / 1.1,
-                      child: GridView.count(
+            Expanded(
+              child: SizedBox(
+                //width: deviceWidth(context) / 2,  // VC
+                child: videoLinks.length == 0
+                    ? Container(
+                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                        child: Text(
+                          'Sorry. No video Results Found for "$importedFinalQuestion." Please to to Pages section or go back and edit/filter questions if possible',
+                          style: TextStyle(
+                              color: Colors.red[300],
+                              fontSize: 19,
+                              fontFamily: 'RobotoMono'
+                              //fontWeight: FontWeight.bold
+                              ),
+                        ),
+                      )
+                    : ListView.builder(
                         shrinkWrap: true,
-                        // Create a grid with 2 columns. If you change the scrollDirection to
-                        // horizontal, this produces 2 rows.
-                        //childAspectRatio: (deviceHeight(context) / (deviceWidth(context)/2.2)),
-
-                        crossAxisCount: 3,
-                        // Generate 100 widgets that display their index in the List.
-                        children:
-                            List.generate(results.videoLinks.length, (index) {
-                          return InkWell(
-                            splashColor: Colors.blue.withAlpha(30),
-                            onTap: () {
-                              openLinkinNewTab(
-                                  results.videoLinks[index].domain.url);
-                            },
-                            child: Card(
-                              shadowColor: Colors.black,
-                              elevation: 10,
-                              child: Column(children: [
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
+                        scrollDirection: Axis.vertical,
+                        itemCount: videoLinks.length,
+                        itemBuilder: (ctx, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 6.0),
+                            child: ListTile(
+                              //tileColor: Colors.lightBlue[50],
+                              title: 
+                                  Card(
+                                    child: Column(children: [
+                                      Container(),
                                       Container(
-                                        //color: Colors.grey[200],
-                                        child: new Image.network(results
-                                                .videoLinks[index]
-                                                .thumbnail //+ '?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-                                            ),
-                                        alignment: Alignment.center,
-                                      ),
-                                      SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 0, 0, 0),
-                                        child: Text(
-                                          results.videoLinks[index].name,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 0, 0, 0),
-                                        child: Text(
-                                          numFormatter(results
-                                                  .videoLinks[index].numViews) +
-                                              " Views   " +
-                                              timeAgoSinceDate(results
-                                                  .videoLinks[index]
-                                                  .uploadDate),
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 15),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 0, 0, 0),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.account_circle_rounded,
-                                              color: Colors.blueGrey[300],
-                                              size: 30.0,
-                                            ),
-                                            Text(
-                                              results
-                                                  .videoLinks[index].publisher,
-                                              style: TextStyle(
-                                                  color: Colors.grey[600],
-                                                  fontSize: 15),
-                                            ),
-                                            Expanded(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  IconButton(
-                                                    icon: const Icon(
-                                                        Icons.thumb_up),
-                                                    color: Colors.blue,
-                                                    iconSize: 15,
-                                                    tooltip:
-                                                        'Result was helpful',
-                                                    onPressed: () {handleLikeOrDislike(results.videoLinks[index].domain.baseDomain, 1);},
-                                                  ),
-                                                  IconButton(
-                                                    icon: const Icon(
-                                                        Icons.thumb_down),
-                                                    color: Colors.red,
-                                                    iconSize: 15,
-                                                    tooltip:
-                                                        'Result was misleading',
-                                                    onPressed: () {handleLikeOrDislike(results.videoLinks[index].domain.baseDomain, 0);},
-                                                  ),
-                                                ],
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15, 0, 0, 15),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                videoLinks[index].name,
+                                                style:
+                                                    TextStyle(color: Colors.grey),
                                               ),
-                                            )
-                                          ],
+                                              SizedBox(height: 20),
+                                              Text(
+                                                videoLinks[index].numViews +
+                                                    "Views -" +
+                                                    videoLinks[index].uploadDate,
+                                                style:
+                                                    TextStyle(color: Colors.grey),
+                                              ),
+                                              const Text(
+                                                'Owner',
+                                                style:
+                                                    TextStyle(color: Colors.grey),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      )
+                                    ]),
                                   ),
-                                )
-                              ]),
+                                
+                              // ):Row(
+                              //   children: [
+                              //     Card(
+                              //       child: Column(children: [
+                              //         Container(),
+                              //         Container(
+                              //           child: Padding(
+                              //             padding: const EdgeInsets.fromLTRB(
+                              //                 15, 0, 0, 15),
+                              //             child: Column(
+                              //               children: [
+                              //                 Text(
+                              //                   videoLinks[index].name,
+                              //                   style:
+                              //                       TextStyle(color: Colors.grey),
+                              //                 ),
+                              //                 SizedBox(height: 20),
+                              //                 Text(
+                              //                   videoLinks[index].numViews +
+                              //                       " " +
+                              //                       videoLinks[index].uploadDate,
+                              //                   style:
+                              //                       TextStyle(color: Colors.grey),
+                              //                 ),
+                              //                 const Text(
+                              //                   'Owner',
+                              //                   style:
+                              //                       TextStyle(color: Colors.grey),
+                              //                 ),
+                              //               ],
+                              //             ),
+                              //           ),
+                              //         )
+                              //       ]),
+                              //     ),
+                              //   ],
+                              // ),
+
+                              onTap: () {
+                                openLinkinNewTab(
+                                    videoLinks[index].domain.url);
+                              },
                             ),
                           );
-                        }),
+                        },
                       ),
-                    ),
-                  ),
+              ),
+            ),
             SizedBox(height: 20),
             globals.comm.mybrand != ''
                 ? Positioned(
@@ -249,7 +217,7 @@ class ResultsPageState extends State<ResultsPage>
                     child: Container(
                       color: Colors.blueGrey[50],
                       child: SizedBox(
-                        width: deviceWidth(context) / 1.1,
+                        width: deviceWidth(context) / 2,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -260,7 +228,8 @@ class ResultsPageState extends State<ResultsPage>
                                 primary: Colors.orangeAccent[100],
                               ),
                               onPressed: () {
-                                handleNoAnswerFound(context, true);
+                                showMyMaterialDialog(context,
+                                    "Do you want to navigate to the video results section?");
                               },
                               child: const Text(
                                 'Couldn\'t find an answer?',
@@ -272,68 +241,11 @@ class ResultsPageState extends State<ResultsPage>
                       ),
                     ),
                   )
-                : Container(),
+                : Container()
           ],
         ),
       ),
     );
-  }
-void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
-  updateDomainLikeDislikeDifference(baseDomainUrl, like_dislike_bit).then((value) async {
-     //DO some sesssion Validation eventually
-     await FlutterSession().set("token", value);
-    });
-}
-  String numFormatter(int num) {
-    if (num > 999 && num < 1000000) {
-      return (num / 1000).ceil().toString() +
-          'K'; // convert to K for number from > 1000 < 1 million
-    } else if (num > 1000000) {
-      return (num / 1000000).ceil().toString() +
-          'M'; // convert to M for number from > 1 million
-    } else if (num > 1000000000) {
-      return (num / 1000000000).ceil().toString() +
-          'B'; // convert to B for number from > 1 billion
-    } else {
-      return num.toString();
-    }
-  }
-
-  static String timeAgoSinceDate(String dateString,
-      {bool numericDates = false}) {
-    DateTime notificationDate = DateTime.parse(
-        dateString); //DateFormat("dd-MM-yyyy h:mma").parse(dateString);
-    final date2 = DateTime.now();
-    final difference = date2.difference(notificationDate);
-
-    if ((difference.inDays / 365).floor() >= 1 &&
-        (difference.inDays / 365).floor() <= 100) {
-      return '${(difference.inDays.toInt() / 356).ceil()} years ago';
-    } else if ((difference.inDays / 30).floor() >= 1 &&
-        (difference.inDays / 30).floor() <= 12) {
-      return '${(difference.inDays.toInt() / 30).ceil()} months ago';
-    } else if ((difference.inDays / 7).floor() > 1 &&
-        (difference.inDays / 7).floor() <= 4) {
-      return '${difference.inDays / 7.ceil()} weeks ago';
-    } else if (((difference.inDays.toInt()) / 7).floor() >= 1) {
-      return (numericDates) ? '1 week ago' : 'Last week';
-    } else if (difference.inDays >= 2) {
-      return '${difference.inDays} days ago';
-    } else if (difference.inDays >= 1) {
-      return (numericDates) ? '1 day ago' : 'Yesterday';
-    } else if (difference.inHours >= 2) {
-      return '${difference.inHours} hours ago';
-    } else if (difference.inHours >= 1) {
-      return (numericDates) ? '1 hour ago' : 'An hour ago';
-    } else if (difference.inMinutes >= 2) {
-      return '${difference.inMinutes} minutes ago';
-    } else if (difference.inMinutes >= 1) {
-      return (numericDates) ? '1 minute ago' : 'A minute ago';
-    } else if (difference.inSeconds >= 3) {
-      return '${difference.inSeconds} seconds ago';
-    } else {
-      return 'Just now';
-    }
   }
 
   Widget _buildTextLinksList() {
@@ -424,7 +336,7 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
                                                   color: Colors.blue,
                                                   iconSize: 15,
                                                   tooltip: 'Result was helpful',
-                                                  onPressed: () {handleLikeOrDislike(results.textLinks[index].domain.baseDomain, 1);},
+                                                  onPressed: () {},
                                                 ),
                                                 IconButton(
                                                   icon: const Icon(
@@ -433,7 +345,7 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
                                                   iconSize: 15,
                                                   tooltip:
                                                       'Result was misleading',
-                                                  onPressed: () {handleLikeOrDislike(results.textLinks[index].domain.baseDomain, 0);},
+                                                  onPressed: () {},
                                                 ),
                                               ],
                                             ),
@@ -460,8 +372,7 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
                                 ),
 
                                 onTap: () {
-                                  openLinkinNewTab(
-                                      results.textLinks[index].domain.url);
+                                  openLinkinNewTab(textlinks[index].domain.url);
                                 },
                               ),
                             ),
@@ -488,7 +399,8 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
                                 primary: Colors.orangeAccent[100],
                               ),
                               onPressed: () {
-                                handleNoAnswerFound(context, false);
+                                showMyMaterialDialog(context,
+                                    "Do you want to navigate to the video results section?");
                               },
                               child: const Text(
                                 'Couldn\'t find an answer?',
@@ -507,7 +419,7 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
     );
   }
 
-  void handleNoAnswerFound(BuildContext context, bool forVideoSection) {
+  void showMyMaterialDialog(BuildContext context, String modalText) {
     showDialog(
         context: context,
         builder: (context) {
@@ -515,9 +427,7 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
             title: new Text(" "),
             content: Container(
               width: MediaQuery.of(context).size.width * 0.45,
-              child: Text(!forVideoSection 
-                  ? "Do you want to navigate to the video results section?"
-                  : "Do you want to navigate to the text results section?"),
+              child: Text(modalText),
             ),
             actions: <Widget>[
               ElevatedButton(
@@ -527,11 +437,8 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  !forVideoSection
-                      ? _tabController
-                          .animateTo(ResultsPageTabViews.VideoResults.index)
-                      : _tabController
-                          .animateTo(ResultsPageTabViews.TextResults.index);
+                  _tabController
+                      .animateTo(ResultsPageTabViews.VideoResults.index);
                   // setState(() {
 
                   // });

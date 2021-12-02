@@ -29,13 +29,22 @@ class TextLink{
 
 class VideoLink{
   Domain  domain;
-  String lastUpdated;
-  int length; //in minutes
+  String uploadDate;
+  String minuteLength; 
+  String thumbnail;
+  String publisher;
+  int numViews;
+  String name;
+
   
   
   VideoLink(
     this.domain, 
-    this.lastUpdated,
-    this.length
+    this.uploadDate,
+    this.minuteLength,
+    this.thumbnail,
+    this.publisher,
+    this.numViews,
+    this.name
   );
 }
