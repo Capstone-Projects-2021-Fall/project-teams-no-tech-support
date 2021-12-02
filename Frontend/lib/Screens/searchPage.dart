@@ -168,10 +168,17 @@ class _HomeScreenState extends State<searchPage> {
                     child: SizedBox(
                       width: deviceWidth(context) / 1.2,
                       child: Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(14.0))),
                         child: Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Column(children: <Widget>[
-                              //What is the problem
+                              Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(' '),
+                              ),
                               //device
                               Autocomplete(
                                 optionsBuilder:
@@ -418,16 +425,20 @@ class _HomeScreenState extends State<searchPage> {
                                   );
                                 },
                               ),
+                              Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(' '),
+                              ),
                             ])),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(1.0),
+                    padding: EdgeInsets.all(5.0),
                     child: Text(' '),
                   ),
                   SizedBox(
-                    width: deviceWidth(context) / 1.6,
+                    width: deviceWidth(context) / 3,
                     child: MaterialButton(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
