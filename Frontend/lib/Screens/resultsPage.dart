@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:myapp/Actions/get-results.dart';
 import 'package:myapp/Actions/get-tech-support-number.dart';
 import 'package:myapp/Actions/update-domain-likes-dislike-difference.dart';
@@ -10,6 +11,7 @@ import 'dart:async';
 import 'package:myapp/globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 
+//import 'package:flutter_session/flutter_session.dart';
 enum ResultsPageTabViews { TextResults, VideoResults }
 
 class ResultsPage extends StatefulWidget {
@@ -48,21 +50,20 @@ class ResultsPageState extends State<ResultsPage>
   var size;
   var itemHeight;
   var itemWidth;
+  final LocalStorage LikedDomainsDisplayedUrl =
+      new LocalStorage('liked_domains');
+  final LocalStorage DislikedDomainsDisplayedUrl =
+      new LocalStorage('disliked_domains');
+  String currentDisplayedUrl = '';
+  bool currentDomainAlreadyLiked = false;
+
+  // List<String> liked
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     _tabController.animateTo(ResultsPageTabViews.TextResults.index);
-    //  final double itemHeight = (deviceHeight(context). - kToolbarHeight - 24) / 2;
-    // final double itemWidth = size.width / 2;
-
-//       var size = MediaQuery.of(context).size;
-
-//     /*24 is for notification bar on Android*/
-//  itemHeight = (size.height - kToolbarHeight - 24) / 2;
-//  itemWidth = size.width / 2;
-
     importedFinalQuestion =
         widget.finalQuestion; // Temporary, get this from previous view
     getResults(importedFinalQuestion).then((value) {
@@ -208,24 +209,101 @@ class ResultsPageState extends State<ResultsPage>
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.end,
                                                 children: [
-                                                  IconButton(
-                                                    icon: const Icon(
-                                                        Icons.thumb_up),
-                                                    color: Colors.blue,
-                                                    iconSize: 15,
-                                                    tooltip:
-                                                        'Result was helpful',
-                                                    onPressed: () {handleLikeOrDislike(results.videoLinks[index].domain.baseDomain, 1);},
-                                                  ),
-                                                  IconButton(
-                                                    icon: const Icon(
-                                                        Icons.thumb_down),
-                                                    color: Colors.red,
-                                                    iconSize: 15,
-                                                    tooltip:
-                                                        'Result was misleading',
-                                                    onPressed: () {handleLikeOrDislike(results.videoLinks[index].domain.baseDomain, 0);},
-                                                  ),
+                                                  dynamicLikedDomainsListFromSessionToStringList()
+                                                          .contains(results
+                                                              .videoLinks[index]
+                                                              .domain
+                                                              .url)
+                                                      ? IconButton(
+                                                          icon: const Icon(
+                                                              Icons.thumb_up),
+                                                          color: Colors.blue,
+                                                          iconSize: 25,
+                                                          tooltip: 'You Liked',
+                                                          onPressed: () {
+                                                            handleLikes(
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .url,
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .baseDomain);
+                                                          },
+                                                        )
+                                                      : IconButton(
+                                                          icon: const Icon(
+                                                              Icons.thumb_up),
+                                                          color:
+                                                              Colors.grey[400],
+                                                          iconSize: 15,
+                                                          tooltip:
+                                                              'Result was helpful',
+                                                          onPressed: () {
+                                                            handleLikes(
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .url,
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .baseDomain);
+                                                          },
+                                                        ),
+                                                  dynamicDislikedDomainsListFromSessionToStringList()
+                                                          .contains(results
+                                                              .videoLinks[index]
+                                                              .domain
+                                                              .url)
+                                                      ? IconButton(
+                                                          icon: const Icon(
+                                                              Icons.thumb_down),
+                                                          color: Colors.red,
+                                                          iconSize: 25,
+                                                          tooltip:
+                                                              'You Disliked',
+                                                          onPressed: () {
+                                                            handleDislikes(
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .url,
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .baseDomain);
+                                                          },
+                                                        )
+                                                      : IconButton(
+                                                          icon: const Icon(
+                                                              Icons.thumb_down),
+                                                          color:
+                                                              Colors.grey[400],
+                                                          iconSize: 15,
+                                                          tooltip:
+                                                              'Result was misleading',
+                                                          onPressed: () {
+                                                            handleDislikes(
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .url,
+                                                                results
+                                                                    .videoLinks[
+                                                                        index]
+                                                                    .domain
+                                                                    .baseDomain);
+                                                          },
+                                                        ),
                                                 ],
                                               ),
                                             )
@@ -278,12 +356,128 @@ class ResultsPageState extends State<ResultsPage>
       ),
     );
   }
-void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
-  updateDomainLikeDislikeDifference(baseDomainUrl, like_dislike_bit).then((value) async {
-     //DO some sesssion Validation eventually
-     await FlutterSession().set("token", value);
+
+  void handleLikes(String displayUrl, String baseDomain) {
+    //debugger();
+
+    if (dynamicLikedDomainsListFromSessionToStringList().isEmpty) {
+      updateDomainLikeDislikeDifference(baseDomain, 1).then((value) {
+        addToLikedDomainsList(displayUrl);
+        if (dynamicDislikedDomainsListFromSessionToStringList()
+            .contains(displayUrl)) {
+          removeFromDislikedDomainsList(displayUrl);
+          updateDomainLikeDislikeDifference(
+              baseDomain, 1); //Double like if it was disliked already
+        }
+      });
+    } else {
+      if (!dynamicLikedDomainsListFromSessionToStringList()
+          .contains(displayUrl)) {
+        updateDomainLikeDislikeDifference(baseDomain, 1).then((value) {
+          //debugger();
+          addToLikedDomainsList(displayUrl);
+          if (dynamicDislikedDomainsListFromSessionToStringList()
+              .contains(displayUrl)) {
+            removeFromDislikedDomainsList(displayUrl);
+            updateDomainLikeDislikeDifference(
+                baseDomain, 1); //Double like if it was disliked already
+          }
+        });
+      } else {
+        updateDomainLikeDislikeDifference(baseDomain, 0)
+            .then((value) => removeFromLikedDomainsList(displayUrl));
+      }
+    }
+  }
+
+  void handleDislikes(String displayUrl, String baseDomain) {
+
+    if (dynamicDislikedDomainsListFromSessionToStringList().isEmpty) {
+      updateDomainLikeDislikeDifference(baseDomain, 0).then((value) {
+        addToDislikedDomainsList(displayUrl);
+        if (dynamicLikedDomainsListFromSessionToStringList()
+            .contains(displayUrl)) {
+          removeFromLikedDomainsList(displayUrl);
+          updateDomainLikeDislikeDifference(
+              baseDomain, 0); //Double dislike if it was liked already
+        }
+      });
+    } else {
+      if (!dynamicDislikedDomainsListFromSessionToStringList()
+          .contains(displayUrl)) {
+        updateDomainLikeDislikeDifference(baseDomain, 0).then((value) {
+          addToDislikedDomainsList(displayUrl);
+          if (dynamicLikedDomainsListFromSessionToStringList()
+              .contains(displayUrl)) {
+            removeFromLikedDomainsList(displayUrl);
+            updateDomainLikeDislikeDifference(
+                baseDomain, 0); //Double dislike if it was liked already
+          }
+        });
+      } else {
+        updateDomainLikeDislikeDifference(baseDomain, 1)
+            .then((value) => removeFromDislikedDomainsList(displayUrl));
+      }
+    }
+  }
+
+  List<String> dynamicLikedDomainsListFromSessionToStringList() {
+    List<String> currentDomainList = [];
+    List<dynamic>? data =
+        LikedDomainsDisplayedUrl.getItem('LikedDomainsDisplayedUrl');
+    if (data == null) return [];
+
+    currentDomainList = List<String>.from(data);
+    ;
+    return currentDomainList;
+  }
+
+  List<String> dynamicDislikedDomainsListFromSessionToStringList() {
+    List<String> currentDomainList = [];
+    List<dynamic>? data =
+        DislikedDomainsDisplayedUrl.getItem('DislikedDomainsDisplayedUrl');
+    if (data == null) return [];
+    currentDomainList = List<String>.from(data);
+    ;
+    return currentDomainList;
+  }
+
+  void addToLikedDomainsList(String newDisplayURL) {
+    List<String> currentList = dynamicLikedDomainsListFromSessionToStringList();
+    currentList.add(newDisplayURL);
+    setState(() {
+      LikedDomainsDisplayedUrl.setItem("LikedDomainsDisplayedUrl", currentList);
     });
-}
+  }
+
+  void removeFromLikedDomainsList(String newDisplayURL) {
+    List<String> currentList = dynamicLikedDomainsListFromSessionToStringList();
+    currentList.remove(newDisplayURL);
+    setState(() {
+      LikedDomainsDisplayedUrl.setItem("LikedDomainsDisplayedUrl", currentList);
+    });
+  }
+
+  void addToDislikedDomainsList(String newDisplayURL) {
+    List<String> currentList =
+        dynamicDislikedDomainsListFromSessionToStringList();
+    currentList.add(newDisplayURL);
+    setState(() {
+      DislikedDomainsDisplayedUrl.setItem(
+          "DislikedDomainsDisplayedUrl", currentList);
+    });
+  }
+
+  void removeFromDislikedDomainsList(String newDisplayURL) {
+    List<String> currentList =
+        dynamicDislikedDomainsListFromSessionToStringList();
+    currentList.remove(newDisplayURL);
+    setState(() {
+      DislikedDomainsDisplayedUrl.setItem(
+          "DislikedDomainsDisplayedUrl", currentList);
+    });
+  }
+
   String numFormatter(int num) {
     if (num > 999 && num < 1000000) {
       return (num / 1000).ceil().toString() +
@@ -418,23 +612,103 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                               children: [
-                                                IconButton(
-                                                  icon: const Icon(
-                                                      Icons.thumb_up),
-                                                  color: Colors.blue,
-                                                  iconSize: 15,
-                                                  tooltip: 'Result was helpful',
-                                                  onPressed: () {handleLikeOrDislike(results.textLinks[index].domain.baseDomain, 1);},
-                                                ),
-                                                IconButton(
-                                                  icon: const Icon(
-                                                      Icons.thumb_down),
-                                                  color: Colors.red,
-                                                  iconSize: 15,
-                                                  tooltip:
-                                                      'Result was misleading',
-                                                  onPressed: () {handleLikeOrDislike(results.textLinks[index].domain.baseDomain, 0);},
-                                                ),
+                                                dynamicLikedDomainsListFromSessionToStringList()
+                                                        .contains(results
+                                                            .textLinks[index]
+                                                            .domain
+                                                            .url)
+                                                    ? IconButton(
+                                                        icon: const Icon(
+                                                            Icons.thumb_up),
+                                                        color: Colors.blue,
+                                                        iconSize: 25,
+                                                        tooltip: 'You Liked',
+                                                        onPressed: () {
+                                                          handleLikes(
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .url,
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .baseDomain);
+
+                                                          //debugger();
+                                                        },
+                                                      )
+                                                    : IconButton(
+                                                        icon: const Icon(
+                                                            Icons.thumb_up),
+                                                        color: Colors.grey[400],
+                                                        iconSize: 15,
+                                                        tooltip:
+                                                            'Result was helpful',
+                                                        onPressed: () {
+                                                          handleLikes(
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .url,
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .baseDomain);
+                                                          //setState((){});
+
+                                                          //debugger();
+                                                        },
+                                                      ),
+                                                dynamicDislikedDomainsListFromSessionToStringList()
+                                                        .contains(results
+                                                            .textLinks[index]
+                                                            .domain
+                                                            .url)
+                                                    ? IconButton(
+                                                        icon: const Icon(
+                                                            Icons.thumb_down),
+                                                        color: Colors.red,
+                                                        iconSize: 25,
+                                                        tooltip: 'You Disliked',
+                                                        onPressed: () {
+                                                          handleDislikes(
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .url,
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .baseDomain);
+                                                        },
+                                                      )
+                                                    : IconButton(
+                                                        icon: const Icon(
+                                                            Icons.thumb_down),
+                                                        color: Colors.grey[400],
+                                                        iconSize: 15,
+                                                        tooltip:
+                                                            'Result was misleading',
+                                                        onPressed: () {
+                                                          handleDislikes(
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .url,
+                                                              results
+                                                                  .textLinks[
+                                                                      index]
+                                                                  .domain
+                                                                  .baseDomain);
+                                                        },
+                                                      ),
                                               ],
                                             ),
                                           )
@@ -515,7 +789,7 @@ void handleLikeOrDislike(String baseDomainUrl, int like_dislike_bit){
             title: new Text(" "),
             content: Container(
               width: MediaQuery.of(context).size.width * 0.45,
-              child: Text(!forVideoSection 
+              child: Text(!forVideoSection
                   ? "Do you want to navigate to the video results section?"
                   : "Do you want to navigate to the text results section?"),
             ),
