@@ -434,8 +434,8 @@ class _HomeScreenState extends State<searchPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text(' '),
+                    padding: EdgeInsets.all(10.0),
+                    child: Text('\n '),
                   ),
                   SizedBox(
                     width: deviceWidth(context) / 3,
