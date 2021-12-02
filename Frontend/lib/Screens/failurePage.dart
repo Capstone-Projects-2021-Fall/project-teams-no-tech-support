@@ -1,6 +1,7 @@
 import 'package:myapp/globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:myapp/main.dart';
+import 'package:myapp/Screens/questionOptimizationPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -133,40 +134,89 @@ class _HomeScreenState extends State<failurePage> {
                               height: deviceHeight(context) / 30,
                             ),
                             SizedBox(
-                              width: deviceWidth(context) / 1.6,
-                              child: MaterialButton(
-                                elevation: 4,
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(14.0))),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MyHomePage(),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 40.0),
-                                  child: Wrap(
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    children: [
-                                      Icon(Icons.arrow_back,
-                                          color: Colors.blue),
-                                      Text(
-                                        " Search again!",
-                                        style: TextStyle(
-                                            fontSize: 18.0, color: Colors.blue),
+                                width: deviceWidth(context) / 1.6,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: MaterialButton(
+                                        elevation: 4,
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(14.0))),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  QuestionOptimizationPage(
+                                                      generatedQuestion: globals
+                                                          .comm
+                                                          .reviseQuestion), //
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20.0, horizontal: 40.0),
+                                          child: Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              Icon(Icons.arrow_back,
+                                                  color: Colors.blue),
+                                              Text(
+                                                " Back",
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Expanded(
+                                      child: MaterialButton(
+                                        elevation: 4,
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(14.0))),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MyHomePage(),
+                                            ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 20.0, horizontal: 40.0),
+                                          child: Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              Icon(Icons.search,
+                                                  color: Colors.blue),
+                                              Text(
+                                                " Search again!",
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
                           ],
                         ),
                       ),

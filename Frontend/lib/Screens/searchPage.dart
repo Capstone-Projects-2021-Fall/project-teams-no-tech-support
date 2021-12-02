@@ -195,7 +195,6 @@ class _HomeScreenState extends State<searchPage> {
                                         final option = options.elementAt(index);
 
                                         return ListTile(
-                                          // title: Text(option.toString()),
                                           title: SubstringHighlight(
                                             text: option.toString(),
                                             term: controller.text,
