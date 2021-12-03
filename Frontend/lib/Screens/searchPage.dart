@@ -440,6 +440,7 @@ class _HomeScreenState extends State<searchPage> {
                   SizedBox(
                     width: deviceWidth(context) / 3,
                     child: MaterialButton(
+                      elevation: 4,
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius:
@@ -458,7 +459,7 @@ class _HomeScreenState extends State<searchPage> {
                             vertical: 20.0, horizontal: 40.0),
                         child: Text(
                           "Continue!",
-                          style: TextStyle(fontSize: 20.0, color: Colors.red),
+                          style: TextStyle(fontSize: 20.0, color: Colors.blue),
                         ),
                       ),
                     ),
