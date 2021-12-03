@@ -56,9 +56,14 @@ class SearchController extends Controller
                     $urlProperty = "url";
                 }
 
-                foreach($values->value as $value) {
-                    $value->baseDomain = $this->parseDomain($value->$urlProperty);
-                    $domains[] = $value->baseDomain;
+                foreach($values->value as $key => $value) {
+                    $baseDomain = $this->parseDomain($value->$urlProperty);
+                    if(strlen($baseDomain) == 0) {
+                        unset($values->value[$key]);
+                    } else {
+                        $value->baseDomain = $baseDomain;
+                        $domains[] = $value->baseDomain;
+                    }
                 }
 
                 $baseDomains = Domain::whereIn('name', $domains)->get();
@@ -97,7 +102,10 @@ class SearchController extends Controller
                 }
 
                 foreach($values->value as $value) {
-                    $domains[] = $this->parseDomain($value->$urlProperty);
+                    $baseDomain = $this->parseDomain($value->$urlProperty);
+                    if(strlen($baseDomain) != 0) {
+                        $domains[] = $baseDomain;
+                    }
                 }
             }
         }
@@ -204,7 +212,11 @@ class SearchController extends Controller
     private function parseDomain(String $url) : String {
         $domain = parse_url($url, PHP_URL_HOST);
         $domain = str_replace('www.', '', $domain);
-        return $domain;
+        if(filter_var(gethostbyname($domain), FILTER_VALIDATE_IP)) {
+            return $domain;
+        } else {
+            return "";
+        }
     }
 
     /**
