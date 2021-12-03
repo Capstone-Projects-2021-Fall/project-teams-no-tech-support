@@ -131,11 +131,12 @@ class ResultsPageState extends State<ResultsPage>
                       width: deviceWidth(context) / 1.1,
                       child: GridView.count(
                         shrinkWrap: true,
+                        clipBehavior: Clip.hardEdge,
                         // Create a grid with 2 columns. If you change the scrollDirection to
                         // horizontal, this produces 2 rows.
-                        //childAspectRatio: (deviceHeight(context) / (deviceWidth(context)/2.2)),
+                        childAspectRatio: getSuitableAspectRatioForVideoGrid(),
 
-                        crossAxisCount: 3,
+                        crossAxisCount: getSuitableNumberOfColumnsInVideoGrid(),
                         // Generate 100 widgets that display their index in the List.
                         children:
                             List.generate(results.videoLinks.length, (index) {
@@ -152,14 +153,61 @@ class ResultsPageState extends State<ResultsPage>
                                 Container(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.stretch,
+                                        
                                     children: [
                                       Container(
                                         //color: Colors.grey[200],
-                                        child: new Image.network(results
-                                                .videoLinks[index]
-                                                .thumbnail //+ '?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-                                            ),
+                                        child:
+                                            Stack(alignment: Alignment.center,
+                                                //clipBehavior: Clip.hardEdge,
+                                                children: <Widget>[
+                                              Container(
+                                                child: new Image.network(results
+                                                        .videoLinks[index]
+                                                        .thumbnail,
+                                                     
+                                                        width: deviceWidth(context) * 0.30,
+                                                        height: deviceHeight(context) * 0.43,
+                                                          fit: BoxFit.fitHeight,
+                                                    ),
+                                              ),
+                                              Icon(
+                                                Icons.play_circle_sharp,
+                                                color: Colors.grey[100],
+                                                size: 60,
+                                              ),
+                                              Positioned(
+                                                bottom: 7,
+                                                right: 30,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              9.0),
+                                                      color:
+                                                          Colors.blueGrey[300],
+                                                      border: Border.all(
+                                                          color: Colors
+                                                              .grey.shade300,
+                                                          width: 1.5)),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(7, 2, 7, 2),
+                                                    child: Text(
+                                                      formatDuration(results
+                                                          .videoLinks[index]
+                                                          .duration),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ]),
                                         alignment: Alignment.center,
                                       ),
                                       SizedBox(height: 10),
@@ -391,7 +439,6 @@ class ResultsPageState extends State<ResultsPage>
   }
 
   void handleDislikes(String displayUrl, String baseDomain) {
-
     if (dynamicDislikedDomainsListFromSessionToStringList().isEmpty) {
       updateDomainLikeDislikeDifference(baseDomain, 0).then((value) {
         addToDislikedDomainsList(displayUrl);
@@ -491,6 +538,113 @@ class ResultsPageState extends State<ResultsPage>
     } else {
       return num.toString();
     }
+  }
+
+  getSuitableAspectRatioForVideoGrid(){
+ 
+    double width = deviceHeight(context);
+    double height = deviceWidth(context);
+    double quotient = width/height;
+
+    if(quotient >= 1.2){
+      return 5/7;
+    }
+    else if(quotient >= 0.95){
+      return 5/6;
+    }
+    else if(quotient >= 0.76){
+      return 5/5.5;
+    }
+     else if(quotient >= 0.70){
+      return 5/5.3;
+    }
+    else if(quotient >= 0.60){
+      return 5/6;
+    }
+    else if(quotient >= 0.50){
+      return 5/5.3;
+    }
+     else if(quotient >= 0.40){
+      return 5/4.8;
+    }
+   
+  }
+  getSuitableNumberOfColumnsInVideoGrid(){
+ 
+    double width = deviceHeight(context);
+    double height = deviceWidth(context);
+    double quotient = width/height;
+
+    if(quotient > 0.7){
+      return 2;
+    }
+    return 3;
+    
+   
+  }
+
+  String formatDuration(String timeFromAPI) { 
+//debugger();
+    String formattedDuration = '';
+    if(timeFromAPI.contains('H')){
+
+        if(!timeFromAPI.contains('M') && !timeFromAPI.contains('S')){
+            timeFromAPI = timeFromAPI + '00M00S';
+        }
+        else if(!timeFromAPI.contains('M')){
+          timeFromAPI = timeFromAPI.replaceAll('H', 'H00M');
+        }
+        else if(!timeFromAPI.contains('S')){
+           timeFromAPI = timeFromAPI.replaceAll('M', 'M00S');
+        }
+
+
+          int minStartIndex = timeFromAPI.indexOf('H');;
+          int minEndIndex = timeFromAPI.indexOf('M');
+
+          int secStartIndex = minEndIndex;
+          int secEndIndex = timeFromAPI.indexOf('S');
+
+          String minSubString = timeFromAPI.substring(minStartIndex+1,minEndIndex);
+          String secSubString = timeFromAPI.substring(secStartIndex+1,secEndIndex);
+          if(minSubString.length == 1) {
+            timeFromAPI = timeFromAPI.replaceAll(minSubString + 'M', '0'+ minSubString + 'M');
+          }
+          if(secSubString.length == 1) {
+          timeFromAPI=  timeFromAPI.replaceAll(secSubString + 'S', '0'+ secSubString + 'S');
+          }
+        
+
+    }
+    else if(timeFromAPI.contains('M')){
+     
+        if(!timeFromAPI.contains('S')){
+           timeFromAPI = timeFromAPI.replaceAll('M', 'M00S');
+        }
+
+        int secStartIndex = timeFromAPI.indexOf('M');;
+        int secEndIndex = timeFromAPI.indexOf('S');
+        
+        String secSubString = timeFromAPI.substring(secStartIndex+1,secEndIndex);
+        
+        if(secSubString.length == 1) {
+          timeFromAPI = timeFromAPI.replaceAll(secSubString + 'S', '0'+ secSubString + 'S');
+        }
+    }else{
+          timeFromAPI = timeFromAPI.replaceAll('PT', 'PT00M');
+          int secStartIndex = timeFromAPI.indexOf('M');;
+          int secEndIndex = timeFromAPI.indexOf('S');
+          String secSubString = timeFromAPI.substring(secStartIndex+1,secEndIndex);
+        
+          if(secSubString.length == 1) {
+            timeFromAPI = timeFromAPI.replaceAll(secSubString + 'S', '0'+ secSubString + 'S');
+          }
+    }
+    
+   
+
+     formattedDuration = timeFromAPI.replaceAll('PT', '').replaceAll('M', ':').replaceAll('H', ':').replaceAll('S', '');;
+  return formattedDuration;
   }
 
   static String timeAgoSinceDate(String dateString,

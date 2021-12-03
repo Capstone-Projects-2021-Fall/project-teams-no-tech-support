@@ -30,7 +30,7 @@ class TextLink{
 class VideoLink{
   Domain  domain;
   String uploadDate;
-  String minuteLength; 
+  String duration; 
   String thumbnail;
   String publisher;
   int numViews;
@@ -41,7 +41,7 @@ class VideoLink{
   VideoLink(
     this.domain, 
     this.uploadDate,
-    this.minuteLength,
+    this.duration,
     this.thumbnail,
     this.publisher,
     this.numViews,
