@@ -299,7 +299,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                           padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                           child: SizedBox(
                             width: deviceWidth(context) / 1.5,
-                            child: Expanded(
+                            child: Container(
                               child: Text(
                                 'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question Related Issues',
                                 style: TextStyle(
