@@ -3,6 +3,7 @@ import 'package:myapp/Screens/homePage.dart';
 import 'package:myapp/Components/Navbar.dart';
 import 'package:myapp/Screens/resultPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
+import 'package:myapp/Screens/failurePage.dart';
 import 'package:myapp/Screens/Home/aboutUs.dart';
 import 'package:myapp/Screens/MobileSearchPage.dart';
 import 'package:myapp/Screens/current_device.dart';
@@ -86,6 +87,13 @@ class mysearchpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Container(child: searchPage()));
+  }
+}
+
+class myFailurePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: Container(child: failurePage()));
   }
 }
 

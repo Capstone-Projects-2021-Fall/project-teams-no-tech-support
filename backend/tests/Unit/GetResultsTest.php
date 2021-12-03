@@ -198,46 +198,45 @@ class GetResultsTest extends TestCase
             '*' => Http::response($fakeResponse, 200),
         ]);
 
-        Domain::factory()->create([
-            'name' => 'amazon.com',
-            'likes' => 1
-        ]);
-        Domain::factory()->create([
-            'name' => 'bestbuy.com',
-            'likes' => 20
-        ]);
-        Domain::factory()->create([
-            'name' => 'walmart.com',
-            'likes' => 300
-        ]);
-        Domain::factory()->create([
-            'name' => 'computerhope.com',
-            'likes' => 400
-        ]);
-        Domain::factory()->create([
-            'name' => 'britannica.com',
-            'likes' => 500
-        ]);
-        Domain::factory()->create([
-            'name' => 'perkasiepcrepair.com',
-            'likes' => 600
-        ]);
-        Domain::factory()->create([
-            'name' => 'microcenter.com',
-            'likes' => 700
-        ]);
-        Domain::factory()->create([
-            'name' => 'angi.com',
-            'likes' => 800
-        ]);
-        Domain::factory()->create([
-            'name' => 'penncomputer.com',
-            'likes' => 900
-        ]);
-        Domain::factory()->create([
-            'name' => 'manta.com',
-            'likes' => 1000
-        ]);
+        $amazon = Domain::factory()->create(['name' => 'amazon.com']);
+        $amazon->interactiveDomain->likes_dislikes_difference = 1;
+        $amazon->push();
+
+        $bestbuy = Domain::factory()->create(['name' => 'bestbuy.com']);
+        $bestbuy->interactiveDomain->likes_dislikes_difference = 20;
+        $bestbuy->push();
+
+        $walmart = Domain::factory()->create(['name' => 'walmart.com']);
+        $walmart->interactiveDomain->likes_dislikes_difference = 300;
+        $walmart->push();
+        
+        $computerHope = Domain::factory()->create(['name' => 'computerhope.com']);
+        $computerHope->interactiveDomain->likes_dislikes_difference = 400;
+        $computerHope->push();
+
+        $britannica = Domain::factory()->create(['name' => 'britannica.com']);
+        $britannica->interactiveDomain->likes_dislikes_difference = 500;
+        $britannica->push();
+
+        $perkasiePCRepair = Domain::factory()->create(['name' => 'perkasiepcrepair.com']);
+        $perkasiePCRepair->interactiveDomain->likes_dislikes_difference = 600;
+        $perkasiePCRepair->push();
+
+        $microcenter = Domain::factory()->create(['name' => 'microcenter.com']);
+        $microcenter->interactiveDomain->likes_dislikes_difference = 700;
+        $microcenter->push();
+
+        $angi = Domain::factory()->create(['name' => 'angi.com']);
+        $angi->interactiveDomain->likes_dislikes_difference = 800;
+        $angi->push();
+
+        $penncomputer = Domain::factory()->create(['name' => 'penncomputer.com']);
+        $penncomputer->interactiveDomain->likes_dislikes_difference = 900;
+        $penncomputer->push();
+
+        $manta = Domain::factory()->create(['name' => 'manta.com']);
+        $manta->interactiveDomain->likes_dislikes_difference = 1000;
+        $manta->push();
 
         $this->assertEquals(10, Domain::count());
 
@@ -281,14 +280,14 @@ class GetResultsTest extends TestCase
             '*' => Http::response($fakeResponse, 200),
         ]);
 
-        Domain::factory()->certified()->create([
-            'name' => 'amazon.com',
-            'likes' => 1
-        ]);
-        Domain::factory()->create([
-            'name' => 'bestbuy.com',
-            'likes' => 20
-        ]);
+        $certDom = Domain::factory()->create(['name' => 'amazon.com']);
+        $certDom->trustedDomain->domainRank = 1;
+        $certDom->interactiveDomain->likes_dislikes_difference = 1;
+        $certDom->push();
+        
+        $uncertDom = Domain::factory()->create(['name' => 'bestbuy.com']);
+        $uncertDom->interactiveDomain->likes_dislikes_difference = 20;
+        $uncertDom->push();
 
         $this->assertEquals(2, Domain::count());
 

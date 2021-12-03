@@ -6,9 +6,10 @@ import 'package:myapp/Models/_question.dart';
 import 'package:myapp/Actions/get-related-searches.dart';
 import 'package:myapp/Models/_results.dart';
 import 'package:myapp/Screens/resultsPage.dart';
-import 'package:myapp/Screens/tempSearchPage.dart';
+import 'package:myapp/Screens/searchPage.dart';
 import 'package:myapp/partsOfSpeech.dart';
 import 'package:myapp/globals.dart' as globals;
+import 'package:myapp/Screens/failurePage.dart';
 
 class QuestionOptimizationPage extends StatefulWidget {
   final String generatedQuestion;
@@ -241,7 +242,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
             children: <Widget>[
               SizedBox(height: 30),
               SizedBox(
-                width: 900,
+                width: deviceWidth(context) / 1.5,
                 height: 400,
                 child: ListView.separated(
                   shrinkWrap: true,
@@ -296,14 +297,19 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                     ? [
                         Container(
                           padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                          child: Text(
-                            'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question Related Issues',
-                            style: TextStyle(
-                                color: Colors.red[300],
-                                fontSize: 19,
-                                fontFamily: 'RobotoMono'
-                                //fontWeight: FontWeight.bold
-                                ),
+                          child: SizedBox(
+                            width: deviceWidth(context) / 1.5,
+                            child: Expanded(
+                              child: Text(
+                                'No suggestions found for $activeQueryName. Click on the \'Get Results\' button below, or select prior question Related Issues',
+                                style: TextStyle(
+                                    color: Colors.red[300],
+                                    fontSize: 24,
+                                    fontFamily: 'RobotoMono'
+                                    //fontWeight: FontWeight.bold
+                                    ),
+                              ),
+                            ),
                           ),
                         )
                       ]
@@ -326,45 +332,97 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-                child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 17)),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              //   builder: (context) => QuestionOptimizationPage(
-                              //       generatedQuestion: "Not quite there yet"), //
-                              // ),
-                              builder: (context) => tempSearchPage()
-                              //
-                              ),
-                        );
-                      },
-                      child: const Text('Cancel'), //temporary
-                    ),
-                    const SizedBox(width: 30),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 17)),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            //   builder: (context) => QuestionOptimizationPage(
-                            //       generatedQuestion: "Not quite there yet"), //
-                            // ),
-                            builder: (context) => ResultsPage(
-                                finalQuestion: activeQuery.content), //
+                child: SizedBox(
+                  width: deviceWidth(context) / 2,
+                  child: Center(
+                    child: Row(
+                      //mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: MaterialButton(
+                            elevation: 4,
+                            height: 50,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(9.0))),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    //   builder: (context) => QuestionOptimizationPage(
+                                    //       generatedQuestion: "Not quite there yet"), //
+                                    // ),
+                                    builder: (context) => searchPage()
+                                    //
+                                    ),
+                              );
+                            },
+                            child: const Text(
+                              'Cancel',
+                              style:
+                                  TextStyle(fontSize: 18.0, color: Colors.blue),
+                            ), //temporary
                           ),
-                        );
-                      }, //temporary
-                      child: const Text('Get Results'),
-                    )
-                  ],
+                        ),
+                        const SizedBox(width: 30),
+                        Expanded(
+                          child: MaterialButton(
+                            elevation: 4,
+                            height: 50,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(9.0))),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  //   builder: (context) => QuestionOptimizationPage(
+                                  //       generatedQuestion: "Not quite there yet"), //
+                                  // ),
+                                  builder: (context) => ResultsPage(
+                                      finalQuestion: activeQuery.content), //
+                                ),
+                              );
+                            }, //temporary
+                            child: const Text(
+                              'Get Results',
+                              style:
+                                  TextStyle(fontSize: 18.0, color: Colors.blue),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text('\n'),
+                        ),
+                        const SizedBox(width: 30),
+                        Expanded(
+                          child: MaterialButton(
+                            elevation: 4,
+                            height: 50,
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(9.0))),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => failurePage()),
+                              );
+                            }, //temporary
+                            child: const Text(
+                              'Get Help',
+                              style:
+                                  TextStyle(fontSize: 18.0, color: Colors.blue),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],

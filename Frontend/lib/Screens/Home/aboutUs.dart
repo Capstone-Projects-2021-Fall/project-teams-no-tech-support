@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/globals.dart' as globals;
 
 class aboutUsPage extends StatelessWidget {
-    @override
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        globals.comm.H = constraints.maxHeight;
+        globals.comm.W = constraints.maxWidth;
         if (constraints.maxWidth > 1200) {
           return DesktopaboutUsPage();
         } else if (constraints.maxWidth > 800 && constraints.maxWidth < 1200) {
           return DesktopaboutUsPage();
         } else {
-          return MobileaboutUsPage();
+          return DesktopaboutUsPage();
         }
       },
     );
   }
 }
 
-
 class DesktopaboutUsPage extends StatelessWidget {
+  double deviceHeight(BuildContext context) =>
+      MediaQuery.of(context).size.height;
+  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
   List<Widget> pageChildren(double width) {
     return <Widget>[
       Container(
@@ -47,48 +52,115 @@ class DesktopaboutUsPage extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('Aidan.png'),
-                      Text('Aidan E Buehler'),
-                    ],
+                Expanded(
+                  child: Card(
+                    child: SizedBox(
+                      width: globals.comm.W,
+                      child: Column(
+                        children: [
+                          Image(
+                            image: AssetImage('Aidan.png'),
+                            alignment: Alignment.center,
+                            height: globals.comm.W / 6,
+                            width: globals.comm.W / 6,
+                            fit: BoxFit.fill,
+                          ),
+                          Text('Aidan E Buehler \n'),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('Jixi.png'),
-                      Text('Jixi He'),
-                    ],
+                Padding(
+                  padding: EdgeInsets.all(1.5),
+                  child: Text(' '),
+                ),
+                Expanded(
+                  child: Card(
+                    child: SizedBox(
+                      width: globals.comm.W,
+                      child: Column(
+                        children: [
+                          Image(
+                            image: AssetImage('Jixi.png'),
+                            alignment: Alignment.center,
+                            height: globals.comm.W / 6,
+                            width: globals.comm.W / 6,
+                            fit: BoxFit.fill,
+                          ),
+                          Text('Jixi He \n'),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('Henry.png'),
-                      Text('Henry Keja Kombem'),
-                    ],
+                Padding(
+                  padding: EdgeInsets.all(1.5),
+                  child: Text(' '),
+                ),
+                Expanded(
+                  child: Card(
+                    child: SizedBox(
+                      width: globals.comm.W,
+                      child: Column(
+                        children: [
+                          Image(
+                            image: AssetImage('Henry.png'),
+                            alignment: Alignment.center,
+                            height: globals.comm.W / 6,
+                            width: globals.comm.W / 6,
+                            fit: BoxFit.fill,
+                          ),
+                          Text('Henry Keja Kombem \n'),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('Dajun.png'),
-                      Text('Dajun Lin'),
-                    ],
+                Padding(
+                  padding: EdgeInsets.all(1.5),
+                  child: Text(' '),
+                ),
+                Expanded(
+                  child: Card(
+                    child: SizedBox(
+                      width: globals.comm.W,
+                      child: Column(
+                        children: [
+                          Image(
+                            image: AssetImage('Dajun.png'),
+                            alignment: Alignment.center,
+                            height: globals.comm.W / 6,
+                            width: globals.comm.W / 6,
+                            fit: BoxFit.fill,
+                          ),
+                          Text('Dajun Lin \n'),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                Spacer(flex: 2),
-                Card(
-                  child: Column(
-                    children: [
-                      Image.asset('Yangmiao.png'),
-                      Text('Yangmiao Wu'),
-                    ],
+                Padding(
+                  padding: EdgeInsets.all(1.5),
+                  child: Text(' '),
+                ),
+                Expanded(
+                  child: Card(
+                    child: SizedBox(
+                      width: globals.comm.W,
+                      child: Column(
+                        children: [
+                          Image(
+                            image: AssetImage('Yangmiao.png'),
+                            alignment: Alignment.center,
+                            height: globals.comm.W / 6,
+                            width: globals.comm.W / 6,
+                            fit: BoxFit.fill,
+                          ),
+                          Text('Yangmiao Wu \n'),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -118,7 +190,6 @@ class DesktopaboutUsPage extends StatelessWidget {
   }
 }
 
-
 class MobileaboutUsPage extends StatelessWidget {
   List<Widget> pageChildren(double width) {
     return <Widget>[
@@ -145,76 +216,59 @@ class MobileaboutUsPage extends StatelessWidget {
               padding: EdgeInsets.all(15.0),
               child: Text(' '),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      //Image.asset('images/pic1.jpg'),
-                      Text('Aidan E Buehler'),
-                    ],
-                  ),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Card(
+                child: Column(
+                  children: [
+                    //Image.asset('images/pic1.jpg'),
+                    Text('Aidan E Buehler'),
+                  ],
                 ),
-              ]
-            ),
-                        Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      //Image.asset('images/pic1.jpg'),
-                      Text('Jixi He'),
-                    ],
-                  ),
+              ),
+            ]),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Card(
+                child: Column(
+                  children: [
+                    //Image.asset('images/pic1.jpg'),
+                    Text('Jixi He'),
+                  ],
                 ),
-              ]
-            ),
-                                    Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      //Image.asset('images/pic1.jpg'),
-                      Text('Henry Keja Kombem'),
-                    ],
-                  ),
+              ),
+            ]),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Card(
+                child: Column(
+                  children: [
+                    //Image.asset('images/pic1.jpg'),
+                    Text('Henry Keja Kombem'),
+                  ],
                 ),
-              ]
-            ),
-                                    Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      //Image.asset('images/pic1.jpg'),
-                      Text('Dajun Lin'),
-                    ],
-                  ),
+              ),
+            ]),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Card(
+                child: Column(
+                  children: [
+                    //Image.asset('images/pic1.jpg'),
+                    Text('Dajun Lin'),
+                  ],
                 ),
-              ]
-            ),
-                                    Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Card(
-                  child: Column(
-                    children: [
-                      //Image.asset('images/pic1.jpg'),
-                      Text('Yangmiao Wu'),
-                    ],
-                  ),
+              ),
+            ]),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Card(
+                child: Column(
+                  children: [
+                    //Image.asset('images/pic1.jpg'),
+                    Text('Yangmiao Wu'),
+                  ],
                 ),
-              ]
-            ),
-                  
-                
-              ],
-            ),
+              ),
+            ]),
+          ],
         ),
+      ),
     ];
   }
 
