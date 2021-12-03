@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:myapp/Models/_results.dart';
 
 Future<Results> getResults(String question) async {
+
   String urlString =
       'http://notechapi.aidanbuehler.net/results?query=' + question;
   Uri url = Uri.parse(urlString);
@@ -15,7 +16,7 @@ Future<Results> getResults(String question) async {
       dynamic json = jsonDecode(response.body);
       if(response.body == "{}")  return Results(<TextLink>[], <VideoLink>[]);
       dynamic webPages = json['webPages'] as List;
-      dynamic videoPages = json['videos'] as List;
+      dynamic videoPages = json['videos'] as List?;
       //if (json.length == 0) return new Results(<TextLink>[], <VideoLink>[]);
       List<TextLink> textLinks = webPages
           .map((item) => new TextLink(
@@ -25,14 +26,14 @@ Future<Results> getResults(String question) async {
               item['dateLastCrawled'],item['name']))
           .toList()
           .cast<TextLink>();
-        List<VideoLink> videoLinks = videoPages
+        List<VideoLink> videoLinks = videoPages == null? []:videoPages
           .map((item) => new VideoLink(
             new Domain(item['contentUrl'], item['domainCertified'], item['domainLikes'],item['baseDomain']),
               item['datePublished'],
               item['duration'],
               item['thumbnailUrl'],
               item['publisher'][0]['name'],
-              item['viewCount'],item['name']))
+              item['viewCount'] == null?0:item['viewCount'] ,item['name']))
           .toList()
           .cast<VideoLink>();
       Results results = new Results(textLinks, videoLinks);

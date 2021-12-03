@@ -526,6 +526,7 @@ class ResultsPageState extends State<ResultsPage>
   }
 
   String numFormatter(int num) {
+    
     if (num > 999 && num < 1000000) {
       return (num / 1000).ceil().toString() +
           'K'; // convert to K for number from > 1000 < 1 million
