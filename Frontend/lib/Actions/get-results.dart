@@ -15,10 +15,10 @@ Future<Results> getResults(String question) async {
     if (response.statusCode == 200) {
       dynamic json = jsonDecode(response.body);
       if(response.body == "{}")  return Results(<TextLink>[], <VideoLink>[]);
-      dynamic webPages = json['webPages'] as List;
+      dynamic webPages = json['webPages'] as List?;
       dynamic videoPages = json['videos'] as List?;
       //if (json.length == 0) return new Results(<TextLink>[], <VideoLink>[]);
-      List<TextLink> textLinks = webPages
+      List<TextLink> textLinks = webPages == null? []:webPages
           .map((item) => new TextLink(
               new Domain(
                   item['url'], item['domainCertified'], item['domainLikes'], item['baseDomain']),
