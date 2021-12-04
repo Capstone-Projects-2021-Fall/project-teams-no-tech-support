@@ -41,6 +41,7 @@ class Domain extends Model
 
     /**
      * The "booted" method of the Domain model.
+     * Created event occurs every time a new Domain object is created. It creates the necessary related models to store all domain related data.
      *
      * @return void
      */
