@@ -61,20 +61,20 @@ class DesktopNavbar extends StatelessWidget {
                   },
                   //style: TextStyle(color: Colors.white),
                 ),
-                SizedBox(
-                  width: 30,
-                ),
-                TextButton(
-                  child: Text(
-                    "Search",
-                    style: TextStyle(fontSize: 16.0, color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => mysearchpage()));
-                  },
+                //SizedBox(
+                 // width: 30,
+               // ),
+                //TextButton(
+                  //child: Text(
+                    //"Search",
+                    //style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  //),
+                 // onPressed: () {
+                   // Navigator.of(context).push(MaterialPageRoute(
+                       // builder: (context) => mysearchpage()));
+                  //},
                   //style: TextStyle(color: Colors.white),
-                ),
+               // ),
                 //Text(
                 //  "Search",
                 //  style: TextStyle(color: Colors.white),
@@ -96,17 +96,17 @@ class DesktopNavbar extends StatelessWidget {
                   ),
                 ),
                 //TODO: TextButton 'FP' fot testing only. It need to delete before release.
-                TextButton(
-                  child: Text(
-                    "FP",
-                    style: TextStyle(fontSize: 16.0, color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => myFailurePage()));
-                  },
+                //TextButton(
+                  //child: Text(
+                    //"FP",
+                    //style: TextStyle(fontSize: 16.0, color: Colors.white),
+                  //),
+                 // onPressed: () {
+                    //Navigator.of(context).push(MaterialPageRoute(
+                        //builder: (context) => myFailurePage()));
+                 // },
                   //style: TextStyle(color: Colors.white),
-                ),
+               // ),
                 SizedBox(
                   width: 30,
                 ),
