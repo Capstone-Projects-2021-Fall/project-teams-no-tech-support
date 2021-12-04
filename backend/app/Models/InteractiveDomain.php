@@ -10,7 +10,7 @@ class InteractiveDomain extends Model
     use HasFactory;
 
     /**
-     * The table associated with the Domain model.
+     * The table associated with the InteractiveDomain model.
      *
      * @var string
      */

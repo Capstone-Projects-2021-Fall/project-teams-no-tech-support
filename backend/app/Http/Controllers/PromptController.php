@@ -145,8 +145,9 @@ class PromptController extends Controller
      */
     public function extractSyntax(Request $request) : HttpJSONResponse {
         $query = $request->input('query', '');
+        $sentence = $query;
 
-        $config = [
+        /*$config = [
             'keyFilePath' => config('services.google_cloud.credentials'),
         ];
 
@@ -154,7 +155,7 @@ class PromptController extends Controller
 
         $annotated = $client->analyzeSyntax($query);
         $tokens = $annotated->tokens();
-        $sentence = $annotated->sentences()[0]['text']['content'];
+        $sentence = $annotated->sentences()[0]['text']['content'];*/
 
         $device = Device::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
         $brand = Brand::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();

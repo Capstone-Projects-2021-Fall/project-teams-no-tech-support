@@ -139,7 +139,7 @@ class GetResultsTest extends TestCase
 
         $response->assertSuccessful();
 
-        $this->assertNotNull(Domain::where('name', 'subdomain.walmart.com')->first());
+        $this->assertNotNull(Domain::where('name', 'careers.walmart.com')->first());
     }
 
     /**
