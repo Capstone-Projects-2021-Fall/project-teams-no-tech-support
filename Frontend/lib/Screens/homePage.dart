@@ -3,6 +3,7 @@ import 'package:myapp/Screens/MobileSearchPage.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/Screens/questionOptimizationPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
+import 'package:myapp/Screens/offlinePage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:substring_highlight/substring_highlight.dart';
@@ -95,7 +96,7 @@ class DesktophomePage extends StatelessWidget {
       if (globals.comm.question == "") return;
 
       final response = await http.get(
-          Uri.parse('http://notechapi.aidanbuehler.net/extract?query=' +
+          Uri.parse('https://notechapi.aidanbuehler.net/extract?query=' +
               globals.comm.question),
           headers: {
             "Accept": "*/*",
@@ -139,8 +140,15 @@ class DesktophomePage extends StatelessWidget {
       } else {
         print("Error getting users.");
       }
+    } on http.ClientException catch (e) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => offlinePage(),
+        ),
+      );
     } catch (e) {
-      print("Catch error: ");
+      print("Caught error: ");
       print(e.toString());
     }
   }

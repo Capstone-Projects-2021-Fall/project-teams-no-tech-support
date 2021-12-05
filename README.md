@@ -25,14 +25,14 @@ Please see the [releases page](https://github.com/Capstone-Projects-2021-Fall/pr
 
 ## Link to Web App
 
-[notech.aidanbuehler.net](http://notech.aidanbuehler.net)
+[notech.aidanbuehler.net](https://notech.aidanbuehler.net)
 
 ## Usage and Testing
 
 **Usage Guide**
 
 Users can begin by visiting the No Tech 
-Support homepage at [notech.aidanbuehler.net](http://notech.aidanbuehler.net) from any web browser. The application is intended to be usable on a wide variety of devices but is best viewed on a laptop or desktop computer at this time. From the homepage, the user has access to a search bar in which they can input their initial query and begin their search.
+Support homepage at [notech.aidanbuehler.net](https://notech.aidanbuehler.net) from any web browser. The application is intended to be usable on a wide variety of devices but is best viewed on a laptop or desktop computer at this time. From the homepage, the user has access to a search bar in which they can input their initial query and begin their search.
 
 If the user has not entered a device, brand, and model in their query, they will be brought to an intermediate search page and prompted for the missing information with suggestions in each prompt. Any present information will be pre-filled. These fields are optional and a user that does not posess further device information will not be prevented from continuing their search.
 

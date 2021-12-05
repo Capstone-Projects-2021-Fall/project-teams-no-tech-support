@@ -33,7 +33,7 @@ class _HomeScreenState extends State<searchPage> {
     try {
       final response = await http.get(
           Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=device'),
+              'https://notechapi.aidanbuehler.net/suggestions?input=&prompt=device'),
           headers: {
             "Accept": "*/*",
             "Access-Control_Allow_Origin": "*",
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<searchPage> {
       if (globals.comm.mydevice == "") return;
       final response = await http.get(
           Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
+              'https://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
                   globals.comm.mydevice),
           headers: {
             "Accept": "*/*",
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<searchPage> {
     try {
       final response = await http.get(
           Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
+              'https://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
                   globals.comm.mybrand +
                   '%7C' +
                   globals.comm.mydevice),
