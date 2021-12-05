@@ -1,10 +1,8 @@
 import 'dart:developer';
 
-import 'package:myapp/Actions/get-revised-query.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:myapp/Screens/questionOptimizationPage.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 
 class offlinePage extends StatefulWidget {
@@ -18,12 +16,17 @@ class _HomeScreenState extends State<offlinePage> {
       MediaQuery.of(context).size.height;
   double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
-  late TextEditingController controller;
-  late List<globals.Album> users;
+  final List<String> entries = <String>[
+    'Restart your device:\nSimply restarting your device fixes a wide array of issues',
+    'Check if your device is connected to the internet:\nYou may have turned off WIFI. Turn it back on to reconnect!',
+    'Restart your router:\nUnplug your router or modem, wait 30 seconds, and plug it back in.',
+    'Check another device:\nTry another phone or computer on your network. If it\'s not just one, it may be a router or service provider issue.',
+    'Do you have a limited service plan?\nIf you rely on a cellular internet connection, you may be out of minutes!'
+  ];
+  final List<int> colorCodes = <int>[300, 100, 300, 100, 300];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -69,6 +72,24 @@ class _HomeScreenState extends State<offlinePage> {
                     padding: EdgeInsets.all(10.0),
                     child: Text('\n '),
                   ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 200.0,
+                      child: new ListView.separated(
+                        padding: const EdgeInsets.all(8),
+                        itemCount: entries.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 50,
+                            color: Colors.cyan[colorCodes[index]],
+                            child: Center(child: Text('${entries[index]}')),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     width: deviceWidth(context) / 3,
                     child: MaterialButton(
@@ -78,7 +99,6 @@ class _HomeScreenState extends State<offlinePage> {
                           borderRadius:
                               BorderRadius.all(Radius.circular(20.0))),
                       onPressed: () async {
-                        globals.comm.reviseQuestion = await getRevisedQuery();
                         Navigator.pop(context);
                       },
                       child: Padding(
