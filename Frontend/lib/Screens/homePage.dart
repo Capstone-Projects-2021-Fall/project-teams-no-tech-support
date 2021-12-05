@@ -139,8 +139,11 @@ class DesktophomePage extends StatelessWidget {
       } else {
         print("Error getting users.");
       }
+    } on http.ClientException catch (e) {
+      print("Caught ClientException error: ");
+      print(e.toString());
     } catch (e) {
-      print("Catch error: ");
+      print("Caught error: ");
       print(e.toString());
     }
   }
