@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:myapp/Screens/resultsPage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:myapp/main.dart';
@@ -148,11 +151,12 @@ class _HomeScreenState extends State<failurePage> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  QuestionOptimizationPage(
-                                                      generatedQuestion: globals
-                                                          .comm
-                                                          .reviseQuestion), //
+                                              //   builder: (context) => QuestionOptimizationPage(
+                                              //       generatedQuestion: "Not quite there yet"), //
+                                              // ),
+                                              builder: (context) => ResultsPage(
+                                                  finalQuestion: globals
+                                                      .comm.reviseQuestion), //
                                             ),
                                           );
                                         },

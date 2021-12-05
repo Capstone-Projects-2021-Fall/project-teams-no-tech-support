@@ -11,6 +11,8 @@ import 'dart:async';
 import 'package:myapp/globals.dart' as globals;
 import 'package:url_launcher/url_launcher.dart';
 
+import 'failurePage.dart';
+
 //import 'package:flutter_session/flutter_session.dart';
 enum ResultsPageTabViews { TextResults, VideoResults }
 
@@ -973,9 +975,11 @@ class ResultsPageState extends State<ResultsPage>
                   primary: Colors.red[300],
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  TechSupportNumberModal(
-                      context, techSupportPhoneNumber, globals.comm.mybrand);
+                  Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => failurePage()),
+                              );
                 },
                 child: const Text('No'),
               ),
