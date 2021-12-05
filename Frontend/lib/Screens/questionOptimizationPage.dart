@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/Actions/get-results.dart';
+import 'package:myapp/Actions/get-revised-query.dart';
 import 'package:myapp/Models/_question.dart';
 import 'package:myapp/Actions/get-related-searches.dart';
 import 'package:myapp/Models/_results.dart';
@@ -45,38 +46,17 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
   Results allResults = new Results([], []);
   List<WordFrequency> mostRecurringWordsInResultHeaders = [];
 
-  String getFomulatedQuery() {
-    // globals.comm.reviseQuestion = globals.comm.reviseQuestion.toLowerCase().replaceAll('computer', '');
-    // globals.comm.reviseQuestion = globals.comm.reviseQuestion.toLowerCase().replaceAll('phone', '');
-    if (globals.comm.mymodel.isNotEmpty) {
-      return globals.comm.mybrand.toLowerCase() +
-          " " +
-          globals.comm.mymodel +
-          " " +
-          globals.comm.reviseQuestion;
-    } else if (globals.comm.mybrand.isNotEmpty) {
-      return globals.comm.mybrand.toLowerCase() +
-          " " +
-          globals.comm.reviseQuestion;
-    } else if (globals.comm.mydevice.isNotEmpty) {
-      return globals.comm.mydevice.toLowerCase() +
-          " " +
-          globals.comm.reviseQuestion;
-    } else {
-      return globals.comm.question;
-    }
-  }
 
   @override
   void initState() {
     super.initState();
     activeQueryName = initialQueryName;
-    String initialQuestion = getFomulatedQuery();
-    getResults(initialQuestion).then((value) {
+    String reviseQuestion = globals.comm.reviseQuestion;
+    getResults(reviseQuestion).then((value) {
       setState(() {
         allResults = value;
         activeQuery =
-            new Question(initialQuestion, getOptimizedResultsHeaders());
+            new Question(reviseQuestion, getOptimizedResultsHeaders());
         queryLog.add(activeQuery);
         //debugger();
       });
@@ -342,7 +322,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                           child: MaterialButton(
                             elevation: 4,
                             height: 50,
-                            color: Colors.white,
+                            color: Colors.blue[300],
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(9.0))),
@@ -361,7 +341,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                             child: const Text(
                               'Cancel',
                               style:
-                                  TextStyle(fontSize: 18.0, color: Colors.blue),
+                                  TextStyle(fontSize: 18.0, color: Colors.white),
                             ), //temporary
                           ),
                         ),
@@ -370,7 +350,7 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                           child: MaterialButton(
                             elevation: 4,
                             height: 50,
-                            color: Colors.white,
+                            color: Colors.blue[300],
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(9.0))),
@@ -389,37 +369,37 @@ class QuestionOptimizationPageState extends State<QuestionOptimizationPage> {
                             child: const Text(
                               'Get Results',
                               style:
-                                  TextStyle(fontSize: 18.0, color: Colors.blue),
+                                  TextStyle(fontSize: 18.0, color: Colors.white),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text('\n'),
-                        ),
-                        const SizedBox(width: 30),
-                        Expanded(
-                          child: MaterialButton(
-                            elevation: 4,
-                            height: 50,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(9.0))),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => failurePage()),
-                              );
-                            }, //temporary
-                            child: const Text(
-                              'Get Help',
-                              style:
-                                  TextStyle(fontSize: 18.0, color: Colors.blue),
-                            ),
-                          ),
-                        )
+                        // Padding(
+                        //   padding: EdgeInsets.all(10.0),
+                        //   child: Text('\n'),
+                        // ),
+                        // const SizedBox(width: 30),
+                        // Expanded(
+                        //   child: MaterialButton(
+                        //     elevation: 4,
+                        //     height: 50,
+                        //     color: Colors.white,
+                        //     shape: RoundedRectangleBorder(
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(9.0))),
+                        //     onPressed: () {
+                        //       Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => failurePage()),
+                        //       );
+                        //     }, //temporary
+                        //     child: const Text(
+                        //       'Get Help',
+                        //       style:
+                        //           TextStyle(fontSize: 18.0, color: Colors.blue),
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),

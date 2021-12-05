@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:myapp/Actions/get-revised-query.dart';
 import 'package:myapp/Screens/resultsPage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:flutter/material.dart';
@@ -445,7 +448,12 @@ class _HomeScreenState extends State<searchPage> {
                       shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(20.0))),
-                      onPressed: () {
+                      onPressed: () async {
+                        // getRevisedQuery().then((value) {
+                        //   debugger();
+                        //   globals.comm.reviseQuestion = value;
+                        // });
+                        globals.comm.reviseQuestion = await getRevisedQuery();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
