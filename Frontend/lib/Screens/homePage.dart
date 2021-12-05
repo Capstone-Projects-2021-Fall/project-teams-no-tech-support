@@ -95,7 +95,7 @@ class DesktophomePage extends StatelessWidget {
       if (globals.comm.question == "") return;
 
       final response = await http.get(
-          Uri.parse('http://notechapi.aidanbuehler.net/extract?query=' +
+          Uri.parse('https://notechapi.aidanbuehler.net/extract?query=' +
               globals.comm.question),
           headers: {
             "Accept": "*/*",

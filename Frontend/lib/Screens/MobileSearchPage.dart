@@ -26,7 +26,7 @@ class HomeScreenState extends State<MobilesearchPage> {
     try {
       final response = await http.get(
           Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=device'),
+              'https://notechapi.aidanbuehler.net/suggestions?input=&prompt=device'),
           headers: {
             "Accept": "*/*",
             "Access-Control_Allow_Origin": "*",
@@ -59,7 +59,7 @@ class HomeScreenState extends State<MobilesearchPage> {
       if (globals.comm.mydevice == "") return;
       final response = await http.get(
           Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
+              'https://notechapi.aidanbuehler.net/suggestions?input=&prompt=brand&hint=' +
                   globals.comm.mydevice),
           headers: {
             "Accept": "*/*",
@@ -91,7 +91,7 @@ class HomeScreenState extends State<MobilesearchPage> {
     try {
       final response = await http.get(
           Uri.parse(
-              'http://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
+              'https://notechapi.aidanbuehler.net/suggestions?input=&prompt=model&hint=' +
                   globals.comm.mybrand),
           headers: {
             "Accept": "*/*",

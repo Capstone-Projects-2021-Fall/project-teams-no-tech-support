@@ -6,7 +6,7 @@ import 'dart:convert';
 Future<String> getTechSupportPhoneNumber() async {
   if (globals.comm.mybrand == '') return '';
   String urlString =
-      'http://notechapi.aidanbuehler.net/brand?brand=' + globals.comm.mybrand;
+      'https://notechapi.aidanbuehler.net/brand?brand=' + globals.comm.mybrand;
   Uri url = Uri.parse(urlString);
   try {
     http.Response response = await http.get(url);

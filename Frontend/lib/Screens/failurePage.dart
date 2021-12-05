@@ -27,7 +27,7 @@ class _HomeScreenState extends State<failurePage> {
       if (globals.comm.mybrand == "") return;
 
       final response = await http.get(
-          Uri.parse('http://notechapi.aidanbuehler.net/brand?brand=' +
+          Uri.parse('https://notechapi.aidanbuehler.net/brand?brand=' +
               globals.comm.mybrand),
           headers: {
             "Accept": "*/*",

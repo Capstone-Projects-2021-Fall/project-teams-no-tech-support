@@ -2,9 +2,12 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
-Future<void> updateDomainLikeDislikeDifference(String baseDomainName, int like) async {
-  String urlString =
-      'http://notechapi.aidanbuehler.net/rate?domain=' + baseDomainName+ "&like="+ like.toString();
+Future<void> updateDomainLikeDislikeDifference(
+    String baseDomainName, int like) async {
+  String urlString = 'https://notechapi.aidanbuehler.net/rate?domain=' +
+      baseDomainName +
+      "&like=" +
+      like.toString();
   Uri url = Uri.parse(urlString);
   try {
     http.Response response = await http.get(url);
