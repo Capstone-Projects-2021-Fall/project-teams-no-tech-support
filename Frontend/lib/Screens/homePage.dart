@@ -3,6 +3,7 @@ import 'package:myapp/Screens/MobileSearchPage.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/Screens/questionOptimizationPage.dart';
 import 'package:myapp/Screens/searchPage.dart';
+import 'package:myapp/Screens/offlinePage.dart';
 import 'package:myapp/globals.dart' as globals;
 import 'package:http/http.dart' as http;
 import 'package:substring_highlight/substring_highlight.dart';
@@ -140,8 +141,12 @@ class DesktophomePage extends StatelessWidget {
         print("Error getting users.");
       }
     } on http.ClientException catch (e) {
-      print("Caught ClientException error: ");
-      print(e.toString());
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => offlinePage(),
+        ),
+      );
     } catch (e) {
       print("Caught error: ");
       print(e.toString());
