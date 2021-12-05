@@ -1,7 +1,8 @@
 {
     "name": "No Tech Support",
     "short_name": "NTS",
-    "start_url": ".",
+    "start_url": "https://notech.aidanbuehler.net",
+    "scope": "https://notech.aidanbuehler.net",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
