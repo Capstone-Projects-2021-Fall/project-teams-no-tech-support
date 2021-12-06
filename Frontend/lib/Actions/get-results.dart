@@ -23,7 +23,7 @@ Future<Results> getResults(String question) async {
           : webPages
               .map((item) => new TextLink(
                   new Domain(
-                      item['contentUrl'] == null ? '' : item['contentUrl'],
+                      item['url'] == null ? '' : item['url'],
                       item['domainCertified'] == null
                           ? 0
                           : item['domainCertified'],
