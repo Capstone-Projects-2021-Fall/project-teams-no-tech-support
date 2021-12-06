@@ -765,11 +765,14 @@ class ResultsPageState extends State<ResultsPage>
                                     children: [
                                       Row(
                                         children: [
-                                          Text(
-                                            results.textLinks[index].name,
-                                            style: TextStyle(
-                                                color: Colors.blue[500],
-                                                fontSize: 19),
+                                          SizedBox(
+                                             width: deviceWidth(context) <= targetDeviceWidth? deviceWidth(context)/1.8:deviceWidth(context)/3,
+                                            child: Text(
+                                              results.textLinks[index].name,
+                                              style: TextStyle(
+                                                  color: Colors.blue[500],
+                                                  fontSize: deviceWidth(context) <= targetDeviceWidth ? 15: 19),
+                                            ),
                                           ),
                                           Expanded(
                                             child: Row(
@@ -886,7 +889,7 @@ class ResultsPageState extends State<ResultsPage>
                                       ),
                                       SizedBox(height: 10),
                                       SizedBox(
-                                          width: deviceWidth(context) / 2,
+                                          width: deviceWidth(context) / 1.3,
                                           child: Text(
                                             results.textLinks[index].snippet,
                                             style: TextStyle(
