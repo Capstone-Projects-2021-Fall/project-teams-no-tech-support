@@ -156,7 +156,6 @@ class ResultsPageState extends State<ResultsPage>
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
-                                        
                                     children: [
                                       Container(
                                         //color: Colors.grey[200],
@@ -165,23 +164,30 @@ class ResultsPageState extends State<ResultsPage>
                                                 //clipBehavior: Clip.hardEdge,
                                                 children: <Widget>[
                                               Container(
-                                                child: new Image.network(results
-                                                        .videoLinks[index]
-                                                        .thumbnail,
-                                                     
-                                                        width:   deviceWidth(context) > targetDeviceWidth ? deviceWidth(context) * 0.30: deviceWidth(context) * 0.80,
-                                                        height: deviceHeight(context) * 0.43,
-                                                          fit: deviceWidth(context) > targetDeviceWidth ? BoxFit.fitHeight : BoxFit.fitWidth,
-                                                    ),
+                                                child: new Image.network(
+                                                  results.videoLinks[index]
+                                                      .thumbnail,
+                                                  width: deviceWidth(context) >
+                                                          targetDeviceWidth
+                                                      ? deviceWidth(context) *
+                                                          0.30
+                                                      : deviceWidth(context) *
+                                                          0.80,
+                                                  height:
+                                                      deviceHeight(context) *
+                                                          0.43,
+                                                  fit: deviceWidth(context) >
+                                                          targetDeviceWidth
+                                                      ? BoxFit.fitHeight
+                                                      : BoxFit.fitWidth,
+                                                ),
                                               ),
                                               Icon(
                                                 Icons.play_circle_sharp,
                                                 color: Colors.grey[100],
                                                 size: 60,
                                               ),
-                                              Positioned(
-                                                bottom: 7,
-                                                right: 30,
+                                              Container(
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       borderRadius:
@@ -372,8 +378,7 @@ class ResultsPageState extends State<ResultsPage>
                   ),
             SizedBox(height: 20),
             globals.comm.mybrand != ''
-                ? Positioned(
-                    bottom: 0,
+                ? Container(
                     child: Container(
                       color: Colors.blueGrey[50],
                       child: SizedBox(
@@ -528,7 +533,6 @@ class ResultsPageState extends State<ResultsPage>
   }
 
   String numFormatter(int num) {
-    
     if (num > 999 && num < 1000000) {
       return (num / 1000).ceil().toString() +
           'K'; // convert to K for number from > 1000 < 1 million
@@ -543,118 +547,114 @@ class ResultsPageState extends State<ResultsPage>
     }
   }
 
-  getSuitableAspectRatioForVideoGrid(){
- 
+  getSuitableAspectRatioForVideoGrid() {
     double width = deviceHeight(context);
     double height = deviceWidth(context);
-    double quotient = width/height;
+    double quotient = width / height;
 
-    if(deviceWidth(context) >= targetDeviceWidth){
-      return 1/0.9;
+    if (deviceWidth(context) >= targetDeviceWidth) {
+      return 1 / 0.9;
     }
 
-    if(quotient >= 1.2){
-      return 5/7;
+    if (quotient >= 1.2) {
+      return 5 / 7;
+    } else if (quotient >= 0.95) {
+      return 5 / 6;
+    } else if (quotient >= 0.76) {
+      return 5 / 5.5;
+    } else if (quotient >= 0.70) {
+      return 5 / 5.3;
+    } else if (quotient >= 0.60) {
+      return 5 / 6;
+    } else if (quotient >= 0.50) {
+      return 5 / 5.3;
+    } else if (quotient >= 0.40) {
+      return 5 / 4.8;
     }
-    else if(quotient >= 0.95){
-      return 5/6;
-    }
-    else if(quotient >= 0.76){
-      return 5/5.5;
-    }
-     else if(quotient >= 0.70){
-      return 5/5.3;
-    }
-    else if(quotient >= 0.60){
-      return 5/6;
-    }
-    else if(quotient >= 0.50){
-      return 5/5.3;
-    }
-     else if(quotient >= 0.40){
-      return 5/4.8;
-    }
-   
   }
-  getSuitableNumberOfColumnsInVideoGrid(){
- 
+
+  getSuitableNumberOfColumnsInVideoGrid() {
     double width = deviceHeight(context);
     double height = deviceWidth(context);
-    double quotient = width/height;
-    if(deviceWidth(context) <= targetDeviceWidth){
+    double quotient = width / height;
+    if (deviceWidth(context) <= targetDeviceWidth) {
       return 1;
     }
 
-    if(quotient > 0.7){
+    if (quotient > 0.7) {
       return 2;
     }
     return 3;
-    
-   
   }
 
-  String formatDuration(String timeFromAPI) { 
+  String formatDuration(String timeFromAPI) {
 //debugger();
     String formattedDuration = '';
-    if(timeFromAPI.contains('H')){
+    if (timeFromAPI.contains('H')) {
+      if (!timeFromAPI.contains('M') && !timeFromAPI.contains('S')) {
+        timeFromAPI = timeFromAPI + '00M00S';
+      } else if (!timeFromAPI.contains('M')) {
+        timeFromAPI = timeFromAPI.replaceAll('H', 'H00M');
+      } else if (!timeFromAPI.contains('S')) {
+        timeFromAPI = timeFromAPI.replaceAll('M', 'M00S');
+      }
 
-        if(!timeFromAPI.contains('M') && !timeFromAPI.contains('S')){
-            timeFromAPI = timeFromAPI + '00M00S';
-        }
-        else if(!timeFromAPI.contains('M')){
-          timeFromAPI = timeFromAPI.replaceAll('H', 'H00M');
-        }
-        else if(!timeFromAPI.contains('S')){
-           timeFromAPI = timeFromAPI.replaceAll('M', 'M00S');
-        }
+      int minStartIndex = timeFromAPI.indexOf('H');
+      ;
+      int minEndIndex = timeFromAPI.indexOf('M');
 
+      int secStartIndex = minEndIndex;
+      int secEndIndex = timeFromAPI.indexOf('S');
 
-          int minStartIndex = timeFromAPI.indexOf('H');;
-          int minEndIndex = timeFromAPI.indexOf('M');
+      String minSubString =
+          timeFromAPI.substring(minStartIndex + 1, minEndIndex);
+      String secSubString =
+          timeFromAPI.substring(secStartIndex + 1, secEndIndex);
+      if (minSubString.length == 1) {
+        timeFromAPI = timeFromAPI.replaceAll(
+            minSubString + 'M', '0' + minSubString + 'M');
+      }
+      if (secSubString.length == 1) {
+        timeFromAPI = timeFromAPI.replaceAll(
+            secSubString + 'S', '0' + secSubString + 'S');
+      }
+    } else if (timeFromAPI.contains('M')) {
+      if (!timeFromAPI.contains('S')) {
+        timeFromAPI = timeFromAPI.replaceAll('M', 'M00S');
+      }
 
-          int secStartIndex = minEndIndex;
-          int secEndIndex = timeFromAPI.indexOf('S');
+      int secStartIndex = timeFromAPI.indexOf('M');
+      ;
+      int secEndIndex = timeFromAPI.indexOf('S');
 
-          String minSubString = timeFromAPI.substring(minStartIndex+1,minEndIndex);
-          String secSubString = timeFromAPI.substring(secStartIndex+1,secEndIndex);
-          if(minSubString.length == 1) {
-            timeFromAPI = timeFromAPI.replaceAll(minSubString + 'M', '0'+ minSubString + 'M');
-          }
-          if(secSubString.length == 1) {
-          timeFromAPI=  timeFromAPI.replaceAll(secSubString + 'S', '0'+ secSubString + 'S');
-          }
-        
+      String secSubString =
+          timeFromAPI.substring(secStartIndex + 1, secEndIndex);
 
+      if (secSubString.length == 1) {
+        timeFromAPI = timeFromAPI.replaceAll(
+            secSubString + 'S', '0' + secSubString + 'S');
+      }
+    } else {
+      timeFromAPI = timeFromAPI.replaceAll('PT', 'PT00M');
+      int secStartIndex = timeFromAPI.indexOf('M');
+      ;
+      int secEndIndex = timeFromAPI.indexOf('S');
+      String secSubString =
+          timeFromAPI.substring(secStartIndex + 1, secEndIndex);
+
+      if (secSubString.length == 1) {
+        timeFromAPI = timeFromAPI.replaceAll(
+            secSubString + 'S', '0' + secSubString + 'S');
+      }
     }
-    else if(timeFromAPI.contains('M')){
-     
-        if(!timeFromAPI.contains('S')){
-           timeFromAPI = timeFromAPI.replaceAll('M', 'M00S');
-        }
 
-        int secStartIndex = timeFromAPI.indexOf('M');;
-        int secEndIndex = timeFromAPI.indexOf('S');
-        
-        String secSubString = timeFromAPI.substring(secStartIndex+1,secEndIndex);
-        
-        if(secSubString.length == 1) {
-          timeFromAPI = timeFromAPI.replaceAll(secSubString + 'S', '0'+ secSubString + 'S');
-        }
-    }else{
-          timeFromAPI = timeFromAPI.replaceAll('PT', 'PT00M');
-          int secStartIndex = timeFromAPI.indexOf('M');;
-          int secEndIndex = timeFromAPI.indexOf('S');
-          String secSubString = timeFromAPI.substring(secStartIndex+1,secEndIndex);
-        
-          if(secSubString.length == 1) {
-            timeFromAPI = timeFromAPI.replaceAll(secSubString + 'S', '0'+ secSubString + 'S');
-          }
-    }
-    
-   
-
-     formattedDuration = timeFromAPI.replaceAll('PT', '').replaceAll('M', ':').replaceAll('H', ':').replaceAll('S', '');;
-  return formattedDuration;
+    formattedDuration = timeFromAPI
+        .replaceAll('PT', '')
+        .replaceAll('M', ':')
+        .replaceAll('H', ':')
+        .replaceAll('S', '');
+    ;
+    return formattedDuration;
   }
 
   static String timeAgoSinceDate(String dateString,
@@ -731,7 +731,9 @@ class ResultsPageState extends State<ResultsPage>
             ),
             Expanded(
               child: SizedBox(
-                width: deviceWidth(context) <= targetDeviceWidth? (deviceWidth(context)/1.2):(deviceWidth(context)/2),
+                width: deviceWidth(context) <= targetDeviceWidth
+                    ? (deviceWidth(context) / 1.2)
+                    : (deviceWidth(context) / 2),
                 child: results.textLinks.length == 0
                     ? Container(
                         padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -766,12 +768,19 @@ class ResultsPageState extends State<ResultsPage>
                                       Row(
                                         children: [
                                           SizedBox(
-                                             width: deviceWidth(context) <= targetDeviceWidth? deviceWidth(context)/1.8:deviceWidth(context)/3,
+                                            width: deviceWidth(context) <=
+                                                    targetDeviceWidth
+                                                ? deviceWidth(context) / 1.8
+                                                : deviceWidth(context) / 3,
                                             child: Text(
                                               results.textLinks[index].name,
                                               style: TextStyle(
                                                   color: Colors.blue[500],
-                                                  fontSize: deviceWidth(context) <= targetDeviceWidth ? 15: 19),
+                                                  fontSize:
+                                                      deviceWidth(context) <=
+                                                              targetDeviceWidth
+                                                          ? 15
+                                                          : 19),
                                             ),
                                           ),
                                           Expanded(
@@ -913,12 +922,13 @@ class ResultsPageState extends State<ResultsPage>
             ),
             SizedBox(height: 20),
             globals.comm.mybrand != ''
-                ? Positioned(
-                    bottom: 0,
+                ? Container(
                     child: Container(
                       color: Colors.blueGrey[50],
                       child: SizedBox(
-                        width: deviceWidth(context) <= targetDeviceWidth? (deviceWidth(context)/1.2):(deviceWidth(context)/2),
+                        width: deviceWidth(context) <= targetDeviceWidth
+                            ? (deviceWidth(context) / 1.2)
+                            : (deviceWidth(context) / 2),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -986,10 +996,9 @@ class ResultsPageState extends State<ResultsPage>
                 ),
                 onPressed: () {
                   Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => failurePage()),
-                              );
+                    context,
+                    MaterialPageRoute(builder: (context) => failurePage()),
+                  );
                 },
                 child: const Text('No'),
               ),
