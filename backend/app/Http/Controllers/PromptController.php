@@ -157,28 +157,29 @@ class PromptController extends Controller
         $tokens = $annotated->tokens();
         $sentence = $annotated->sentences()[0]['text']['content'];*/
 
-        $device = Device::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
-        $brand = Brand::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
-        $model = DeviceModel::whereRaw('"'.$sentence. '" LIKE CONCAT("%", name, "%")')->first();
+        $device = Device::whereRaw('"'.$sentence. '" LIKE CONCAT("% ", name, " %")')->first();
+        $brand = Brand::whereRaw('"'.$sentence. '" LIKE CONCAT("% ", name, "%")')->first();
+        $model = DeviceModel::whereRaw('"'.$sentence. '" LIKE CONCAT("% ", name, "%")')->first();;
 
         $revisedSentence = preg_replace('/\s+/', ' ', $sentence);
 
         if(!is_null($model)) {  //  Pull model name from text if possible
             $model = $model->name;
             $revisedSentence = str_ireplace($model, $model, $revisedSentence);
+            $revisedSentence = str_lreplace($model, "", $revisedSentence);
         }
 
         if(!is_null($brand)) {  //  Pull brand name from text if possible
             $brand = $brand->name;
             $revisedSentence = str_ireplace($brand, $brand, $revisedSentence);
+            $revisedSentence = str_lreplace($brand, "", $revisedSentence);
         } elseif(!is_null($model)) {    //  Determine brand name from model
             $brand = DeviceModel::where('name', $model)->first()->brand->name;
         }
 
         if(!is_null($device)) { //  Pull device type from text if possible
             $device = $device->name;
-        } elseif(!is_null($model)) {    //  Determine device type from model (brand alone is not necessarily accurate)
-            $device = DeviceModel::where('name', $model)->first()->brand->device->name;
+            $revisedSentence = str_lreplace($device, "", $revisedSentence);
         }
 
         if(!is_null($device)) {
@@ -188,11 +189,14 @@ class PromptController extends Controller
                 if(!is_null($model)) {
                     $revisedSentence = str_ireplace($model, '', $revisedSentence);
                     $revisedSentence = str_ireplace($device, $brand . ' ' . $model, $revisedSentence);
+                    $revisedSentence = str_lreplace($model, "", $revisedSentence);
                 } else {
                     $revisedSentence = str_ireplace($device, $brand . ' ' . $device, $revisedSentence);
                 }
+                $revisedSentence = str_lreplace($brand, "", $revisedSentence);
             }
         }
+
         $revisedSentence = preg_replace('/\s+/', ' ', $revisedSentence);
 
         $responseArr = [
@@ -204,4 +208,17 @@ class PromptController extends Controller
 
         return response()->json($responseArr);
     }
+}
+
+function str_lreplace($search, $replace, $subject)
+{
+    if(substr_count($subject, $search) > 1) {
+        $pos = strrpos($subject, $search);
+
+        if($pos !== false)
+        {
+            $subject = substr_replace($subject, $replace, $pos, strlen($search));
+        }
+    }
+    return $subject;
 }
