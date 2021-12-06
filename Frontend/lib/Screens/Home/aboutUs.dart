@@ -59,7 +59,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Image(
-                            image: AssetImage('Aidan1.png'),
+                            image: AssetImage('Aidan.png'),
                             alignment: Alignment.center,
                             height: globals.comm.W / 6,
                             width: globals.comm.W / 6,
@@ -82,7 +82,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Image(
-                            image: AssetImage('Jixi1.png'),
+                            image: AssetImage('Jixi.png'),
                             alignment: Alignment.center,
                             height: globals.comm.W / 6,
                             width: globals.comm.W / 6,
@@ -105,7 +105,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Image(
-                            image: AssetImage('Henry1.png'),
+                            image: AssetImage('Henry.png'),
                             alignment: Alignment.center,
                             height: globals.comm.W / 6,
                             width: globals.comm.W / 6,
@@ -128,7 +128,7 @@ class DesktopaboutUsPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Image(
-                            image: AssetImage('Dajun1.png'),
+                            image: AssetImage('Dajun.png'),
                             alignment: Alignment.center,
                             height: globals.comm.W / 6,
                             width: globals.comm.W / 6,
