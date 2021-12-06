@@ -4,9 +4,9 @@ import 'package:myapp/globals.dart' as globals;
 import 'dart:convert';
 
 Future<String> getRevisedQuery() async {
-  
   String urlString = 'https://notechapi.aidanbuehler.net/extract?query=' +
       globals.comm.question +
+      ' ' +
       globals.comm.mybrand +
       globals.comm.mydevice +
       globals.comm.mymodel;
