@@ -41,7 +41,7 @@ class ResultsPageState extends State<ResultsPage>
   Size deviceSize(BuildContext context) => MediaQuery.of(context).size;
   String importedFinalQuestion =
       ''; // Has  to be immported form previous dart file
-
+  static int targetDeviceWidth = 800;
   /*24 is for notification bar on Android*/
 
   Results results = new Results([], []);
@@ -57,7 +57,6 @@ class ResultsPageState extends State<ResultsPage>
   final LocalStorage DislikedDomainsDisplayedUrl =
       new LocalStorage('disliked_domains');
   String currentDisplayedUrl = '';
-  bool currentDomainAlreadyLiked = false;
 
   // List<String> liked
 
@@ -71,6 +70,7 @@ class ResultsPageState extends State<ResultsPage>
     getResults(importedFinalQuestion).then((value) {
       setState(() {
         results = value;
+        //debugger();
       });
     });
     getTechSupportPhoneNumber().then((value) {
@@ -169,9 +169,9 @@ class ResultsPageState extends State<ResultsPage>
                                                         .videoLinks[index]
                                                         .thumbnail,
                                                      
-                                                        width: deviceWidth(context) * 0.30,
+                                                        width:   deviceWidth(context) > targetDeviceWidth ? deviceWidth(context) * 0.30: deviceWidth(context) * 0.80,
                                                         height: deviceHeight(context) * 0.43,
-                                                          fit: BoxFit.fitHeight,
+                                                          fit: deviceWidth(context) > targetDeviceWidth ? BoxFit.fitHeight : BoxFit.fitWidth,
                                                     ),
                                               ),
                                               Icon(
@@ -549,6 +549,10 @@ class ResultsPageState extends State<ResultsPage>
     double height = deviceWidth(context);
     double quotient = width/height;
 
+    if(deviceWidth(context) >= targetDeviceWidth){
+      return 1/0.9;
+    }
+
     if(quotient >= 1.2){
       return 5/7;
     }
@@ -577,6 +581,9 @@ class ResultsPageState extends State<ResultsPage>
     double width = deviceHeight(context);
     double height = deviceWidth(context);
     double quotient = width/height;
+    if(deviceWidth(context) <= targetDeviceWidth){
+      return 1;
+    }
 
     if(quotient > 0.7){
       return 2;
@@ -724,7 +731,7 @@ class ResultsPageState extends State<ResultsPage>
             ),
             Expanded(
               child: SizedBox(
-                width: deviceWidth(context) / 2,
+                width: deviceWidth(context) <= targetDeviceWidth? (deviceWidth(context)/1.2):(deviceWidth(context)/2),
                 child: results.textLinks.length == 0
                     ? Container(
                         padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -908,7 +915,7 @@ class ResultsPageState extends State<ResultsPage>
                     child: Container(
                       color: Colors.blueGrey[50],
                       child: SizedBox(
-                        width: deviceWidth(context) / 2,
+                        width: deviceWidth(context) <= targetDeviceWidth? (deviceWidth(context)/1.2):(deviceWidth(context)/2),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
