@@ -7,9 +7,9 @@ Future<String> getRevisedQuery() async {
   String urlString = 'https://notechapi.aidanbuehler.net/extract?query=' +
       globals.comm.question +
       ' ' +
-      globals.comm.mybrand +
-      globals.comm.mydevice +
-      globals.comm.mymodel;
+      globals.comm.mybrand +' ' +
+      globals.comm.mydevice +' ' +
+      globals.comm.mymodel + ' ' ;
   Uri url = Uri.parse(urlString);
   try {
     http.Response response = await http.get(url);
